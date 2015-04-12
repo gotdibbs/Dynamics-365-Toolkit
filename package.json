@@ -1,0 +1,26 @@
+{
+  "name": "Dynamics-CRM-Bookmarklets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gotdibbs/Dynamics-CRM-Bookmarklets.git"
+  },
+  "author": "gotdibbs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gotdibbs/Dynamics-CRM-Bookmarklets/issues"
+  },
+  "homepage": "https://github.com/gotdibbs/Dynamics-CRM-Bookmarklets",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-headerfooter": "^1.0.3",
+    "gulp-replace": "^0.5.3",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.4"
+  }
+}
