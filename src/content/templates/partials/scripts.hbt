@@ -1,0 +1,12 @@
+{{#equals page "xrmreference"}}
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui.custom.min.js" type="text/javascript"></script>
+    <script src="js/jquery.dynatree.min.js" type="text/javascript"></script>
+    <script src="js/pages/xrmreference.js" type="text/javascript"></script>
+{{/equals}}
+
+{{#equals page "typecodes"}}
+    <script type="text/javascript" src="js/pages/typecodes.js"></script>
+{{/equals}}
+
+{{> google-analytics }}

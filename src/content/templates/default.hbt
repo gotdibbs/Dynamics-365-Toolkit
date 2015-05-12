@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  {{> header }}
+  <body>
+
+    <div class="container">
+    
+        {{> navigation }}
+
+        <div class="form form-inline {{page}}">
+            <div>
+                {{{ contents }}}
+            </div>
+            <hr>
+            <sub>&copy; 2015 William H. Dibbern</sub>
+        </div>
+
+    </div>
+    {{> scripts }}
+  </body>
+</html>
