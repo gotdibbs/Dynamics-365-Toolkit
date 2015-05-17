@@ -16,6 +16,7 @@
         </div>
 
     </div>
+    {{> github-link }}
     {{> scripts }}
   </body>
 </html>

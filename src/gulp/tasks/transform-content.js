@@ -31,6 +31,7 @@ templatesTask = templates({
     engine: 'handlebars',
     directory: './src/content/templates/',
     partials: {
+        'github-link': 'partials/github-link',
         'google-analytics': 'partials/google-analytics',
         'header': 'partials/header',
         'navigation': 'partials/navigation',
