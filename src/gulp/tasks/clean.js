@@ -1,10 +1,11 @@
-var clean = require('gulp-clean');
+var del = require('del');
 
 module.exports = function defineTask(gulp) {
 
-    return function doClean() {
-        return gulp.src('./dist/')
-            .pipe(clean({ force: true }));
+    return function doClean(done) {
+        del([
+            './dist/'
+        ], done);
     };
 
 };

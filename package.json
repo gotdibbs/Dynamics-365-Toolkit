@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/gotdibbs/Dynamics-CRM-Bookmarklets",
   "devDependencies": {
+    "del": "^1.2.0",
     "glob": "^5.0.5",
     "gulp": "^3.8.11",
-    "gulp-clean": "^0.3.1",
     "gulp-front-matter": "^1.2.2",
     "gulp-headerfooter": "^1.0.3",
     "gulp-replace": "^0.5.3",
