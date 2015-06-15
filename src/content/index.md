@@ -14,6 +14,7 @@ template: default.hbt
 
 ---
 ### Bookmarklets
+- <a href='[js copy-link]'>Copy Record Link</a>
 - <a href='[js copy-record-id]'>Copy Record Id</a>
 - <a href='[js enable-all-fields]'>Enable All Fields</a>
 - <a href='[js open-performance-report]'>Open Performance Report</a>
