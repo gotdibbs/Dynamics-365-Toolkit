@@ -4,16 +4,19 @@ var hf = require('gulp-headerfooter'),
 
 module.exports = function defineTask(gulp) {
 
-	return function buildBookmarklets() {
-	    return gulp.src('./src/bookmarklets/!(intro.js|outro.js)')
-	        .pipe(hf.header('./src/bookmarklets/intro.js'))
-	        .pipe(hf.footer('./src/bookmarklets/outro.js'))
-	        .pipe(uglify())
-	        // Nested quotes cause issues when the script isembedded in an 
-	        //  anchor tag, but only in this one spot, so limit the scope of
-	        //  replace to that spot for now.
-	        .pipe(replace('\'visibility: hidden\'', '\\"visibility: hidden\\"'))
-	        .pipe(gulp.dest('./dist/bookmarklets/'));
-	};
+    return function buildBookmarklets() {
+        return gulp.src('./src/bookmarklets/!(intro.js|outro.js)')
+            .pipe(hf.header('./src/bookmarklets/intro.js'))
+            .pipe(hf.footer('./src/bookmarklets/outro.js'))
+            .pipe(uglify())
+            // Nested quotes cause issues when the script is embedded in an 
+            //  anchor tag.
+            .pipe(replace('\'', '\\"'))
+            // Fix the intro for firefox, prevents true from being displayed
+            .pipe(replace(/^!function/, '(function'))
+            // Fix the outro for firefox, prevents true from being displayed
+            .pipe(replace(/\);$/, '));'))
+            .pipe(gulp.dest('./dist/bookmarklets/'));
+    };
 
 };

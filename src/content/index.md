@@ -20,4 +20,4 @@ template: default.hbt
 - <a href='[js open-performance-report]'>Open Performance Report</a>
 - <a href='[js show-all-fields]'>Show All Fields</a>
 - <a href='[js show-dirty-fields]'>Show Dirty Fields</a>
-- <a href='[js show-schema-names]'>Show Schema Names</a>
+- <a href='[js toggle-schema-names]'>Toggle Schema Names</a>
