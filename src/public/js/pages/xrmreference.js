@@ -2,12 +2,11 @@
 $(function(){
     // Attach the dynatree widget to an existing <div id="tree"> element
     // and pass the tree options as an argument to the dynatree() function:
-    $("#tree").dynatree({
-        onActivate: function(node) {},
-        children: [
-            {title: "Xrm.Page", isFolder: true, key: "xrmPage",
+    $('#tree').fancytree({
+        source: [
+            {title: "Xrm.Page", folder: true, key: "xrmPage", active: true, expanded: true, 
                 children: [
-                    {title: "context", isFolder: true, key: "context",
+                    {title: "context", folder: true, key: "context",
                         children: [
                             {title: "getAuthenticationHeader()"},
                             {title: "getCurrentTheme()"},
@@ -22,7 +21,7 @@ $(function(){
                             {title: "isOutlookClientOnline()"},
                             {title: "prependOrgName()"}
                         ]},
-                    {title: "data.entity", isFolder: true, key: "data.entity",
+                    {title: "data.entity", folder: true, key: "data.entity",
                         children: [
                             {title: "addOnSave([function reference])"},
                             {title: "getDataXml()"},
@@ -30,18 +29,18 @@ $(function(){
                             {title: "getId()"},
                             {title: "removeOnSave([function reference])"},
                             {title: "save(null | \"saveandclose\" | \"saveandnew\")"},
-                            {title: "attributes", isFolder: true, key: "data.entity.attributes",
+                            {title: "attributes", folder: true, key: "data.entity.attributes",
                                 children: [
                                     {title: "forEach([delegate function(control, index)])"},
                                     {title: "get([String] | [Number] | [delegate function(attribute, index)])"},
                                     {title: "getLength()"}
                                 ]}
                         ]},
-                    {title: "ui", isFolder: true, key: "ui",
+                    {title: "ui", folder: true, key: "ui",
                         children: [
                             {title: "close()"},
                             {title: "getCurrentControl()"},
-                            {title: "getFormType()", isFolder: true, key: "ui.FormType",
+                            {title: "getFormType()", folder: true, key: "ui.FormType",
                                 children: [
                                     {title: "Create: 1"},
                                     {title: "Update: 2"},
@@ -53,7 +52,7 @@ $(function(){
                             {title: "getViewPortHeight()"},
                             {title: "getViewPortWidth()"},
                             {title: "refreshRibbon()"},
-                            {title: "controls", isFolder: true, key: "data.entity.attributes",
+                            {title: "controls", folder: true, key: "data.entity.attributes",
                                 children: [
                                     {title: "forEach([delegate function(control, index)])"},
                                     {title: "get([String] | [Number] | [delegate function(attribute, index)])"},
@@ -64,7 +63,7 @@ $(function(){
                     {title: "getControl()"}
                 ]
             },
-            {title: "Attribute Methods", isFolder: true, key: "attributeMethods",
+            {title: "Attribute Methods", folder: true, key: "attributeMethods",
                 children: [
                     {title: "addOnChange([function reference])"},
                     {title: "fireOnChange()"},
@@ -77,7 +76,7 @@ $(function(){
                     {title: "getMin()"},
                     {title: "getName()"},
                     {title: "getOption(value)"},
-                    {title: "getOptions()", isFolder: true, key: "getOptions",
+                    {title: "getOptions()", folder: true, key: "getOptions",
                         children: [
                             {title: "Note: returns strings, must use parseInt('', 10) to convert to numbers before use in setValue()"}
                         ]},
@@ -93,7 +92,7 @@ $(function(){
                     {title: "setRequiredLevel(\"none\" | \"required\" | \"recommended\")"},
                     {title: "setSubmitMode(\"always\" | \"never\" | \"dirty\")"},
                     {title: "setSubmitMode(\"always\" | \"never\" | \"dirty\")"},
-                    {title: "setValue(value)", isFolder: true, key: "setValue",
+                    {title: "setValue(value)", folder: true, key: "setValue",
                         children: [
                             {title: "boolean: Boolean"},
                             {title: "datetime: Date"},
@@ -104,7 +103,7 @@ $(function(){
                             {title: "optionset: Number"}
                         ]},
                 ]},
-            {title: "Control Methods", isFolder: true, key: "controlMethods",
+            {title: "Control Methods", folder: true, key: "controlMethods",
                 children: [
                     {title: "addCustomView(viewId, entityName, viewDisplayName, fetchXml, layoutXml, isDefault)"},
                     {title: "addOption(option, [index])"},
@@ -131,16 +130,12 @@ $(function(){
                     {title: "setSrc(url)"},
                     {title: "setVisibile(bool)"}
                 ]},
-            {title: "Shortcuts", isFolder: true, key: "Shortcuts",
+            {title: "Shortcuts", folder: true, key: "Shortcuts",
                 children: [
                     {title: "prependOrgName() = Xrm.Page.context.prependOrgName()"},
                     {title: "Xrm.Page.getAttribute() = Xrm.Page.data.entity.attributes.get()"},
                     {title: "Xrm.Page.getControl() = Xrm.Page.ui.controls.get()"}
                 ]}
         ]
-    });
-    $("#tree").dynatree("getRoot").visit(function(node){
-        if (node.data.key !== undefined && (node.data.key == "xrmPage"))
-            node.expand(true);
     });
 });

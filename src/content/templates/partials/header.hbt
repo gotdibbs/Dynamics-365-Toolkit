@@ -9,7 +9,7 @@
     <!-- Le styles -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     {{#equals page "xrmreference"}}
-        <link href="css/ui.dynatree.css" rel="stylesheet" type="text/css">
+        <link href="css/ui.fancytree.min.css" rel="stylesheet" type="text/css">
     {{/equals}}
     <link href="css/main.css" rel="stylesheet" type="text/css">
     

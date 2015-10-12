@@ -2,7 +2,7 @@
 page: typecodes
 title: Type Codes
 short_title: Type Codes
-index: 3
+index: 4
 template: default.hbt
 ---
 

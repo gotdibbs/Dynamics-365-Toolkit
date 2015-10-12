@@ -2,21 +2,41 @@
 var _ = require('lodash'),
     glob = require('glob'),
     path = require('path'),
-    fs = require('fs');
-    
+    fs = require('fs'),
+    template;
+
+// Use handlebars like syntax
+_.templateSettings.interpolate = /{{([\s\S]+?)}}/g
+
+template = _.template([
+    "<a href='javascript:{{ Script }}' class='card bookmarklet' title='Drag me to your bookmarks bar!'>",
+        "<div class='card-block'>",
+            "<header class='bookmarklet-header'>{{ Title }}</header>",
+            "<span class='card-text bookmarklet-description' data-description='{{ Description }}'></span>",
+        "</div>",
+    "</a>"
+].join(''));
+
 function processFiles(files, snippets, fileFormat) {
     _.chain(files).filter(function filterToHtml(file, fileName) {
         return path.extname(fileName) === '.html';
     }).each(function (file, fileName) {
-        var contents = file.contents.toString(fileFormat);
+        var contents = file.contents.toString(fileFormat),
+            matches;
         
         _.each(snippets, function (snippet) {
             var snippetName = path.basename(snippet, '.js').replace(/-/g, '\\-'),
-                r = new RegExp('\\[js ' + snippetName + '\\]', 'gi');
+                r = new RegExp('\\[bookmarklet file=&quot;' + snippetName + '&quot; name=&quot;(.+)&quot; description=&quot;(.+)&quot;\\]', 'gi');
             
-            if (r.test(contents)) {
+            matches = r.exec(contents);
+
+            if (matches && matches.length === 3) {
                 var snippetContents = fs.readFileSync(snippet, fileFormat);
-                contents = contents.replace(r, 'javascript:' + snippetContents);
+                contents = contents.replace(r, template({
+                    Script: snippetContents,
+                    Title: matches[1],
+                    Description: matches[2]
+                }));
             }
         });
         

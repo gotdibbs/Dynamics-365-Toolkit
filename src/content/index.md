@@ -1,24 +1,28 @@
 ---
 page: index
-title: Bookmarks
-short_title: Bookmarks
+title: Bookmarklets
+short_title: Bookmarklets
 index: 1
 template: default.hbt
 ---
 
-### Bookmarks
-**CRM 2011**
-- [Xrm.Page Reference](xrmreference.html)
-- [Type Codes Reference](typecodes.html)
-- [Version Numbers](http://social.technet.microsoft.com/wiki/contents/articles/8062.crm-2011-build-and-version-numbers.aspx)
-
----
 ### Bookmarklets
-- <a href='[js copy-record-link]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Copy Record Link</a>
-- <a href='[js copy-record-id]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Copy Record Id</a>
-- <a href='[js enable-all-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Enable All Fields</a>
-- <a href='[js open-performance-report]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Open Performance Report</a>
-- <a href='[js show-all-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show All Fields</a>
-- <a href='[js show-dirty-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show Dirty Fields</a>
-- <a href='[js show-record-properties]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show Record Properties</a>
-- <a href='[js toggle-schema-names]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Toggle Schema Names</a>
+
+----
+
+Drag a bookmarklet from below up to your favorites, then click it when viewing a record in Dynamics CRM.
+
+----
+
+<section class='bookmarklets'>
+
+[bookmarklet file="copy-record-id" name="Copy Record Id" description="Copies the unique identifier for the current record to your clipboard."]
+[bookmarklet file="copy-record-link" name="Copy Record Link" description="Copies a link to the current record to your clipboard."]
+[bookmarklet file="enable-all-fields" name="Enable All Fields" description="Enables all fields on the current form, making them editable."]
+[bookmarklet file="open-performance-report" name="Open Performance Report" description="Displays information about load times for the current view."]
+[bookmarklet file="show-all-fields" name="Show All Fields" description="Makes all fields, tabs, and sections on the form visible."]
+[bookmarklet file="show-dirty-fields" name="Show Dirty Fields" description="Displays a list of all fields on the form which are currently flagged as having changed."]
+[bookmarklet file="show-record-properties" name="Show Record Properties" description="Displays a summary of permissions and ownership for the current record."]
+[bookmarklet file="toggle-schema-names" name="Toggle Schema Names" description="Switches between displaying the labels for all fields, and the schema names for those fields."]
+
+</section>
