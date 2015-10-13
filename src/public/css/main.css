@@ -33,3 +33,6 @@ body {
     
 .typecodes .btn {
     margin: 0 15px; }
+
+.bookmarklet {
+    cursor: move; }

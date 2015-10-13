@@ -14,10 +14,10 @@ template: default.hbt
 
 ---
 ### Bookmarklets
-- <a href='[js copy-record-link]'>Copy Record Link</a>
-- <a href='[js copy-record-id]'>Copy Record Id</a>
-- <a href='[js enable-all-fields]'>Enable All Fields</a>
-- <a href='[js open-performance-report]'>Open Performance Report</a>
-- <a href='[js show-all-fields]'>Show All Fields</a>
-- <a href='[js show-dirty-fields]'>Show Dirty Fields</a>
-- <a href='[js toggle-schema-names]'>Toggle Schema Names</a>
+- <a href='[js copy-record-link]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Copy Record Link</a>
+- <a href='[js copy-record-id]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Copy Record Id</a>
+- <a href='[js enable-all-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Enable All Fields</a>
+- <a href='[js open-performance-report]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Open Performance Report</a>
+- <a href='[js show-all-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show All Fields</a>
+- <a href='[js show-dirty-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show Dirty Fields</a>
+- <a href='[js toggle-schema-names]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Toggle Schema Names</a>
