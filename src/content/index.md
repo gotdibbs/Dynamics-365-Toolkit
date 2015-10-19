@@ -20,4 +20,5 @@ template: default.hbt
 - <a href='[js open-performance-report]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Open Performance Report</a>
 - <a href='[js show-all-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show All Fields</a>
 - <a href='[js show-dirty-fields]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show Dirty Fields</a>
+- <a href='[js show-record-properties]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Show Record Properties</a>
 - <a href='[js toggle-schema-names]' class='bookmarklet' title='Drag me to your bookmarks bar!'>Toggle Schema Names</a>
