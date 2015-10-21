@@ -18,20 +18,27 @@ template = _.template([
 ].join(''));
 
 function processFiles(files, snippets, fileFormat) {
+    var contents,
+        matches,
+        snippetName,
+        r,
+        snippetContents;
+
     _.chain(files).filter(function filterToHtml(file, fileName) {
         return path.extname(fileName) === '.html';
     }).each(function (file, fileName) {
-        var contents = file.contents.toString(fileFormat),
-            matches;
-        
+        contents = file.contents.toString(fileFormat);
+        matches;
+
         _.each(snippets, function (snippet) {
-            var snippetName = path.basename(snippet, '.js').replace(/-/g, '\\-'),
-                r = new RegExp('\\[bookmarklet file=&quot;' + snippetName + '&quot; name=&quot;(.+)&quot; description=&quot;(.+)&quot;\\]', 'gi');
-            
+            snippetName = path.basename(snippet, '.js').replace(/-/g, '\\-');
+            r = new RegExp('\\[bookmarklet file=&quot;' + snippetName + '&quot; name=&quot;(.+)&quot; description=&quot;(.+)&quot;\\]', 'gi');
+            snippetContents;
+
             matches = r.exec(contents);
 
             if (matches && matches.length === 3) {
-                var snippetContents = fs.readFileSync(snippet, fileFormat);
+                snippetContents = fs.readFileSync(snippet, fileFormat);
                 contents = contents.replace(r, template({
                     Script: snippetContents,
                     Title: matches[1],
@@ -47,7 +54,7 @@ function processFiles(files, snippets, fileFormat) {
 module.exports = function defineTask(options) {
     var globPattern = options.pattern,
         fileFormat = options.format || 'utf8';
-    
+
     return function doReplace(files, metalsmith, done) {
         glob(globPattern, function (error, snippets) {
             if (error) {

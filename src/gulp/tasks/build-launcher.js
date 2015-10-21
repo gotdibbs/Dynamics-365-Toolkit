@@ -1,22 +1,24 @@
-var esc = require('../plugins/escape'),
-    hf = require('gulp-headerfooter'),
+var launchable = require('../plugins/launchable'),
+    esc = require('../plugins/escape'),
     uglify = require('gulp-uglify'),
-    replace = require('gulp-replace');
+    replace = require('gulp-replace'),
+    insertLaunchers;
+
+insertLaunchers = launchable({
+    pattern: './dist/bookmarklets/**/*.js',
+});
 
 module.exports = function defineTask(gulp) {
 
     return function buildBookmarklets() {
-        return gulp.src('./src/bookmarklets/!(intro.js|outro.js)')
-            .pipe(hf.header('./src/bookmarklets/intro.js'))
-            .pipe(hf.footer('./src/bookmarklets/outro.js'))
+        return gulp.src('./src/launcher/launcher.js')
+            .pipe(insertLaunchers())
             .pipe(uglify({
                 compress: {
                     // Prevent fn wrapper from being mangled for FireFox
                     negate_iife: false
                 }
             }))
-            // Nested quotes cause issues when the script is embedded in an 
-            //  anchor tag.
             .pipe(esc())
             .pipe(gulp.dest('./dist/bookmarklets/'));
     };
