@@ -8,7 +8,7 @@ try {
         }
     }
     else if (formContext.APPLICATION_VERSION === '6.1' ||
-        /^7\.\d+$/.test(formContext.APPLICATION_VERSION)) {
+        /^[7,8]\.\d+$/.test(formContext.APPLICATION_VERSION)) {
         formContext.Mscrm.Performance.PerformanceCenter.get_instance().TogglePerformanceResultsVisibility();
     }
     else {

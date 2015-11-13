@@ -5,7 +5,7 @@ var _ = require('lodash'),
     markdown = require('metalsmith-markdown'),
     templates = require('metalsmith-templates'),
     collections = require('metalsmith-collections'),
-    fileReplace = require('../plugins/bookmarklet'),
+    bookmarkletReplace = require('../plugins/bookmarklet'),
     assignPaths = require('../plugins/assign-paths'),
     collectionsTask,
     templatesTask,
@@ -39,7 +39,7 @@ templatesTask = templates({
     }
 });
 
-insertSnippets = fileReplace({
+insertSnippets = bookmarkletReplace({
     pattern: './dist/bookmarklets/**/*.js',
 });
 
