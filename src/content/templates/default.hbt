@@ -12,7 +12,7 @@
                 {{{ contents }}}
             </div>
             <hr>
-            <sub>&copy; 2015 William H. Dibbern</sub>
+            <sub>&copy; <script type="text/javascript">document.write(new Date().getFullYear());</script> William H. Dibbern</sub>
         </div>
 
     </div>
