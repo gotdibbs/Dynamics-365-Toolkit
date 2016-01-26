@@ -40,11 +40,13 @@
                 '}',
                 '.gotdibbs-toolbox-item {',
                     'margin: 0.5rem 0;',
+                    'padding: 0;',
                 '}',
                 'a.gotdibbs-toolbox-item-link {',
                     'color: #0072C6;',
                     'font-size: 14px;',
                     'font-weight: 500;',
+                    'text-decoration: none;',
                     'text-transform: uppercase;',
                 '}',
                 '.gotdibbs-toolbox-item-link:hover {',
@@ -146,7 +148,46 @@
         }
     }
 
+    function checkCrm() {
+        if (!global.APPLICATION_VERSION) {
+            alert('Could not determine the current version of CRM.');
+            return false;
+        }
+        if (global.APPLICATION_VERSION === '5.0') {
+            return true;
+        }
+        else if (/^[6,7,8]\.\d+$/.test(global.APPLICATION_VERSION)) {
+            var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
+            
+            if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm.Page.ui) {
+                return true;
+            }
+            else {
+                alert('[CRM 2013/2015/2016] Could not locate the entity form.');
+                return false;
+            }
+        }
+        else if (global.APPLICATION_VERSION) {
+            alert('Unsupported CRM Version Detected: ' + global.APPLICATION_VERSION);
+            return false;
+        }
+        else {
+            alert('Unable to detect current CRM Version.');
+            return false;
+        }
+    }
+
     function show() {
+        // Prevent load outside CRM
+        if (!checkCrm()) {
+            return;
+        }
+
+        // Prevent multiple instances
+        if (document.querySelector('[data-hook="gotdibbs-toolbox"]')) {
+            return;
+        }
+
         root = document.createElement('div');
         root.innerHTML = template;
         document.body.appendChild(root);
