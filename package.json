@@ -31,6 +31,7 @@
     "metalsmith": "^1.5.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-markdown": "^0.2.1",
-    "metalsmith-templates": "^0.7.0"
+    "metalsmith-templates": "^0.7.0",
+    "through2": "^2.0.0"
   }
 }
