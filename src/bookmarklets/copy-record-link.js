@@ -8,10 +8,10 @@ try {
     
     url = [url, '/main.aspx?', 'etn=', entityName, '&id=', id, '&pagetype=entityrecord'].join('');
     
-    if (window.clipboardData) {
-        window.clipboardData.setData('Text', url);
+    if (window.clipboardData && window.clipboardData.setData('Text', url)) {
+        return;
     }
-    else { 
+    else {
         window.prompt('Copy to clipboard: Ctrl+C, Enter', url);
     }
 }

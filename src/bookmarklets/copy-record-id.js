@@ -4,8 +4,8 @@ try {
         return alert('Failed to find id on this form.');
     }
     
-    if (window.clipboardData) {
-        window.clipboardData.setData('Text', id);
+    if (window.clipboardData && window.clipboardData.setData('Text', id)) {
+        return;
     }
     else { 
         window.prompt('Copy to clipboard: Ctrl+C, Enter', id);
