@@ -16,7 +16,7 @@ Drag a bookmarklet from below up to your favorites, then click it when viewing a
 
 <section class='bookmarklets'>
 
-[bookmarklet file="launcher" name="GotDibbs Toolbox" description="Includes all of the utilities on this page in a more compact form."]
+[bookmarklet file="launch-gotdibbs-toolkit" name="GotDibbs Toolbox" description="Includes all of the utilities on this page in a more compact form."]
 [bookmarklet file="copy-record-id" name="Copy Record Id" description="Copies the unique identifier for the current record to your clipboard."]
 [bookmarklet file="copy-record-link" name="Copy Record Link" description="Copies a link to the current record to your clipboard."]
 [bookmarklet file="enable-all-fields" name="Enable All Fields" description="Enables all fields on the current form, making them editable."]

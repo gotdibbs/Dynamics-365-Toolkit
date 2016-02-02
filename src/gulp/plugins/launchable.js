@@ -34,13 +34,7 @@ function processFile(file, snippets, fileFormat) {
                     Script: snippetContents,
                     Title: matches[1],
                     Description: matches[2]
-                })
-                // Escape regex slashes
-                .replace(/\\/g, '\\\\')
-                // Escape single quotes
-                .replace(/'/g, '\\\'')
-                // Escape double quotes
-                .replace(/"/g, '\\"'));
+                }));
         }
     });
 
