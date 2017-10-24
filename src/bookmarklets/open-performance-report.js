@@ -1,5 +1,5 @@
 try {
-    if (formContext.APPLICATION_VERSION == '6.0') {
+    if (config.version == '6.0') {
         if (typeof formContext._IsRefreshForm != 'undefined' && formContext._IsRefreshForm == '1') { 
             formContext.OpenPerformanceUI(true);
         } 
@@ -7,8 +7,8 @@ try {
             formContext.OpenPerformanceUI(); 
         }
     }
-    else if (formContext.APPLICATION_VERSION === '6.1' ||
-        /^[7,8]\.\d+$/.test(formContext.APPLICATION_VERSION)) {
+    else if ((config.version === '6.1' || /^[7,8,9]\.\d+$/.test(config.version)) &&
+        formContext.Mscrm && formContext.Mscrm.Performance && formContext.Mscrm.Performance.PerformanceCenter) {
         formContext.Mscrm.Performance.PerformanceCenter.get_instance().TogglePerformanceResultsVisibility();
     }
     else {

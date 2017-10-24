@@ -12,7 +12,8 @@ module.exports = function defineTask(gulp) {
             .pipe(uglify({
                 compress: {
                     // Prevent fn wrapper from being mangled for FireFox
-                    negate_iife: false
+                    negate_iife: false,
+                    drop_debugger: false
                 }
             }))
             // Nested quotes cause issues when the script is embedded in an 
