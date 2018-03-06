@@ -1,0 +1,37 @@
+{
+    "name": "GotDibbs Toolbox",
+    "description": "Admin tools for Dynamics CRM/D365",
+    "author": "gotdibbs",
+    "version": "1.0",
+    "manifest_version": 2,
+    "permissions": [
+        "activeTab"
+    ],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "browser_action": {
+        "default_title": "GotDibbs Toolbox",
+        "default_icon": "toolbox.png"
+    },
+    "content_scripts" : [{
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["app.js"],
+            "css": ["toolkit/launcher.css"]
+        }
+    ],
+    "web_accessible_resources": [
+        "contextCommunicator.js",
+        "toolkit/*"
+    ],
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Alt+Shift+G",
+                "mac": "Alt+Shift+G"
+          },
+          "description": "Launches the Toolbox"
+        }
+    }
+}

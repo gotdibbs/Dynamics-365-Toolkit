@@ -1,0 +1,211 @@
+.gotdibbs-no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.gotdibbs-toolbox {
+    background: #fff;
+    border: 1px solid #fff;
+    box-shadow: 1px 1px 4px 2px rgba(0,0,0,.15);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    max-width: 18rem;
+    overflow: hidden;
+    padding: 0.5rem 1rem;
+    position: absolute;
+	top: 1rem;
+	width: 18rem;
+    z-index: 6000;
+}
+.gotdibbs-toolbox-container {
+    height: auto;
+    overflow: hidden;
+    transform: scaleY(1);
+    transform-origin: top;
+    transition: transform 0.3s ease-out;
+}
+.gotdibbs-toolbox-container.collapsed {
+    transform: scaleY(0);
+}
+.gotdibbs-toolbox-header {
+    cursor: move;
+    font-size: 24px;
+    font-weight: 300;
+    position: relative;
+}
+.gotdibbs-toolbox-action {
+    color: #444;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 14px;
+    position: absolute;
+    top: 0.6rem;
+}
+.gotdibbs-toolbox-action:hover {
+	color: #0072C6;
+    text-shadow: 1 1 2px #005198;
+}
+.gotdibbs-toolbox-collapse {
+    transition: transform 0.2s ease-in;
+    right: 1.5rem;
+}
+.gotdibbs-toolbox-collapse.collapsed {
+    transform: rotateX(180deg);
+}
+.gotdibbs-toolbox-close {
+    right: 0;
+}
+.gotdibbs-toolbox-item {
+    margin: 0.5rem 0;
+    padding: 0;
+}
+a.gotdibbs-toolbox-item-link {
+    color: #0072C6;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+.gotdibbs-toolbox-item-link:hover {
+    border-bottom: 1px solid #ccc;
+}
+.gotdibbs-toolbox-info {
+	color: #000;
+	font-size: 0.8rem;
+	font-weight: normal;
+}
+.gotdibbs-toolbox-info label {
+	color: #888;
+	font-size: 0.6rem;
+}
+.gotdibbs-toolbox-info span {
+	display: block;
+}
+.gotdibbs-toolbox-info span:not(.gotdibbs-toolbox-breakwrap) {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100%;
+}
+/* Nav */
+.gotdibbs-tabs nav {
+	text-align: center;
+}
+
+.gotdibbs-tabs nav ul {
+	position: relative;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: flex;
+	margin: 0 auto;
+	padding: 0;
+	max-width: 1200px;
+	list-style: none;
+	-ms-box-orient: horizontal;
+	-ms-box-pack: center;
+	-webkit-flex-flow: row wrap;
+	-moz-flex-flow: row wrap;
+	-ms-flex-flow: row wrap;
+	flex-flow: row wrap;
+	-webkit-justify-content: center;
+	-moz-justify-content: center;
+	-ms-justify-content: center;
+	justify-content: center;
+}
+
+.gotdibbs-tabs nav ul li {
+	position: relative;
+	z-index: 1;
+	display: block;
+	margin: 0;
+	text-align: center;
+	-webkit-flex: 1;
+	-moz-flex: 1;
+	-ms-flex: 1;
+	flex: 1;
+}
+
+.gotdibbs-tabs nav a {
+	color: #74777b;
+	position: relative;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	line-height: 2.5;
+}
+
+.gotdibbs-tabs nav a span {
+	vertical-align: middle;
+	font-size: 0.75em;
+}
+
+.gotdibbs-tabs nav li.tab-current a {
+	color: #000;
+}
+
+.gotdibbs-tabs nav a:focus {
+	outline: none;
+}
+
+.gotdibbs-tabs {
+	position: relative;
+	overflow: hidden;
+	margin: 0 auto;
+	width: 100%;
+	font-weight: 300;
+	font-size: 1.25em;
+}
+
+.gotdibbs-tabs nav a {
+	overflow: visible;
+	border-bottom: 1px solid rgba(0,0,0,0.2);
+	-webkit-transition: color 0.2s;
+	transition: color 0.2s;
+}
+
+.gotdibbs-tabs nav a span {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 1em;
+}
+
+.gotdibbs-tabs nav li.tab-current a:after, 
+.gotdibbs-tabs nav li.tab-current a:before {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	width: 0;
+	height: 0;
+	border: solid transparent;
+	content: '';
+	pointer-events: none;
+}
+
+.gotdibbs-tabs nav li.tab-current a:after {
+	margin-left: -5px;
+	border-width: 5px;
+	border-top-color: #0072C6;
+}
+
+.gotdibbs-tabs nav li.tab-current a:before {
+	margin-left: -8px;
+	border-width: 8px;
+	border-top-color: rgba(0,0,0,0.2);
+}
+
+.gotdibbs-toolbox [data-page] {
+	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+}
+
+@media screen and (max-width: 58em) {
+	.gotdibbs-tabs nav {
+		font-size: 0.6em;
+	}
+}
