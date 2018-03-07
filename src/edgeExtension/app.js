@@ -73,5 +73,5 @@
         attachListeners();
     }
 
-    global.addEventListener('load', load);
+    load();
 }(this));
