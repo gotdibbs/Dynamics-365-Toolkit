@@ -16,12 +16,14 @@
         "default_icon": "toolbox.png"
     },
     "content_scripts" : [{
-            "matches" : ["http://*/*", "https://*/*"],
-            "js" : ["app.js"]
+            "matches": ["http://*/*", "https://*/*"],
+            "js": ["app.js"],
+            "css": ["toolkit/launcher.css"]
         }
     ],
     "web_accessible_resources": [
-        "contextCommunicator.js"
+        "contextCommunicator.js",
+        "toolkit/*"
     ],
     "commands": {
         "_execute_browser_action": {

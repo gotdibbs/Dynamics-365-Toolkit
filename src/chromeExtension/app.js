@@ -1,4 +1,6 @@
 (function (global) {
+    var _sourceHtml = null;
+
     function setVersion(version) {
         if (!version) {
             chrome.runtime.sendMessage({
@@ -25,6 +27,44 @@
         };
 
         (document.head || document.documentElement).appendChild(scriptTag);
+    }
+
+    function loadToolbox() {
+        let root = document.createElement('div');
+        root.innerHTML = _sourceHtml;
+        root.setAttribute('data-hook', 'gotdibbs-toolbox-root');
+        document.body.appendChild(root);
+
+        injectScript(chrome.extension.getURL('toolkit/launcher.js'));
+    }
+
+    function launchToolbox() {
+        if (document.querySelector('[data-hook="gotdibbs-toolbox"]')) {
+            return;
+        }
+
+        if (!_sourceHtml) {
+            fetch(chrome.extension.getURL('toolkit/launcher.fragment.html'))
+                .then(r => {
+                    if (!r.ok) {
+                        throw Error(r.statusText);
+                    }
+
+                    return r.text();
+                })
+                .then(html => {
+                    _sourceHtml = html;
+
+                    loadToolbox();
+                })
+                .catch(e => {
+                    console.error('Failed to load toolkit HTML');
+                    console.error(e);
+                });
+        }
+        else {
+            loadToolbox();
+        }
     }
 
     function loadDependencies() {
@@ -57,7 +97,7 @@
     function handleBackgroundMessage(e, sender) {
         switch (e.type) {
             case 'LAUNCH_TOOLBOX':
-                sendMessage(e.type);
+                launchToolbox();
                 break;
         }
     }
