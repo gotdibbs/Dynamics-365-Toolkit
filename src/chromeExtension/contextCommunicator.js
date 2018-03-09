@@ -112,11 +112,11 @@
         function load() {  
             _state = getState(true);
     
-            if (context) {
+            if (_state) {
                 attachListeners();
             }
             
-            sendMessage('SET_VERSION', context ? context.version : null);
+            sendMessage('SET_VERSION', _state ? _state.version : null);
         }
 
         return {
