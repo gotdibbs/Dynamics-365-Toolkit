@@ -19,7 +19,7 @@
   "devDependencies": {
     "del": "^1.2.0",
     "glob": "^5.0.5",
-    "gulp": "^3.8.11",
+    "gulp": "^4.0.2",
     "gulp-front-matter": "^1.2.2",
     "gulp-headerfooter": "^1.0.3",
     "gulp-replace": "^0.5.3",
@@ -27,10 +27,17 @@
     "gulp-util": "^3.0.4",
     "gulpsmith": "^0.5.3",
     "handlebars": "^4.0.11",
+<<<<<<< HEAD
     "lodash": "^4.17.15",
     "metalsmith": "^1.5.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-markdown": "^0.2.1",
+=======
+    "lodash": ">=4.17.11",
+    "metalsmith": "^2.3.0",
+    "metalsmith-collections": "^0.9.0",
+    "metalsmith-markdown": "^1.2.0",
+>>>>>>> Updated dependencies
     "metalsmith-templates": "^0.7.0",
     "through2": "^2.0.0"
   }
