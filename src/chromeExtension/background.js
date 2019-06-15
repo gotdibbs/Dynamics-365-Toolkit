@@ -6,16 +6,3 @@ chrome.browserAction.onClicked.addListener((tab) => {
         type: 'LAUNCH_TOOLBOX'
     });
 });
-
-chrome.runtime.onMessage.addListener((message, sender) => {
-    switch (message.type) {
-        case 'Toggle':
-            toggle(message.content, sender.tab.id);
-            break;
-    }
-});
-
-function toggle(isEnabled, tabId) {
-    isEnabled ? chrome.browserAction.enable(tabId) :
-        chrome.browserAction.disable(tabId);
-}

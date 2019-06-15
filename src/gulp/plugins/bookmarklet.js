@@ -30,9 +30,13 @@ function processFiles(files, snippets, fileFormat) {
         contents = file.contents.toString(fileFormat);
         matches;
 
+        if (file.title === 'Bookmarks') {
+            return;
+        }
+
         _.each(snippets, function (snippet) {
             snippetName = path.basename(snippet, '.js').replace(/-/g, '\\-');
-            r = new RegExp('\\[bookmarklet file=&quot;' + snippetName + '&quot; name=&quot;(.+)&quot; description=&quot;(.+)&quot;\\]', 'gi');
+            r = new RegExp('\\[bookmarklet file="' + snippetName + '" name="(.+)" description="(.+)"\\]', 'gim');
             snippetContents;
 
             matches = r.exec(contents);

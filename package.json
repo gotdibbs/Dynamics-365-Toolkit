@@ -1,5 +1,5 @@
 {
-  "name": "Dynamics-CRM-Bookmarklets",
+  "name": "dynamics-crm-bookmarklets",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -27,17 +27,10 @@
     "gulp-util": "^3.0.4",
     "gulpsmith": "^0.5.3",
     "handlebars": "^4.0.11",
-<<<<<<< HEAD
-    "lodash": "^4.17.15",
-    "metalsmith": "^1.5.0",
-    "metalsmith-collections": "^0.7.0",
-    "metalsmith-markdown": "^0.2.1",
-=======
-    "lodash": ">=4.17.11",
+    "lodash": ">=4.17.15",
     "metalsmith": "^2.3.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-markdown": "^1.2.0",
->>>>>>> Updated dependencies
     "metalsmith-templates": "^0.7.0",
     "through2": "^2.0.0"
   }

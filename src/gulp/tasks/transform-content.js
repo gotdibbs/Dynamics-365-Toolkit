@@ -60,7 +60,7 @@ module.exports = function defineTask(gulp) {
                     .use(collectionsTask)
                     // Render each markdown file as HTML
                     .use(markdown())
-                    // Insert Code Snippets
+                    // Insert Code Snippets, note spacing in markdown is important for snippet replacement
                     .use(insertSnippets)
                     // Permalinks jacks things up, so assign our own paths
                     .use(assignPaths())

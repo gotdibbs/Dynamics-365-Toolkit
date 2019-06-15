@@ -1,21 +1,6 @@
 (function (global) {
     var _sourceHtml = null;
 
-    function setVersion(version) {
-        if (!version) {
-            chrome.runtime.sendMessage({
-                type: 'Toggle',
-                content: false
-            });
-        }
-        else {
-            chrome.runtime.sendMessage({
-                type: 'Toggle',
-                content: true
-            });
-        }
-    }
-
     function injectScript(file) {
         let scriptTag = document.createElement('script');
 
@@ -38,7 +23,13 @@
         injectScript(chrome.extension.getURL('toolkit/launcher.js'));
     }
 
-    function launchToolbox() {
+    function launchToolbox(version) {
+        if (!version) {
+            alert('It doesn\'t look like I can interact with this page. Sorry!');
+            return;
+        }
+
+
         if (document.querySelector('[data-hook="gotdibbs-toolbox"]')) {
             return;
         }
@@ -88,16 +79,20 @@
         let message = e.detail;
 
         switch (message.type) {
-            case 'SET_VERSION':
-                setVersion(message.content);
+            case 'LAUNCH_TOOLBOX':
+                launchToolbox(message.content);
                 break;
         }
     }
 
-    function handleBackgroundMessage(e, sender) {
+    function validateVersion() {
+        sendMessage('VALIDATE_VERSION');
+    }
+
+    function handleBackgroundMessage(e) {
         switch (e.type) {
             case 'LAUNCH_TOOLBOX':
-                launchToolbox();
+                validateVersion();
                 break;
         }
     }
