@@ -27,7 +27,7 @@
     "gulp-util": "^3.0.4",
     "gulpsmith": "^0.5.3",
     "handlebars": "^4.0.11",
-    "lodash": "^3.6.0",
+    "lodash": "^4.17.15",
     "metalsmith": "^1.5.0",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-markdown": "^0.2.1",
