@@ -10,12 +10,13 @@
     border: 1px solid #fff;
     box-shadow: 1px 1px 4px 2px rgba(0,0,0,.15);
     font-family: 'Segoe UI', Arial, sans-serif;
-    max-width: 18rem;
+    font-size: 11px;
+    max-width: 26em;
     overflow: hidden;
-    padding: 0.5rem 1rem;
+    padding: 1em 1.5em;
     position: absolute;
-	top: 1rem;
-	width: 18rem;
+    top: 1em;
+    width: 26em;
     z-index: 6000;
 }
 .gotdibbs-toolbox-container {
@@ -40,7 +41,7 @@
     font-size: 14px;
     line-height: 14px;
     position: absolute;
-    top: 0.6rem;
+    top: 0.6em;
 }
 .gotdibbs-toolbox-action:hover {
 	color: #0072C6;
@@ -48,7 +49,7 @@
 }
 .gotdibbs-toolbox-collapse {
     transition: transform 0.2s ease-in;
-    right: 1.5rem;
+    right: 1.5em;
 }
 .gotdibbs-toolbox-collapse.collapsed {
     transform: rotateX(180deg);
@@ -57,7 +58,7 @@
     right: 0;
 }
 .gotdibbs-toolbox-item {
-    margin: 0.5rem 0;
+    margin: 0.5em 0;
     padding: 0;
 }
 a.gotdibbs-toolbox-item-link {
@@ -70,142 +71,146 @@ a.gotdibbs-toolbox-item-link {
     border-bottom: 1px solid #ccc;
 }
 .gotdibbs-toolbox-info {
-	color: #000;
-	font-size: 0.8rem;
-	font-weight: normal;
+    color: #000;
+    font-size: 0.8em;
+    font-weight: normal;
 }
 .gotdibbs-toolbox-info label {
-	color: #888;
-	font-size: 0.6rem;
+    color: #888;
+    display: block;
+    font-size: 0.9em;
+    margin-top: 0.5em;
 }
 .gotdibbs-toolbox-info span {
-	display: block;
+    display: block;
+    font-size: 1.1em;
 }
 .gotdibbs-toolbox-info span:not(.gotdibbs-toolbox-breakwrap) {
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
 }
 /* Nav */
 .gotdibbs-tabs nav {
-	text-align: center;
+    text-align: center;
 }
 
 .gotdibbs-tabs nav ul {
-	position: relative;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: -ms-flex;
-	display: flex;
-	margin: 0 auto;
-	padding: 0;
-	max-width: 1200px;
-	list-style: none;
-	-ms-box-orient: horizontal;
-	-ms-box-pack: center;
-	-webkit-flex-flow: row wrap;
-	-moz-flex-flow: row wrap;
-	-ms-flex-flow: row wrap;
-	flex-flow: row wrap;
-	-webkit-justify-content: center;
-	-moz-justify-content: center;
-	-ms-justify-content: center;
-	justify-content: center;
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1200px;
+    list-style: none;
+    -ms-box-orient: horizontal;
+    -ms-box-pack: center;
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
 }
 
 .gotdibbs-tabs nav ul li {
-	position: relative;
-	z-index: 1;
-	display: block;
-	margin: 0;
-	text-align: center;
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	flex: 1;
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 0;
+    text-align: center;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
 }
 
 .gotdibbs-tabs nav a {
-	color: #74777b;
-	position: relative;
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	line-height: 2.5;
+    color: #74777b;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 2.5;
+    text-decoration: none;
 }
 
 .gotdibbs-tabs nav a span {
-	vertical-align: middle;
-	font-size: 0.75em;
+    vertical-align: middle;
+    font-size: 0.75em;
 }
 
 .gotdibbs-tabs nav li.tab-current a {
-	color: #000;
+    color: #000;
 }
 
 .gotdibbs-tabs nav a:focus {
-	outline: none;
+    outline: none;
 }
 
 .gotdibbs-tabs {
-	position: relative;
-	overflow: hidden;
-	margin: 0 auto;
-	width: 100%;
-	font-weight: 300;
-	font-size: 1.25em;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100%;
+    font-weight: 300;
+    font-size: 1.25em;
 }
 
 .gotdibbs-tabs nav a {
-	overflow: visible;
-	border-bottom: 1px solid rgba(0,0,0,0.2);
-	-webkit-transition: color 0.2s;
-	transition: color 0.2s;
+    overflow: visible;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    -webkit-transition: color 0.2s;
+    transition: color 0.2s;
 }
 
 .gotdibbs-tabs nav a span {
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	font-size: 1em;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1em;
 }
 
 .gotdibbs-tabs nav li.tab-current a:after, 
 .gotdibbs-tabs nav li.tab-current a:before {
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	width: 0;
-	height: 0;
-	border: solid transparent;
-	content: '';
-	pointer-events: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: solid transparent;
+    content: '';
+    pointer-events: none;
 }
 
 .gotdibbs-tabs nav li.tab-current a:after {
-	margin-left: -5px;
-	border-width: 5px;
-	border-top-color: #0072C6;
+    margin-left: -5px;
+    border-width: 5px;
+    border-top-color: #0072C6;
 }
 
 .gotdibbs-tabs nav li.tab-current a:before {
-	margin-left: -8px;
-	border-width: 8px;
-	border-top-color: rgba(0,0,0,0.2);
+    margin-left: -8px;
+    border-width: 8px;
+    border-top-color: rgba(0,0,0,0.2);
 }
 
 .gotdibbs-toolbox [data-page] {
-	margin-bottom: 1rem;
-	margin-top: 0.5rem;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
 }
 
 @media screen and (max-width: 58em) {
-	.gotdibbs-tabs nav {
-		font-size: 0.6em;
-	}
+    .gotdibbs-tabs nav {
+        font-size: 0.6em;
+    }
 }

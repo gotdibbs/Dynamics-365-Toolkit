@@ -15,7 +15,6 @@ Drag a bookmarklet from below up to your favorites, then click it when viewing a
 ----
 
 <section class='bookmarklets'>
-
 [bookmarklet file="launch-gotdibbs-toolkit" name="GotDibbs Toolbox" description="Includes all of the utilities on this page in a more compact form."]
 [bookmarklet file="copy-record-id" name="Copy Record Id" description="Copies the unique identifier for the current record to your clipboard."]
 [bookmarklet file="copy-record-link" name="Copy Record Link" description="Copies a link to the current record to your clipboard."]
@@ -26,5 +25,4 @@ Drag a bookmarklet from below up to your favorites, then click it when viewing a
 [bookmarklet file="show-dirty-fields" name="Show Dirty Fields" description="Displays a list of all fields on the form which are currently flagged as having changed."]
 [bookmarklet file="show-record-properties" name="Show Record Properties" description="Displays a summary of permissions and ownership for the current record."]
 [bookmarklet file="toggle-schema-names" name="Toggle Schema Names" description="Switches between displaying the labels for all fields, and the schema names for those fields."]
-
 </section>

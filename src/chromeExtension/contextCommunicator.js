@@ -41,47 +41,6 @@
             return _state;
         }
     
-        function launchToolbox() {
-            // Prevent multiple instances
-            if (document.querySelector('[data-hook="gotdibbs-toolbox"]')) {
-                return;
-            }
-    
-            function load(url, callback) {
-                var request = new XMLHttpRequest();
-                request.open('GET', url);
-                request.send();
-                request.onload = function onload() {
-                    callback(this.response);
-                };
-            }
-    
-            function runScripts(element, html) {
-                var scripts,
-                    scriptsLength;
-    
-                scripts = element.getElementsByTagName("script");
-                for (var i = 0, scriptsLength = scripts.length; i < scriptsLength; i++) {
-                    if (scripts[i].src != '') {
-                        var tag = document.createElement('script');
-                        tag.src = scripts[i].src;
-                        document.getElementsByTagName('head')[0].appendChild(tag);
-                    }
-                    else {
-                        eval(scripts[i].innerHTML);
-                    }
-                }
-            }
-    
-            load('//www.gotdibbs.com/crm/help/launcher.fragment.html', function onRetrieved(html) {
-                var root = document.createElement('div');
-                root.innerHTML = html;
-                root.setAttribute('data-hook', 'gotdibbs-toolbox-root');
-                document.body.appendChild(root);
-                runScripts(root);
-            });
-        }
-    
         function sendMessage(type, content) {
             let message = new CustomEvent('gotdibbs-toolbox', {
                 detail: {
@@ -94,13 +53,19 @@
     
             document.dispatchEvent(message);
         }
+
+        function sendState() {
+            _state = getState();
+
+            sendMessage('LAUNCH_TOOLBOX', _state ? _state.version : null);
+        }
     
         function handleEvent(e) {
             let message = e.detail;
     
             switch (message.type) {
-                case 'LAUNCH_TOOLBOX':
-                    launchToolbox();
+                case 'VALIDATE_VERSION':
+                    sendState();
                     break;
             }
         }
@@ -110,13 +75,7 @@
         }
     
         function load() {  
-            _state = getState(true);
-    
-            if (_state) {
-                attachListeners();
-            }
-            
-            sendMessage('SET_VERSION', _state ? _state.version : null);
+            attachListeners();
         }
 
         return {
