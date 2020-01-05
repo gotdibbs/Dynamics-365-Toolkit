@@ -13,6 +13,12 @@
         }
     }
     else if (global.APPLICATION_VERSION) {
+        Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+            message: 'Unsupported CRM Version Detected',
+            action: 'outro',
+            component: 'bookmarklets',
+            context: { version: global.APPLICATION_VERSION }
+        });
         return alert([
             'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
             ' Please check https://gotdibbs.com/crm/help/ for an updated version of this bookmarklet',
@@ -25,7 +31,27 @@
         /^[9]\./.test(global.Xrm.Utility.getGlobalContext().getVersion())) {
         return { context: global, version: global.Xrm.Utility.getGlobalContext().getVersion().slice(0, 3) };
     }
+    else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
+        global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion()) {
+        Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+            message: 'Unsupported D365 Version Detected',
+            action: 'outro',
+            component: 'bookmarklets',
+            context: { version: global.Xrm.Utility.getGlobalContext().getVersion() }
+        });
+        return alert([
+            'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
+            ' Please check https://gotdibbs.com/crm/help/ for an updated version of this bookmarklet',
+            ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
+            ' isn\'t working.'
+        ].join(''));
+    }
     else {
+        Honeybadger && Honeybadger.notify && Honeybadger.notify('Failed to detect current CRM version', { context: {
+            xrm: !!global.Xrm,
+            xrmPage: !!global.Xrm.Page,
+            xrmUtility: !!global.Xrm.Utility
+        } });
         return alert('Unable to detect current CRM Version. Please ensure you\'re viewing a record in Dynamics CRM.');
     }
 }(window)));

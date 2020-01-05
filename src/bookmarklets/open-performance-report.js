@@ -16,5 +16,10 @@ try {
     }
 }
 catch(er) {
-    alert('Error occurred opening performance report. '+ er.message);
+    alert('Error occurred opening performance report. ' + er.message);
+    Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+        action: 'open-performance-report',
+        component: 'bookmarklets',
+        context: { version: config.version }
+    });
 }

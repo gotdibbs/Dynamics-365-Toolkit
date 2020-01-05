@@ -5,40 +5,68 @@
         var _state;
 
         function getState(verbose) {
-            if (global.APPLICATION_VERSION === '5.0') {
-                _state = { context: window.top.frames[0], version: global.APPLICATION_VERSION };
-            }
-            else if (/^[6,7,8,9]\.\d+$/.test(global.APPLICATION_VERSION)) {
-                var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
-                
-                if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm) {
-                    _state = { context: $iframe[0].contentWindow, version: global.APPLICATION_VERSION };
+            try {
+                if (global.APPLICATION_VERSION === '5.0') {
+                    _state = { context: window.top.frames[0], version: global.APPLICATION_VERSION };
                 }
-                else {
-                    verbose && console.log('[CRM 2013/2015/2016] Could not locate the entity form. Please ensure you\'re viewing a record in Dynamics CRM.');
+                else if (/^[6,7,8,9]\.\d+$/.test(global.APPLICATION_VERSION)) {
+                    var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
+                    
+                    if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm) {
+                        _state = { context: $iframe[0].contentWindow, version: global.APPLICATION_VERSION };
+                    }
+                    else {
+                        verbose && console.log('[CRM 2013/2015/2016] Could not locate the entity form. Please ensure you\'re viewing a record in Dynamics CRM.');
+                        return;
+                    }
+                }
+                else if (global.APPLICATION_VERSION) {
+                    Honeybadger.notify('Unsupported CRM Version Detected', { context: {
+                        version: global.APPLICATION_VERSION
+                    } });
+                    verbose && console.log([
+                        'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
+                        ' Please check for an updated version of this utility',
+                        ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
+                        ' isn\'t working.'
+                    ].join(''));
                     return;
                 }
-            }
-            else if (global.APPLICATION_VERSION) {
-                verbose && console.log([
-                    'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
-                    ' Please check for an updated version of this utility',
-                    ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
-                    ' isn\'t working.'
-                ].join(''));
-                return;
-            }
-            else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
-                global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion &&
-                /^[9]\./.test(global.Xrm.Utility.getGlobalContext().getVersion())) {
-                    _state = { context: global, version: global.Xrm.Utility.getGlobalContext().getVersion().slice(0, 3) };
-            }
-            else {
-                verbose && console.log('Unable to detect current CRM Version. Please ensure you\'re viewing a record in Dynamics CRM.');
-                return;
-            }
+                else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
+                    global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion &&
+                    /^[9]\./.test(global.Xrm.Utility.getGlobalContext().getVersion())) {
+                        _state = { context: global, version: global.Xrm.Utility.getGlobalContext().getVersion().slice(0, 3) };
+                }
+                else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
+                    global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion) {
+                        Honeybadger.notify('Unsupported D365 Version Detected', { context: {
+                            version: global.Xrm.Utility.getGlobalContext().getVersion()
+                        } });
+                        verbose && console.log([
+                            'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
+                            ' Please check for an updated version of this utility',
+                            ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
+                            ' isn\'t working.'
+                        ].join(''));
+                        return;
+                }
+                else {
+                    Honeybadger.notify('Failed to detect current CRM version', { context: {
+                        xrm: !!global.Xrm,
+                        xrmPage: !!global.Xrm.Page,
+                        xrmUtility: !!global.Xrm.Utility
+                    } });
+                    verbose && console.log('Unable to detect current CRM Version. Please ensure you\'re viewing a record in Dynamics CRM.');
+                    return;
+                }
 
-            return _state;
+                return _state;
+            }
+            catch (e) {
+                Honeybadger.notify(e, {
+                    message: 'Error encountered while attempting to detect environment state'
+                });
+            }
         }
     
         function sendMessage(type, content) {
@@ -74,7 +102,7 @@
             document.addEventListener('gotdibbs-toolbox', handleEvent);
         }
     
-        function load() {  
+        function load() {
             attachListeners();
         }
 
@@ -86,4 +114,16 @@
     }());
 
     global.GotDibbs.load();
+
+    Honeybadger.configure({
+        apiKey: '3783205f',
+        environment: 'production',
+        revision: '1.1',
+        onerror: false
+    });
+
+    Honeybadger.setContext({
+        source: 'chrome_extension_content'
+    });
+
 }(this));

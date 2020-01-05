@@ -16,5 +16,10 @@ try {
     }
 }
 catch(er) {
-    alert('Error occurred while retrieving record url. '+ er.message);
+    alert('Error occurred while retrieving record url. ' + er.message);
+    Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+        action: 'copy-record-link',
+        component: 'bookmarklets',
+        context: { version: config.version }
+    });
 }

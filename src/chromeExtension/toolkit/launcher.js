@@ -96,90 +96,104 @@
     }
 
     function updatePane() {
-        var xrm = state.context.Xrm;
+        try {
+            var xrm = state.context.Xrm;
 
-        if (isForm) {
-            let id = xrm.Page.data.entity.getId();
-            let logicalName = xrm.Page.data.entity.getEntityName();
+            if (isForm) {
+                let id = xrm.Page.data.entity.getId();
+                let logicalName = xrm.Page.data.entity.getEntityName();
 
-            if (id === currentId) {
-                return;
-            }
+                if (id === currentId) {
+                    return;
+                }
 
-            currentId = id;
-            
-            if (id) {
-                root.querySelector('[data-hook="gotdibbs-toolbox-recordid"]').innerHTML = id;
-                root.querySelector('[data-hook="gotdibbs-toolbox-recordlink"]').innerHTML = [
-                    xrm.Page.context.getClientUrl(), '/main.aspx?etn=', logicalName, '&id=', id, '&pagetype=entityrecord'
-                ].join('');
+                currentId = id;
+                
+                if (id) {
+                    root.querySelector('[data-hook="gotdibbs-toolbox-recordid"]').innerHTML = id;
+                    root.querySelector('[data-hook="gotdibbs-toolbox-recordlink"]').innerHTML = [
+                        xrm.Page.context.getClientUrl(), '/main.aspx?etn=', logicalName, '&id=', id, '&pagetype=entityrecord'
+                    ].join('');
+                }
+                else {
+                    root.querySelector('[data-hook="gotdibbs-toolbox-recordid"]').innerHTML = 'Record doesn\'t yet exist';
+                    root.querySelector('[data-hook="gotdibbs-toolbox-recordlink"]').innerHTML = [
+                        xrm.Page.context.getClientUrl(), '/main.aspx?etn=', logicalName, '&pagetype=entityrecord'
+                    ].join('');
+                }
+
+                root.querySelector('[data-hook="gotdibbs-toolbox-logicalname"]').innerHTML = logicalName;
+
+                root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'block';
             }
             else {
-                root.querySelector('[data-hook="gotdibbs-toolbox-recordid"]').innerHTML = 'Record doesn\'t yet exist';
-                root.querySelector('[data-hook="gotdibbs-toolbox-recordlink"]').innerHTML = [
-                    xrm.Page.context.getClientUrl(), '/main.aspx?etn=', logicalName, '&pagetype=entityrecord'
-                ].join('');
+                currentId = null;
+
+                root.querySelector('[data-hook="gotdibbs-toolbox-recordid"]').innerHTML = '';
+                root.querySelector('[data-hook="gotdibbs-toolbox-recordlink"]').innerHTML = '';
+                root.querySelector('[data-hook="gotdibbs-toolbox-logicalname"]').innerHTML = '';
+
+                root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'none';
             }
 
-            root.querySelector('[data-hook="gotdibbs-toolbox-logicalname"]').innerHTML = logicalName;
+            if (!isContextInitialized) {
+                isContextInitialized = true;
+                root.querySelector('[data-hook="gotdibbs-toolbox-userid').innerHTML = xrm.Page.context.getUserId();
+                root.querySelector('[data-hook="gotdibbs-toolbox-org').innerHTML = xrm.Page.context.getOrgUniqueName();
+                root.querySelector('[data-hook="gotdibbs-toolbox-version').innerHTML = xrm.Page.context.getVersion();
 
-            root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'block';
-        }
-        else {
-            currentId = null;
+                let version = parseInt(state.version.split('.')[0]);
 
-            root.querySelector('[data-hook="gotdibbs-toolbox-recordid"]').innerHTML = '';
-            root.querySelector('[data-hook="gotdibbs-toolbox-recordlink"]').innerHTML = '';
-            root.querySelector('[data-hook="gotdibbs-toolbox-logicalname"]').innerHTML = '';
+                if (version < 8) {
+                    root.querySelector('[data-hook="gotdibbs-toolbox-opensolution"]').parentNode.style.display = 'none';
+                    root.querySelector('[data-hook="gotdibbs-toolbox-roles"]').parentNode.style.display = 'none';
+                }
 
-            root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'none';
-        }
-
-        if (!isContextInitialized) {
-            isContextInitialized = true;
-            root.querySelector('[data-hook="gotdibbs-toolbox-userid').innerHTML = xrm.Page.context.getUserId();
-            root.querySelector('[data-hook="gotdibbs-toolbox-org').innerHTML = xrm.Page.context.getOrgUniqueName();
-            root.querySelector('[data-hook="gotdibbs-toolbox-version').innerHTML = xrm.Page.context.getVersion();
-
-            let version = parseInt(state.version.split('.')[0]);
-
-            if (version < 8) {
-                root.querySelector('[data-hook="gotdibbs-toolbox-opensolution"]').parentNode.style.display = 'none';
-                root.querySelector('[data-hook="gotdibbs-toolbox-roles"]').parentNode.style.display = 'none';
+                getSecurityRoles(version < 8);
             }
-
-            getSecurityRoles(version < 8);
+        }
+        catch (e) {
+            Honeybadger.notify(e, {
+                message: 'Error encountered while updating information panel'
+            });
         }
     }
 
     function checkState() {
-        if (!global.GotDibbs) {
-            clearInterval(interval);
-            return;
-        }
-
-        if (!isToolboxPositioned) {
-            isToolboxPositioned = true;
-            root.querySelector('[data-hook="gotdibbs-toolbox"]').removeAttribute('style');
-            new Draggable('[data-hook="gotdibbs-toolbox-header"]');
-        }
-
-        state = global.GotDibbs.getState();
-
-        if (!state) {
-            return;
-        }
-
-        if (state.context && state.context.Xrm.Page && state.context.Xrm.Page.ui) {
-            if (!isForm) {
-                isForm = true;
+        try {
+            if (!global.GotDibbs) {
+                clearInterval(interval);
+                return;
             }
-        }
-        else if (isForm) {
-            isForm = false;
-        }
 
-        updatePane();
+            if (!isToolboxPositioned) {
+                isToolboxPositioned = true;
+                root.querySelector('[data-hook="gotdibbs-toolbox"]').removeAttribute('style');
+                new Draggable('[data-hook="gotdibbs-toolbox-header"]');
+            }
+
+            state = global.GotDibbs.getState();
+
+            if (!state) {
+                return;
+            }
+
+            if (state.context && state.context.Xrm.Page && state.context.Xrm.Page.ui && state.context.Xrm.Page.data) {
+                if (!isForm) {
+                    isForm = true;
+                }
+            }
+            else if (isForm) {
+                isForm = false;
+            }
+
+            updatePane();
+        }
+        catch (e) {
+            Honeybadger.notify(e, {
+                message: 'Error encountered while attempting to update context'
+            });
+        }
     }
 
     function switchPage(e) {
@@ -262,6 +276,11 @@
                 root.querySelector('[data-hook="gotdibbs-toolbox-roles"]').innerHTML = result.join(', ');
             })
             .catch(e => {
+                Honeybadger.notify(e, {
+                    message: 'Error encountered while retrieving security roles',
+                    context: { xrm: !!xrm, serverUrl: serverUrl, roles: roles },
+                    params: { getIdsOnly: getIdsOnly }
+                });
                 console.error(e);
                 root.querySelector('[data-hook="gotdibbs-toolbox-roles"]').innerHTML = 'Error encountered while retrieving roles. See console.';
             });
@@ -315,15 +334,15 @@
         }
 
         fetch([
-            xrm.Page.context.getClientUrl(), '/api/data/v8.2/solutions?$select=solutionid&$filter=uniquename eq \'', solutionName, '\''
-        ].join(''), {
-            credentials: 'same-origin',
-            headers: {
-                'Accept': 'application/json',
-                'OData-MaxVersion': '4.0',
-                'OData-Version': '4.0'
-            }
-        })
+                xrm.Page.context.getClientUrl(), '/api/data/v8.2/solutions?$select=solutionid&$filter=uniquename eq \'', solutionName, '\''
+            ].join(''), {
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json',
+                    'OData-MaxVersion': '4.0',
+                    'OData-Version': '4.0'
+                }
+            })
             .then(response => {
                 if (response.ok && response.status == 200) {
                     return response.json();
@@ -342,6 +361,11 @@
                 ].join(''), '_blank');
             })
             .catch(e => {
+                Honeybadger.notify(e, {
+                    message: 'Error encountered while attempting to open a solution',
+                    context: { xrm: !!xrm },
+                    params: { solutionName: solutionName }
+                });
                 console.error(e);
                 alert('An error was encountered and has been logged to the console.');
             });
@@ -359,20 +383,20 @@
         root = document.querySelector('[data-hook="gotdibbs-toolbox-root"]');
 
         // Listen for toolbox close
-        root.querySelector('[data-hook="gotdibbs-toolbox-close"]').addEventListener('click', destroy);
+        root.querySelector('[data-hook="gotdibbs-toolbox-close"]').addEventListener('click', Honeybadger.wrap(destroy));
         // Listen for toolbox collapse/expand
-        root.querySelector('[data-hook="gotdibbs-toolbox-collapse"]').addEventListener('click', toggle);
+        root.querySelector('[data-hook="gotdibbs-toolbox-collapse"]').addEventListener('click', Honeybadger.wrap(toggle));
         // Listen for toolbox tab switch
-        root.querySelector('[data-hook="gotdibbs-toolbox-navbar"]').addEventListener('click', switchPage);
+        root.querySelector('[data-hook="gotdibbs-toolbox-navbar"]').addEventListener('click', Honeybadger.wrap(switchPage));
         // List for toolbox info copy request
-        root.querySelector('[data-hook="gotdibbs-toolbox-info"]').addEventListener('dblclick', copy);
+        root.querySelector('[data-hook="gotdibbs-toolbox-info"]').addEventListener('dblclick', Honeybadger.wrap(copy));
 
         // List for Navigation requests
-        root.querySelector('[data-hook="gotdibbs-toolbox-openaf"]').addEventListener('click', openAdvancedFind);
-        root.querySelector('[data-hook="gotdibbs-toolbox-import"]').addEventListener('click', importSolution);
-        root.querySelector('[data-hook="gotdibbs-toolbox-openlist"]').addEventListener('click', openList);
-        root.querySelector('[data-hook="gotdibbs-toolbox-openrecord"]').addEventListener('click', openRecord);
-        root.querySelector('[data-hook="gotdibbs-toolbox-opensolution"]').addEventListener('click', openSolution);
+        root.querySelector('[data-hook="gotdibbs-toolbox-openaf"]').addEventListener('click', Honeybadger.wrap(openAdvancedFind));
+        root.querySelector('[data-hook="gotdibbs-toolbox-import"]').addEventListener('click', Honeybadger.wrap(importSolution));
+        root.querySelector('[data-hook="gotdibbs-toolbox-openlist"]').addEventListener('click', Honeybadger.wrap(openList));
+        root.querySelector('[data-hook="gotdibbs-toolbox-openrecord"]').addEventListener('click', Honeybadger.wrap(openRecord));
+        root.querySelector('[data-hook="gotdibbs-toolbox-opensolution"]').addEventListener('click', Honeybadger.wrap(openSolution));
 
         checkState();
         interval = setInterval(checkState, 500);

@@ -12,5 +12,10 @@ try {
     }
 }
 catch(er) {
-    alert('Error occurred while retrieving record id. '+ er.message);
+    alert('Error occurred while retrieving record id. ' + er.message);
+    Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+        action: 'copy-record-id',
+        component: 'bookmarklets',
+        context: { version: config.version }
+    });
 }
