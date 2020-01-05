@@ -40,4 +40,9 @@ try {
 }
 catch(er) {
     alert('Error occurred while opening the toolkit. ' + er.message);
+    Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+        action: 'launch-gotdibbs-toolkit',
+        component: 'bookmarklets',
+        context: { version: config.version }
+    });
 }

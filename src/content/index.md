@@ -12,6 +12,8 @@ template: default.hbt
 
 Drag a bookmarklet from below up to your favorites, then click it when viewing a record in Dynamics CRM.
 
+*Note: these bookmarklets are not being proactively maintained as of 2020. If you see an issue, please report it on GitHub and I'll take a look. That said, the equivalent Chrome Extension which has a fancy auto-update feature does report errors to me, so maybe try that instead?*
+
 ----
 
 <section class='bookmarklets'>

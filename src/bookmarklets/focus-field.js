@@ -24,4 +24,9 @@ try {
 }
 catch(er) {
     alert('Error occurred set focus to desired field. '+ er.message);
+    Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
+        action: 'focus-field',
+        component: 'bookmarklets',
+        context: { version: config.version }
+    });
 }

@@ -29,7 +29,6 @@
             return;
         }
 
-
         if (document.querySelector('[data-hook="gotdibbs-toolbox"]')) {
             return;
         }
@@ -51,6 +50,9 @@
                 .catch(e => {
                     console.error('Failed to load toolkit HTML');
                     console.error(e);
+                    Honeybadger.notify(e, {
+                        message: 'Failed to load toolkit HTML'
+                    })
                 });
         }
         else {
@@ -59,6 +61,7 @@
     }
 
     function loadDependencies() {
+        injectScript(chrome.extension.getURL('honeybadger.min.js'));
         injectScript(chrome.extension.getURL('contextCommunicator.js'));
     }
 
@@ -104,8 +107,21 @@
     }
 
     function load() {
-        loadDependencies();
-        attachListeners();
+        Honeybadger.configure({
+            apiKey: '3783205f',
+            environment: 'development',
+            revision: '1.1',
+            onerror: false
+        });
+
+        Honeybadger.setContext({
+            source: 'chrome_extension'
+        });
+
+        Honeybadger.wrap(function () {
+            loadDependencies();
+            attachListeners();
+        })();
     }
 
     global.addEventListener('load', load);
