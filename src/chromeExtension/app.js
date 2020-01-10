@@ -109,9 +109,10 @@
     function load() {
         Honeybadger.configure({
             apiKey: '3783205f',
-            environment: 'development',
-            revision: '1.1',
-            onerror: false
+            environment: 'production',
+            revision: '1.3',
+            onerror: false,
+            onunhandledrejection: false
         });
 
         Honeybadger.setContext({

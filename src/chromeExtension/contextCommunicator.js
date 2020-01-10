@@ -9,7 +9,7 @@
                 if (global.APPLICATION_VERSION === '5.0') {
                     _state = { context: window.top.frames[0], version: global.APPLICATION_VERSION };
                 }
-                else if (/^[6,7,8,9]\.\d+$/.test(global.APPLICATION_VERSION)) {
+                else if (/^[6,7,8]\.\d+$/.test(global.APPLICATION_VERSION)) {
                     var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
                     
                     if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm) {
@@ -19,18 +19,6 @@
                         verbose && console.log('[CRM 2013/2015/2016] Could not locate the entity form. Please ensure you\'re viewing a record in Dynamics CRM.');
                         return;
                     }
-                }
-                else if (global.APPLICATION_VERSION) {
-                    Honeybadger.notify('Unsupported CRM Version Detected', { context: {
-                        version: global.APPLICATION_VERSION
-                    } });
-                    verbose && console.log([
-                        'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
-                        ' Please check for an updated version of this utility',
-                        ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
-                        ' isn\'t working.'
-                    ].join(''));
-                    return;
                 }
                 else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
                     global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion &&
@@ -50,12 +38,29 @@
                         ].join(''));
                         return;
                 }
-                else {
-                    Honeybadger.notify('Failed to detect current CRM version', { context: {
-                        xrm: !!global.Xrm,
-                        xrmPage: !!global.Xrm.Page,
-                        xrmUtility: !!global.Xrm.Utility
+                /* Fall back to checking older versions quick to report it, but moving this check
+                   before the D365 check will result in false positives on legacy forms */
+                else if (global.APPLICATION_VERSION) {
+                    Honeybadger.notify('Unsupported CRM Version Detected', { context: {
+                        version: global.APPLICATION_VERSION
                     } });
+                    verbose && console.log([
+                        'Unsupported CRM Version Detected: ', global.APPLICATION_VERSION, '.',
+                        ' Please check for an updated version of this utility',
+                        ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
+                        ' isn\'t working.'
+                    ].join(''));
+                    return;
+                }
+                else {
+                    // Notify honeybadger only if it looks like we might be in an actual CRM environment
+                    if (/(dynamics|crm)/.test(document.location.href)) {
+                        Honeybadger.notify('Failed to detect current CRM version', { context: {
+                            xrm: !!global.Xrm,
+                            xrmPage: !!(global.Xrm && global.Xrm.Page),
+                            xrmUtility: !!(global.Xrm && global.Xrm.Utility)
+                        } });
+                    }
                     verbose && console.log('Unable to detect current CRM Version. Please ensure you\'re viewing a record in Dynamics CRM.');
                     return;
                 }
@@ -118,8 +123,9 @@
     Honeybadger.configure({
         apiKey: '3783205f',
         environment: 'production',
-        revision: '1.1',
-        onerror: false
+        revision: '1.3',
+        onerror: false,
+        onunhandledrejection: false
     });
 
     Honeybadger.setContext({

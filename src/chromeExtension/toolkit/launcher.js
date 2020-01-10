@@ -100,8 +100,8 @@
             var xrm = state.context.Xrm;
 
             if (isForm) {
-                let id = xrm.Page.data.entity.getId();
-                let logicalName = xrm.Page.data.entity.getEntityName();
+                let id = xrm.Page.data.entity.getId && xrm.Page.data.entity.getId();
+                let logicalName = xrm.Page.data.entity.getEntityName && xrm.Page.data.entity.getEntityName();
 
                 if (id === currentId) {
                     return;
@@ -178,7 +178,15 @@
                 return;
             }
 
-            if (state.context && state.context.Xrm.Page && state.context.Xrm.Page.ui && state.context.Xrm.Page.data) {
+            Honeybadger.setContext({
+                source: 'chrome_extension_content',
+                version: state && state.version
+            });
+
+            if (state.context && state.context.Xrm &&
+                state.context.Xrm.Page && 
+                state.context.Xrm.Page.ui && state.context.Xrm.Page.data &&
+                state.context.Xrm.Page.data.entity) {
                 if (!isForm) {
                     isForm = true;
                 }
