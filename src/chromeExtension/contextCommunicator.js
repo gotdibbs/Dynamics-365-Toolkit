@@ -123,7 +123,7 @@
     Honeybadger.configure({
         apiKey: '3783205f',
         environment: 'production',
-        revision: '1.3',
+        revision: '1.4',
         onerror: false,
         onunhandledrejection: false
     });

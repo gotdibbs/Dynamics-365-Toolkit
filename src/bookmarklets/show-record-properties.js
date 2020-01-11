@@ -15,6 +15,8 @@ try {
     else {
         alert('This action is not supported in the current version of Dynamics CRM.');
     }
+
+    fathom && fathom('trackGoal', '8EHBNIHL', 0);
 }
 catch (e) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {

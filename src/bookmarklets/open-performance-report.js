@@ -14,6 +14,8 @@ try {
     else {
         alert('This feature is not supported on this version of Dynamics CRM.');
     }
+
+    fathom && fathom('trackGoal', 'RMX7M5IX', 0);
 }
 catch(er) {
     alert('Error occurred opening performance report. ' + er.message);

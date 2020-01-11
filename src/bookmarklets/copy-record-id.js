@@ -10,6 +10,8 @@ try {
     else { 
         window.prompt('Copy to clipboard: Ctrl+C, Enter', id);
     }
+
+    fathom && fathom('trackGoal', '5TP4Q3GP', 0);
 }
 catch(er) {
     alert('Error occurred while retrieving record id. ' + er.message);

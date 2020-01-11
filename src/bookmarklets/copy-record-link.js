@@ -14,6 +14,8 @@ try {
     else {
         window.prompt('Copy to clipboard: Ctrl+C, Enter', url);
     }
+
+    fathom && fathom('trackGoal', '6AOAXPCL', 0);
 }
 catch(er) {
     alert('Error occurred while retrieving record url. ' + er.message);

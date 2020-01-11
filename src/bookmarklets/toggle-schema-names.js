@@ -9,6 +9,8 @@ try {
             c.__label = null;
         }
     });
+
+    fathom && fathom('trackGoal', 'EUBF1CHP', 0);
 }
 catch (e) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {

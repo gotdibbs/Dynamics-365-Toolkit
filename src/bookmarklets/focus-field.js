@@ -21,6 +21,8 @@ try {
     }
 
     field.setFocus();
+
+    fathom && fathom('trackGoal', 'AWYB6DBW', 0);
 }
 catch(er) {
     alert('Error occurred set focus to desired field. '+ er.message);

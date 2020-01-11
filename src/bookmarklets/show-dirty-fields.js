@@ -14,6 +14,8 @@ try {
         alert(['The following attributes are currently dirty: \n', 
             dirtyAttributes.join(', ')].join(''));
     }
+
+    fathom && fathom('trackGoal', 'VQYHGAGB', 0);
 }
 catch (e) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {

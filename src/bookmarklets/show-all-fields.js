@@ -15,6 +15,8 @@ try {
             sc.setVisible(true);
         });
     });
+
+    fathom && fathom('trackGoal', 'UEAPFM1M', 0);
 }
 catch (e) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {

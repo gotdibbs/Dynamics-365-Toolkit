@@ -76,6 +76,7 @@
     function destroy() {
         root.parentElement.removeChild(root);
         clearInterval(interval);
+        fathom('trackGoal', 'IQRHDINK', 0);
     }
 
     function toggle() {
@@ -93,6 +94,8 @@
             toggle.classList.remove('collapsed');
             elem.style.height = 'auto';
         }
+
+        fathom('trackGoal', '4DZRNHHM', 0);
     }
 
     function updatePane() {
@@ -240,6 +243,8 @@
         setTimeout(() => {
             source.innerHTML = html;
         }, 1000);
+
+        fathom('trackGoal', 'D0KU4IIK', 0);
     }
 
     function getSecurityRoles(getIdsOnly) {
@@ -300,6 +305,8 @@
         window.open([
             xrm.Page.context.getClientUrl(), '/main.aspx?pagetype=advancedfind'
         ].join(''), '_blank');
+
+        fathom('trackGoal', 'DEE4P4OM', 0);
     }
 
     function openList() {
@@ -314,6 +321,8 @@
         window.open([
             xrm.Page.context.getClientUrl(), '/main.aspx?pagetype=entitylist&etn=', logicalName
         ].join(''), '_blank');
+
+        fathom('trackGoal', 'IJGSMM1T', 0);
     }
 
     function openRecord() {
@@ -330,6 +339,8 @@
         window.open([
             xrm.Page.context.getClientUrl(), '/main.aspx?pagetype=entityrecord&etn=', logicalName, id ? '&id=' + id : ''
         ].join(''), '_blank');
+
+        fathom('trackGoal', '7YHT3JKI', 0);
     }
 
     function openSolution() {
@@ -367,6 +378,8 @@
                 window.open([
                     xrm.Page.context.getClientUrl(), '/tools/solution/edit.aspx?id=', json.value[0].solutionid
                 ].join(''), '_blank');
+
+                fathom('trackGoal', 'G8YW7GJJ', 0);
             })
             .catch(e => {
                 Honeybadger.notify(e, {
@@ -385,9 +398,13 @@
         window.open([
             xrm.Page.context.getClientUrl(), '/tools/solution/import/SolutionImportWizard.aspx'
         ].join(''), '_blank');
+
+        fathom('trackGoal', 'UGHZ7JZ7', 0);
     }
 
     function show() {
+        fathom('trackPageview');
+
         root = document.querySelector('[data-hook="gotdibbs-toolbox-root"]');
 
         // Listen for toolbox close
@@ -409,6 +426,17 @@
         checkState();
         interval = setInterval(checkState, 500);
     }
+
+    (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){
+            (a[h].q=a[h].q||[]).push(arguments)
+        };
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+    })(document, window, 'https://cdn.usefathom.com/tracker.js', 'fathom');
+    fathom('set', 'siteId', 'HIILGHZZ');
 
     show();
 
