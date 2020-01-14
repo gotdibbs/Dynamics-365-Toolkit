@@ -18,6 +18,6 @@ catch(er) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'copy-record-id',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

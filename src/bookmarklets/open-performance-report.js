@@ -22,6 +22,6 @@ catch(er) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'open-performance-report',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

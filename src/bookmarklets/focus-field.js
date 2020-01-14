@@ -29,6 +29,6 @@ catch(er) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'focus-field',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

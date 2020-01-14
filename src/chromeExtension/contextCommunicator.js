@@ -7,13 +7,21 @@
         function getState(verbose) {
             try {
                 if (global.APPLICATION_VERSION === '5.0') {
-                    _state = { context: window.top.frames[0], version: global.APPLICATION_VERSION };
+                    _state = {
+                        context: window.top.frames[0],
+                        version: global.APPLICATION_VERSION,
+                        fullVersion: global.APPLICATION_VERSION
+                    };
                 }
                 else if (/^[6,7,8]\.\d+$/.test(global.APPLICATION_VERSION)) {
                     var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
                     
                     if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm) {
-                        _state = { context: $iframe[0].contentWindow, version: global.APPLICATION_VERSION };
+                        _state = {
+                            context: $iframe[0].contentWindow,
+                            version: global.APPLICATION_VERSION,
+                            fullVersion: global.APPLICATION_VERSION
+                        };
                     }
                     else {
                         verbose && console.log('[CRM 2013/2015/2016] Could not locate the entity form. Please ensure you\'re viewing a record in Dynamics CRM.');
@@ -23,7 +31,11 @@
                 else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
                     global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion &&
                     /^[9]\./.test(global.Xrm.Utility.getGlobalContext().getVersion())) {
-                        _state = { context: global, version: global.Xrm.Utility.getGlobalContext().getVersion().slice(0, 3) };
+                        _state = {
+                            context: global,
+                            version: global.Xrm.Utility.getGlobalContext().getVersion().slice(0, 3),
+                            fullVersion: global.Xrm.Utility.getGlobalContext().getVersion()
+                        };
                 }
                 else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
                     global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion) {
@@ -123,7 +135,7 @@
     Honeybadger.configure({
         apiKey: '3783205f',
         environment: 'production',
-        revision: '1.5',
+        revision: '1.6',
         onerror: false,
         onunhandledrejection: false
     });

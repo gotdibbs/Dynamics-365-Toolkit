@@ -16,6 +16,6 @@ catch (e) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'toggle-schema-names',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

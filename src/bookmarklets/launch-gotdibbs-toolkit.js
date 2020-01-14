@@ -43,6 +43,6 @@ catch(er) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'launch-gotdibbs-toolkit',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

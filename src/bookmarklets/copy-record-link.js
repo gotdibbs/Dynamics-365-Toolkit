@@ -22,6 +22,6 @@ catch(er) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'copy-record-link',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

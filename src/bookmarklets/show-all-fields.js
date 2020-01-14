@@ -22,6 +22,6 @@ catch (e) {
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'show-all-fields',
         component: 'bookmarklets',
-        context: { version: config.version }
+        context: { version: config.fullVersion }
     });
 }

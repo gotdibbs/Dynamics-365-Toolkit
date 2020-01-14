@@ -209,6 +209,13 @@ a.gotdibbs-toolbox-item-link {
     margin-top: 1em;
 }
 
+.gotdibbs-toolbox-report {
+    border-top: 1px solid #ccc;
+    margin-top: 1em;
+    padding-top: 1em;
+    text-align: center;
+}
+
 @media screen and (max-width: 58em) {
     .gotdibbs-tabs nav {
         font-size: 0.6em;
