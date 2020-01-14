@@ -2,8 +2,11 @@
     "name": "GotDibbs Toolbox",
     "description": "Admin tools for Dynamics CRM/D365",
     "author": "gotdibbs",
-    "version": "1.4",
+    "version": "1.5",
     "manifest_version": 2,
+    "icons": {
+        "128": "toolbox.png"
+    },
     "permissions": [
         "activeTab"
     ],
@@ -15,12 +18,6 @@
         "default_title": "GotDibbs Toolbox",
         "default_icon": "toolbox.png"
     },
-    "content_scripts" : [{
-            "matches": ["http://*/*", "https://*/*"],
-            "js": ["honeybadger.min.js", "app.js"],
-            "css": ["toolkit/launcher.css"]
-        }
-    ],
     "web_accessible_resources": [
         "contextCommunicator.js",
         "honeybadger.min.js",

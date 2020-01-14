@@ -2,28 +2,33 @@
     var _sourceHtml = null;
 
     function injectScript(file) {
-        let scriptTag = document.createElement('script');
+        return new Promise((resolve, reject) => {
+            let scriptTag = document.createElement('script');
 
-        scriptTag.setAttribute('type', 'text/javascript');
-        scriptTag.setAttribute('src', file);
+            scriptTag.setAttribute('type', 'text/javascript');
+            scriptTag.setAttribute('src', file);
 
-        scriptTag.onload = () => {
-            scriptTag.remove();
-        };
+            scriptTag.onload = () => {
+                scriptTag.remove();
+                resolve();
+            };
 
-        (document.head || document.documentElement).appendChild(scriptTag);
+            scriptTag.onerror = reject;
+
+            (document.head || document.documentElement).appendChild(scriptTag);
+        });
     }
 
-    function loadToolbox() {
+    async function loadToolbox() {
         let root = document.createElement('div');
         root.innerHTML = _sourceHtml;
         root.setAttribute('data-hook', 'gotdibbs-toolbox-root');
         document.body.appendChild(root);
 
-        injectScript(chrome.extension.getURL('toolkit/launcher.js'));
+        return await injectScript(chrome.extension.getURL('toolkit/launcher.js'));
     }
 
-    function launchToolbox(version) {
+    async function launchToolbox(version) {
         if (!version) {
             alert('It doesn\'t look like I can interact with this page. Sorry!');
             return;
@@ -33,36 +38,31 @@
             return;
         }
 
-        if (!_sourceHtml) {
-            fetch(chrome.extension.getURL('toolkit/launcher.fragment.html'))
-                .then(r => {
-                    if (!r.ok) {
-                        throw Error(r.statusText);
-                    }
+        try {
+            if (!_sourceHtml) {
+                let result = await fetch(chrome.extension.getURL('toolkit/launcher.fragment.html'));
 
-                    return r.text();
-                })
-                .then(html => {
-                    _sourceHtml = html;
+                if (!result.ok) {
+                    throw Error(r.statusText);
+                }
 
-                    loadToolbox();
-                })
-                .catch(e => {
-                    console.error('Failed to load toolkit HTML');
-                    console.error(e);
-                    Honeybadger.notify(e, {
-                        message: 'Failed to load toolkit HTML'
-                    })
-                });
+                _sourceHtml = await result.text();
+            }
+
+            await loadToolbox();
         }
-        else {
-            loadToolbox();
+        catch (e) {
+            onsole.error('Failed to load toolkit HTML');
+            console.error(e);
+            Honeybadger.notify(e, {
+                message: 'Failed to load toolkit HTML'
+            });
         }
     }
 
-    function loadDependencies() {
-        injectScript(chrome.extension.getURL('honeybadger.min.js'));
-        injectScript(chrome.extension.getURL('contextCommunicator.js'));
+    async function loadDependencies() {
+        await injectScript(chrome.extension.getURL('honeybadger.min.js'));
+        await injectScript(chrome.extension.getURL('contextCommunicator.js'));
     }
 
     function sendMessage(type, content) {
@@ -110,7 +110,7 @@
         Honeybadger.configure({
             apiKey: '3783205f',
             environment: 'production',
-            revision: '1.4',
+            revision: '1.5',
             onerror: false,
             onunhandledrejection: false
         });
@@ -119,11 +119,20 @@
             source: 'chrome_extension'
         });
 
-        Honeybadger.wrap(function () {
-            loadDependencies();
+        Honeybadger.wrap(async function () {
+            await loadDependencies();
             attachListeners();
+
+            validateVersion();
         })();
     }
 
-    global.addEventListener('load', load);
+    global.GOTDIBBS = true;
+
+    if (document.readyState === 'complete') {
+        load();
+    }
+    else {
+        global.addEventListener('load', load);
+    }
 }(this));
