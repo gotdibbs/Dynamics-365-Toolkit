@@ -73,7 +73,7 @@
                             xrmUtility: !!(global.Xrm && global.Xrm.Utility)
                         } });
                     }
-                    verbose && console.log('Unable to detect current CRM Version. Please ensure you\'re viewing a record in Dynamics CRM.');
+                    verbose && console.log('Unable to detect current CRM Version. Please ensure you\'re viewing a record that has finished loading in Dynamics CRM.');
                     return;
                 }
 
@@ -135,7 +135,7 @@
     Honeybadger.configure({
         apiKey: '3783205f',
         environment: 'production',
-        revision: '1.6',
+        revision: '1.7',
         onerror: false,
         onunhandledrejection: false
     });

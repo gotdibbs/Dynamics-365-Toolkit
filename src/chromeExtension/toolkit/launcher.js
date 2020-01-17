@@ -143,7 +143,7 @@
                 isContextInitialized = true;
                 root.querySelector('[data-hook="gotdibbs-toolbox-userid').innerHTML = xrm.Page.context.getUserId();
                 root.querySelector('[data-hook="gotdibbs-toolbox-org').innerHTML = xrm.Page.context.getOrgUniqueName();
-                root.querySelector('[data-hook="gotdibbs-toolbox-version').innerHTML = xrm.Page.context.getVersion();
+                root.querySelector('[data-hook="gotdibbs-toolbox-version').innerHTML = state.fullVersion;
 
                 let version = parseInt(state.version.split('.')[0]);
 

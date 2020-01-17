@@ -13,6 +13,7 @@ try {
     fathom && fathom('trackGoal', 'EUBF1CHP', 0);
 }
 catch (e) {
+    alert('An error was encountered. ' + e.message);
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'toggle-schema-names',
         component: 'bookmarklets',

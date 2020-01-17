@@ -18,6 +18,7 @@ try {
     fathom && fathom('trackGoal', 'VQYHGAGB', 0);
 }
 catch (e) {
+    alert('An error was encountered. ' + e.message)
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'show-dirty-fields',
         component: 'bookmarklets',

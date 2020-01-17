@@ -14,6 +14,7 @@ try {
     fathom && fathom('trackGoal', 'WVP4ETTK', 0);
 }
 catch (e) {
+    alert('An error was encountered. ' + e.message);
     Honeybadger && Honeybadger.notify && Honeybadger.notify(e, {
         action: 'enable-all-fields',
         component: 'bookmarklets',

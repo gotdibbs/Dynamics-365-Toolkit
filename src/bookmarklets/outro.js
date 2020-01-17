@@ -16,7 +16,7 @@
             };
         }
         else {
-            return alert('[CRM 2013/2015/2016] Could not locate the entity form. Please ensure you\'re viewing a record in Dynamics CRM.');
+            return alert('[CRM 2013/2015/2016] Could not locate the entity form. Please ensure you\'re viewing a record that has finished loading in Dynamics CRM.');
         }
     }
     else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
@@ -65,6 +65,6 @@
             xrmPage: !!global.Xrm.Page,
             xrmUtility: !!global.Xrm.Utility
         } });
-        return alert('Unable to detect current CRM Version. Please ensure you\'re viewing a record in Dynamics CRM.');
+        return alert('Unable to detect current CRM Version. Please ensure you\'re viewing a record that has finished loading inside Dynamics CRM.');
     }
 }(window)));
