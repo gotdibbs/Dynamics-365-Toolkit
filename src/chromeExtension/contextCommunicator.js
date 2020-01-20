@@ -102,7 +102,7 @@
         function sendState() {
             _state = getState();
 
-            sendMessage('LAUNCH_TOOLBOX', _state ? _state.version : null);
+            sendMessage('INJECT_TOOLBOX', _state ? _state.version : null);
         }
     
         function handleEvent(e) {
@@ -135,7 +135,7 @@
     Honeybadger.configure({
         apiKey: '3783205f',
         environment: 'production',
-        revision: '1.7',
+        revision: '1.8',
         onerror: false,
         onunhandledrejection: false
     });

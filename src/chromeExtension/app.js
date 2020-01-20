@@ -1,11 +1,11 @@
 (function (global) {
     var _sourceHtml = null;
 
-    function injectScript(file) {
+    function injectScript(file, scriptType = 'text/javascript') {
         return new Promise((resolve, reject) => {
             let scriptTag = document.createElement('script');
 
-            scriptTag.setAttribute('type', 'text/javascript');
+            scriptTag.setAttribute('type', scriptType);
             scriptTag.setAttribute('src', file);
 
             scriptTag.onload = () => {
@@ -25,7 +25,20 @@
         root.setAttribute('data-hook', 'gotdibbs-toolbox-root');
         document.body.appendChild(root);
 
-        return await injectScript(chrome.extension.getURL('toolkit/launcher.js'));
+        return await injectScript(chrome.extension.getURL('toolkit/launcher.js'), 'module');
+    }
+
+    function sendMessage(type, content) {
+        let message = new CustomEvent('gotdibbs-toolbox', {
+            detail: {
+                type,
+                content
+            }
+        });
+
+        message.initEvent('gotdibbs-toolbox', false, false);
+
+        document.dispatchEvent(message);
     }
 
     async function launchToolbox(version) {
@@ -34,7 +47,9 @@
             return;
         }
 
-        if (document.querySelector('[data-hook="gotdibbs-toolbox"]')) {
+        if (document.querySelector('[data-hook="gotdibbs-toolbox-root"]')) {
+            debugger;
+            sendMessage('LAUNCH_TOOLBOX');
             return;
         }
 
@@ -49,7 +64,7 @@
                 _sourceHtml = await result.text();
             }
 
-            await loadToolbox();
+            loadToolbox();
         }
         catch (e) {
             onsole.error('Failed to load toolkit HTML');
@@ -82,7 +97,7 @@
         let message = e.detail;
 
         switch (message.type) {
-            case 'LAUNCH_TOOLBOX':
+            case 'INJECT_TOOLBOX':
                 launchToolbox(message.content);
                 break;
         }
@@ -110,7 +125,7 @@
         Honeybadger.configure({
             apiKey: '3783205f',
             environment: 'production',
-            revision: '1.7',
+            revision: '1.8',
             onerror: false,
             onunhandledrejection: false
         });
@@ -127,6 +142,7 @@
         })();
     }
 
+    // Tag that we've loaded the app for benefit of background.js
     global.GOTDIBBS = true;
 
     if (document.readyState === 'complete') {
