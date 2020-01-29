@@ -48,7 +48,6 @@
         }
 
         if (document.querySelector('[data-hook="gotdibbs-toolbox-root"]')) {
-            debugger;
             sendMessage('LAUNCH_TOOLBOX');
             return;
         }
@@ -125,7 +124,7 @@
         Honeybadger.configure({
             apiKey: '3783205f',
             environment: 'production',
-            revision: '1.8',
+            revision: '1.9',
             onerror: false,
             onunhandledrejection: false
         });

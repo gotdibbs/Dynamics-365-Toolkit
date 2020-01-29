@@ -167,12 +167,12 @@ a.gotdibbs-toolbox-item-link {
 
 .gotdibbs-tabs nav a {
     overflow: visible;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
     -webkit-transition: color 0.2s;
     transition: color 0.2s;
 }
 
 .gotdibbs-tabs nav a span {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
