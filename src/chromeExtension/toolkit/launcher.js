@@ -42,9 +42,23 @@ function toggle() {
 function updatePane() {
     try {
         var xrm = state.context.Xrm;
+        let version = parseInt(state.version.split('.')[0]);
 
         if (isForm) {
-            let id = xrm.Page.data.entity.getId && xrm.Page.data.entity.getId();
+            let id = null;
+            
+            try {
+                id = xrm.Page.data.entity.getId && xrm.Page.data.entity.getId();
+            }
+            catch (e) {
+                if (version < 9) {
+                    // Swallow intermittent errors
+                    return;
+                }
+
+                Honeybadger.notify(e, 'Failed to retrieve record ID while updating information panel');
+            }
+
             let logicalName = xrm.Page.data.entity.getEntityName && xrm.Page.data.entity.getEntityName();
 
             if (id === currentId) {
@@ -81,14 +95,19 @@ function updatePane() {
             root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'none';
         }
 
+        if (version >= 9) {
+            getAppName();
+        }
+        else {
+            root.querySelector('[data-hook="gotdibbs-toolbox-appname"]').innerHTML = 'N/A';
+        }
+
         if (!isContextInitialized) {
             // We only need to pull and set the below information once per instance
             isContextInitialized = true;
             root.querySelector('[data-hook="gotdibbs-toolbox-userid').innerHTML = xrm.Page.context.getUserId();
             root.querySelector('[data-hook="gotdibbs-toolbox-org').innerHTML = xrm.Page.context.getOrgUniqueName();
             root.querySelector('[data-hook="gotdibbs-toolbox-version').innerHTML = state.fullVersion;
-
-            let version = parseInt(state.version.split('.')[0]);
 
             if (version < 8) {
                 root.querySelector('[data-hook="gotdibbs-toolbox-opensolution"]').parentNode.style.display = 'none';
@@ -198,9 +217,54 @@ function copy(e) {
     fathom('trackGoal', 'D0KU4IIK', 0);
 }
 
+function getGlobalContext(xrm) {
+    if (xrm && xrm.getGlobalContext) {
+        return xrm.getGlobalContext();
+    }
+    else if (xrm && xrm.Utility.getGlobalContext) {
+        return xrm.Utility.getGlobalContext();
+    }
+}
+
+function parseGlobalSecurityRoles(xrm) {
+    const context = getGlobalContext(xrm);
+
+    return context && context.userSettings && context.userSettings.roles && 
+        context.userSettings.roles.getAll && context.userSettings.roles.getAll();
+}
+
+function getAppName() {
+    let xrm = state.context.Xrm,
+        context = getGlobalContext(xrm);
+
+    if (context && context.getCurrentAppName) {
+        context.getCurrentAppName().then(name => {
+            root.querySelector('[data-hook="gotdibbs-toolbox-appname"]').innerHTML = name;
+        });
+    }
+}
+
 function getSecurityRoles(getIdsOnly) {
     let xrm = state.context.Xrm;
     let serverUrl = xrm.Page.context.getClientUrl();
+    let version = parseInt(state.version.split('.')[0]);
+
+    if (version >= 9) {
+        let roles = parseGlobalSecurityRoles(xrm);
+
+        if (roles && roles.length) {
+            let result = [];
+            
+            roles.forEach(r => {
+                result.push(['<a href="', serverUrl, '/biz/roles/edit.aspx?id=', r.id, '" target="_blank" class="gotdibbs-toolbox-item-link">', r.name, '</a>'].join(''));
+            });
+
+            root.querySelector('[data-hook="gotdibbs-toolbox-roles"]').innerHTML = result.join(', ');
+
+            return;
+        }
+    }
+
     let roles = xrm.Page.context.getUserRoles();
 
     if (getIdsOnly) {

@@ -2,7 +2,7 @@
     "name": "GotDibbs Toolbox for Dynamics 365/CRM",
     "description": "Admin tools for Dynamics 365/CRM",
     "author": "gotdibbs",
-    "version": "1.9",
+    "version": "1.11",
     "manifest_version": 2,
     "icons": {
         "128": "toolbox.png"
