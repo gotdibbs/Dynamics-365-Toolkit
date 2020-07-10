@@ -10,7 +10,10 @@ var root,
     currentId,
     interval;
 
-function hide() {
+function hide(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    
     clearInterval(interval);
     interval = null;
 
@@ -18,6 +21,8 @@ function hide() {
     isHidden = true;
 
     fathom('trackGoal', 'IQRHDINK', 0);
+
+    return false;
 }
 
 function toggle() {
@@ -116,6 +121,9 @@ function updatePane() {
             if (version >= 9) {
                 root.querySelector('[data-action="open-performance-report"]').parentNode.style.display = 'none';
                 root.querySelector('[data-action="show-record-properties"]').parentNode.style.display = 'none';
+            }
+            if (version < 9) {
+                root.querySelector('[data-action="open-ribbon-debug"]').parentNode.style.display = 'none';
             }
 
             getSecurityRoles(version < 8);
@@ -417,11 +425,97 @@ function importSolution() {
     fathom('trackGoal', 'UGHZ7JZ7', 0);
 }
 
-async function requestInvokeFormAction(e) {
-    let target = e.target;
+function launchRibbonDebug(retries = 0) {
+    let button = document.getElementById('CommandChecker') ||
+        document.querySelector('button[data-id="CommandChecker"]')?.parentNode;
 
-    if (!target.dataset.action) {
+    if (!button && retries >= 5) {
+        Honeybadger.notify({
+            message: 'Could not locate the command checker ribbon button'
+        });
+
+        return alert('Sorry! Could not find the button for you, but it should be on the page somewhere...');
+    }
+    else if (!button) {
+        return setTimeout(() => launchRibbonDebug(++retries), 1000);
+    }
+
+    button.click();
+    document.body.focus();
+    // Get out the way
+    toggle();
+
+    fathom('trackGoal', 'ASIUFPXT', 0);
+}
+
+function openRibbonDebug() {
+    if (window.location.search.match(/ribbondebug/)) {
+        return launchRibbonDebug();
+    }
+
+    try {
+        // Try to update the store
+        let storeName = Object.keys(window).find(k => k?.startsWith('__store$'));
+
+        if (!storeName) {
+            throw new Error('Failed to find redux store on window');
+        }
+
+        let store = window[storeName];
+
+        if (!store?.getState || !store.getState()) {
+            throw new Error('Store does not appear to have the right structure');
+        }
+
+        let state = store.getState();
+
+        if (!state?.configuration) {
+            throw new Error('Store does not appear to have the `configuration.ribbonDebug` key');
+        }
+
+        Honeybadger.addBreadcrumb('Accessed store with appropriate shape');
+
+        let ribbonDebugPreviousState = state.configuration.ribbonDebug;
+
+        store.dispatch({ type: 'initialize.configuration.from.url', payload: { ribbonDebug: true } });
+
+        Honeybadger.addBreadcrumb('Dispatched');
+
+        setTimeout(() => {
+            // Give UI time to repaint
+            state = store.getState();
+
+            if (ribbonDebugPreviousState !== true && ribbonDebugPreviousState === state.configuration.ribbonDebug) {
+                throw new Error('Dispatch failed to update relevant store key');
+            }
+    
+            launchRibbonDebug();
+        }, 1);
+    }
+    catch (e) {
+        Honeybadger.notify(e, {
+            message: 'Error encountered while attempting to open the ribbon debugger'
+        });
+
+        if (window.confirm('We were unable to auto-launch the ribbon debugger so we need to refresh the page. Cool?')) {
+            window.location.href = window.location.href + '&ribbondebug=true';
+        }
+    }
+}
+
+async function requestInvokeFormAction(e) {
+    let target = e.target,
+        action = target.dataset.action || target.parentNode.dataset.action;
+
+    if (!action) {
         return;
+    }
+
+    if (action === 'open-ribbon-debug') {
+        return openRibbonDebug();
+    }
+    else if (action === 'get-support') {
+        return window.open('https://github.com/gotdibbs/Dynamics-CRM-Bookmarklets/issues/new', '_new');
     }
 
     if (!isForm) {
@@ -429,10 +523,10 @@ async function requestInvokeFormAction(e) {
         return;
     }
 
-    const moduleSpecifier = `./actions/${target.dataset.action}.js`;
+    const moduleSpecifier = `./actions/${action}.js`;
     const module = await import(moduleSpecifier)
     retryFormAction(() => module.default(state),
-        target.dataset.action,
+        action,
         state.fullVerison);
 }
 
@@ -463,7 +557,7 @@ function init() {
     root = document.querySelector('[data-hook="gotdibbs-toolbox-root"]');
 
     // Listen for toolbox close
-    root.querySelector('[data-hook="gotdibbs-toolbox-close"]').addEventListener('click', Honeybadger.wrap(hide));
+    root.querySelector('[data-hook="gotdibbs-toolbox-close"]').addEventListener('mousedown', Honeybadger.wrap(hide));
     // Listen for toolbox collapse/expand
     root.querySelector('[data-hook="gotdibbs-toolbox-collapse"]').addEventListener('click', Honeybadger.wrap(toggle));
     // Listen for toolbox tab switch
@@ -480,6 +574,7 @@ function init() {
 
     // Listen for form action requests
     root.querySelector('[data-hook="gotdibbs-toolbox-formactions"]').addEventListener('click', requestInvokeFormAction);
+    root.querySelector('[data-hook="gotdibbs-toolbox-quickactions"]').addEventListener('click', requestInvokeFormAction);
 
     show();
 }

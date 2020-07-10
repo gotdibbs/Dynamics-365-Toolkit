@@ -18,8 +18,7 @@ export default function draggable (selector) {
     };
 
     this.initPosition = function () {
-        el.style.top = "1rem";
-        el.style.right = "1rem";
+        el.style.top = 0;
     };
 
     this.events = function () {
