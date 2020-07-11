@@ -67,7 +67,7 @@
                 else {
                     // Notify honeybadger only if it looks like we might be in an actual CRM environment
                     if (/(dynamics|crm)/.test(document.location.href) &&
-                        !/(operations\.dynamics|retail\.dynamics)/.test(document.location.href)) {
+                        !/(operations\.dynamics|retail\.dynamics|ax\.dynamics.com)/.test(document.location.href)) {
                         Honeybadger.notify('Failed to detect current CRM version', { context: {
                             xrm: !!global.Xrm,
                             xrmPage: !!(global.Xrm && global.Xrm.Page),
@@ -136,7 +136,7 @@
     Honeybadger.configure({
         apiKey: '3783205f',
         environment: 'production',
-        revision: '1.12',
+        revision: '1.13',
         onerror: false,
         onunhandledrejection: false
     });

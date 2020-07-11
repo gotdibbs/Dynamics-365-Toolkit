@@ -10,6 +10,27 @@ var root,
     currentId,
     interval;
 
+function setActionDisplay(selector, displayMode) {
+    let elems = root?.querySelectorAll(selector);
+
+    if (!elems?.length) {
+        return;
+    }
+
+    elems.forEach(elem => {
+        if (elem.parentNode.nodeName === 'li') {
+            elem.parentNode.style.dispaly = displayMode;
+        }
+        else {
+            elem.style.display = displayMode;
+        }
+    });
+}
+
+function setFormActionDisplay(displayMode) {
+    setActionDisplay('[data-formdependent]', displayMode);
+}
+
 function hide(e) {
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -89,6 +110,8 @@ function updatePane() {
             root.querySelector('[data-hook="gotdibbs-toolbox-logicalname"]').innerHTML = logicalName;
 
             root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'block';
+
+            setFormActionDisplay('initial');
         }
         else {
             currentId = null;
@@ -98,6 +121,8 @@ function updatePane() {
             root.querySelector('[data-hook="gotdibbs-toolbox-logicalname"]').innerHTML = '';
 
             root.querySelector('[data-hook="gotdibbs-toolbox-recordinfo"]').style.display = 'none';
+
+            setFormActionDisplay('none');
         }
 
         if (version >= 9) {
@@ -115,15 +140,15 @@ function updatePane() {
             root.querySelector('[data-hook="gotdibbs-toolbox-version').innerHTML = state.fullVersion;
 
             if (version < 8) {
-                root.querySelector('[data-hook="gotdibbs-toolbox-opensolution"]').parentNode.style.display = 'none';
-                root.querySelector('[data-hook="gotdibbs-toolbox-roles"]').parentNode.style.display = 'none';
+                setActionDisplay('[data-hook="gotdibbs-toolbox-opensolution"]', 'none');
+                setActionDisplay('[data-hook="gotdibbs-toolbox-roles"]', 'none');
             }
             if (version >= 9) {
-                root.querySelector('[data-action="open-performance-report"]').parentNode.style.display = 'none';
-                root.querySelector('[data-action="show-record-properties"]').parentNode.style.display = 'none';
+                setActionDisplay('[data-action="open-performance-report"]', 'none');
+                setActionDisplay('[data-action="show-record-properties"]', 'none');
             }
             if (version < 9) {
-                root.querySelector('[data-action="open-ribbon-debug"]').parentNode.style.display = 'none';
+                setActionDisplay('[data-action="open-ribbon-debug"]', 'none');
             }
 
             getSecurityRoles(version < 8);

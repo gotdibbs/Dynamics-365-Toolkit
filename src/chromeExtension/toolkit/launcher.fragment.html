@@ -1,6 +1,6 @@
 <div class="gotdibbs-toolbox gotdibbs-no-select" data-hook="gotdibbs-toolbox" style="display: none;">
     <header class="gotdibbs-toolbox-header" data-hook="gotdibbs-toolbox-header">
-        GotDibbs Toolbox <small>v1.12</small>
+        GotDibbs Toolbox <small>v1.13</small>
         <span data-hook="gotdibbs-toolbox-collapse" data-expanded="true" class="gotdibbs-toolbox-action gotdibbs-toolbox-collapse">&#x25BC;</span>
         <span data-hook="gotdibbs-toolbox-close" class="gotdibbs-toolbox-action gotdibbs-toolbox-close">&#10006;</span>
     </header>
@@ -37,9 +37,9 @@
                     </div>
                     <fieldset class="gotdibbs-toolbox-quickactions" data-hook="gotdibbs-toolbox-quickactions">
                         <legend>Quick Actions</legend>
-                        <button class="gotdibbs-toolbox-quickaction" title="Toggle Schema Names" data-action="toggle-schema-names"></button>
-                        <button class="gotdibbs-toolbox-quickaction" title="Unlock All Fields" data-action="enable-all-fields"></button>
-                        <button class="gotdibbs-toolbox-quickaction" title="Show All Fields" data-action="show-all-fields"></button>
+                        <button class="gotdibbs-toolbox-quickaction" title="Toggle Schema Names" data-action="toggle-schema-names" data-formdependent></button>
+                        <button class="gotdibbs-toolbox-quickaction" title="Unlock All Fields" data-action="enable-all-fields" data-formdependent></button>
+                        <button class="gotdibbs-toolbox-quickaction" title="Show All Fields" data-action="show-all-fields" data-formdependent></button>
                         <button class="gotdibbs-toolbox-quickaction" title="Open Ribbon Debugger" data-action="open-ribbon-debug"></button>
                         <button class="gotdibbs-toolbox-quickaction" title="Report an issue or request a feature" data-action="get-support"></button>
                     </fieldset>
@@ -55,16 +55,16 @@
                 </section>
                 <section data-page="utilities" style="display: none;">
                     <ul style="font-size: 12px; list-style-type: none;" data-hook="gotdibbs-toolbox-formactions">
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Copies the unique identifier for the current record to your clipboard.' class='gotdibbs-toolbox-item-link' data-action="copy-record-id">Copy Record Id</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Copies a link to the current record to your clipboard.' class='gotdibbs-toolbox-item-link' data-action="copy-record-link">Copy Record Link</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Enables all fields on the current form, making them editable.' class='gotdibbs-toolbox-item-link' data-action="enable-all-fields">Enable All Fields</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Sets focus to a specified field based on schema name.' class='gotdibbs-toolbox-item-link' data-action="focus-field">Focus Field</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Displays information about load times for the current view.' class='gotdibbs-toolbox-item-link' data-action="open-performance-report">Open Performance Report</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Copies the unique identifier for the current record to your clipboard.' class='gotdibbs-toolbox-item-link' data-action="copy-record-id" data-formdependent>Copy Record Id</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Copies a link to the current record to your clipboard.' class='gotdibbs-toolbox-item-link' data-action="copy-record-link" data-formdependent>Copy Record Link</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Enables all fields on the current form, making them editable.' class='gotdibbs-toolbox-item-link' data-action="enable-all-fields" data-formdependent>Enable All Fields</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Sets focus to a specified field based on schema name.' class='gotdibbs-toolbox-item-link' data-action="focus-field" data-formdependent>Focus Field</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Displays information about load times for the current view.' class='gotdibbs-toolbox-item-link' data-action="open-performance-report" data-formdependent>Open Performance Report</a></li>
                         <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Opens the Command Checker to Debug Ribbon Buttons for the current entity.' class='gotdibbs-toolbox-item-link' data-action="open-ribbon-debug">Open Ribbon Debugger</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Makes all fields, tabs, and sections on the form visible.' class='gotdibbs-toolbox-item-link' data-action="show-all-fields">Show All Fields</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Displays a list of all fields on the form which are currently flagged as having changed.' class='gotdibbs-toolbox-item-link' data-action="show-dirty-fields">Show Dirty Fields</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Displays a summary of permissions and ownership for the current record.' class='gotdibbs-toolbox-item-link' data-action="show-record-properties">Show Record Properties</a></li>
-                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Switches between displaying the labels for all fields, and the schema names for those fields.' class='gotdibbs-toolbox-item-link' data-action="toggle-schema-names">Toggle Schema Names</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Makes all fields, tabs, and sections on the form visible.' class='gotdibbs-toolbox-item-link' data-action="show-all-fields" data-formdependent>Show All Fields</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Displays a list of all fields on the form which are currently flagged as having changed.' class='gotdibbs-toolbox-item-link' data-action="show-dirty-fields" data-formdependent>Show Dirty Fields</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Displays a summary of permissions and ownership for the current record.' class='gotdibbs-toolbox-item-link' data-action="show-record-properties" data-formdependent>Show Record Properties</a></li>
+                        <li class='gotdibbs-toolbox-item'><a href='javascript:void(0);' title='Switches between displaying the labels for all fields, and the schema names for those fields.' class='gotdibbs-toolbox-item-link' data-action="toggle-schema-names" data-formdependent>Toggle Schema Names</a></li>
                     </ul>
                 </section>
             </div>
