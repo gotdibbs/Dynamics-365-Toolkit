@@ -3,7 +3,7 @@
 
 
 ## What is the current behavior?
-> Please include reproduction steps if applicabble
+> Please include reproduction steps if applicable
 
 
 

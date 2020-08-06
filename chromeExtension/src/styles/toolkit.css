@@ -1,0 +1,274 @@
+.gotdibbs-no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.gotdibbs-toolbox {
+    background: #fff;
+    border: 1px solid #fff;
+    box-shadow: 1px 1px 4px 2px rgba(0,0,0,.15);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    left: calc(50vw - 13em);
+    max-width: 26em;
+    overflow: hidden;
+    padding: 1em 1.5em;
+    position: absolute;
+    top: 0;
+    width: 26em;
+    z-index: 2000000;
+}
+.gotdibbs-toolbox-container {
+    height: auto;
+    overflow: hidden;
+    transform: scaleY(1);
+    transform-origin: top;
+    transition: transform 0.3s ease-out;
+}
+.gotdibbs-toolbox-container.collapsed {
+    transform: scaleY(0);
+}
+.gotdibbs-toolbox-header {
+    cursor: move;
+    font-size: 24px;
+    font-weight: 300;
+    position: relative;
+}
+.gotdibbs-toolbox-action {
+    color: #444;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 14px;
+    position: absolute;
+    top: 0.6em;
+}
+.gotdibbs-toolbox-action:hover {
+	color: #0072C6;
+    text-shadow: 1 1 2px #005198;
+}
+.gotdibbs-toolbox-collapse {
+    transition: transform 0.2s ease-in;
+    right: 1.5em;
+}
+.gotdibbs-toolbox-collapse.collapsed {
+    transform: rotateX(180deg);
+}
+.gotdibbs-toolbox-close {
+    right: 0;
+}
+.gotdibbs-toolbox-item {
+    margin: 0.5em 0;
+    padding: 0;
+}
+a.gotdibbs-toolbox-item-link {
+    color: #0072C6;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+.gotdibbs-toolbox-item-link:hover {
+    border-bottom: 1px solid #ccc;
+}
+.gotdibbs-toolbox-info {
+    color: #000;
+    font-size: 0.8em;
+    font-weight: normal;
+}
+.gotdibbs-toolbox-info label {
+    color: #888;
+    display: block;
+    font-size: 0.9em;
+    margin-top: 0.5em;
+}
+.gotdibbs-toolbox-info span {
+    display: block;
+    font-size: 1.1em;
+}
+.gotdibbs-toolbox-info span:not(.gotdibbs-toolbox-breakwrap) {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+/* Nav */
+.gotdibbs-tabs nav {
+    text-align: center;
+}
+
+.gotdibbs-tabs nav ul {
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 1200px;
+    list-style: none;
+    -ms-box-orient: horizontal;
+    -ms-box-pack: center;
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+}
+
+.gotdibbs-tabs nav ul li {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin: 0;
+    text-align: center;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.gotdibbs-tabs nav a {
+    color: #74777b;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 2.5;
+    text-decoration: none;
+}
+
+.gotdibbs-tabs nav a span {
+    vertical-align: middle;
+    font-size: 0.75em;
+}
+
+.gotdibbs-tabs nav li.tab-current a {
+    color: #000;
+}
+
+.gotdibbs-tabs nav a:focus {
+    outline: none;
+}
+
+.gotdibbs-tabs {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100%;
+    font-weight: 300;
+    font-size: 1.25em;
+}
+
+.gotdibbs-tabs nav a {
+    overflow: visible;
+    -webkit-transition: color 0.2s;
+    transition: color 0.2s;
+}
+
+.gotdibbs-tabs nav a span {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1em;
+}
+
+.gotdibbs-tabs nav li.tab-current a:after,
+.gotdibbs-tabs nav li.tab-current a:before {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: solid transparent;
+    content: '';
+    pointer-events: none;
+}
+
+.gotdibbs-tabs nav li.tab-current a:after {
+    margin-left: -5px;
+    border-width: 5px;
+    border-top-color: #0072C6;
+}
+
+.gotdibbs-tabs nav li.tab-current a:before {
+    margin-left: -8px;
+    border-width: 8px;
+    border-top-color: rgba(0,0,0,0.2);
+}
+
+.gotdibbs-toolbox [data-page] {
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+}
+
+@media screen and (max-width: 58em) {
+    .gotdibbs-tabs nav {
+        font-size: 0.6em;
+    }
+}
+
+.gotdibbs-toolbox-quickactions {
+    border-top: 1px solid #ccc;
+    display: block;
+    margin-top: 1em;
+    padding: 0;
+    text-align: center;
+}
+
+.gotdibbs-toolbox-quickactions legend {
+    padding: 0 0.5em;
+}
+
+.gotdibbs-toolbox-quickaction {
+    background-size: 1.5rem 1.5rem !important;
+    border: none;
+    height: 2.5em;
+    margin: 0.25em;
+    padding: 1em;
+    transition: all 0.3s ease-in;
+    width: 2.5em;
+}
+
+.gotdibbs-toolbox-quickaction:hover {
+    box-shadow: 1px 1px 2px #ccc;
+}
+
+/* -- Images -- */
+.gotdibbs-toolbox-quickaction[data-action="toggle-schema-names"] {
+    background: url(../images/toggle.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="enable-all-fields"] {
+    background: url(../images/unlock.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="show-all-fields"] {
+    background: url(../images/eye.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="open-ribbon-debugger"] {
+    background: url(../images/magnifying-glass.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="get-support"] {
+    background: url(../images/help.png)
+        no-repeat
+        center;
+}

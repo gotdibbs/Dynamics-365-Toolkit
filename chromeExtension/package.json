@@ -1,0 +1,39 @@
+{
+  "name": "gotdibbs-toolbox",
+  "version": "2.0.0",
+  "description": "- public/background.js: Has access to most chrome APIs, listens for launch requests\r  - public/launcher.js: Has access to the actual tab, some chrome APIs, injects scripts to page (live in a sandbox itself)\r  - dist/toolkit.js: Has access to actual page's variables etc.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --progress -d --env.NODE_ENV=development --config ./webpack/webpack.config.js",
+    "prod": "webpack --progress -p --env.NODE_ENV=production --config ./webpack/webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.11.0",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "classnames": "^2.2.6",
+    "core-js": "^3.6.5",
+    "css-loader": "^4.2.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.6.0",
+    "eslint-config-defaults": "^9.0.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-react": "^7.20.5",
+    "extract-css-chunks-webpack-plugin": "^4.7.5",
+    "style-loader": "^1.2.1",
+    "url-loader": "^4.1.0",
+    "webpack": "^5.0.0-beta.23",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "@honeybadger-io/react": "^0.0.7",
+    "fathom-client": "^3.0.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
