@@ -1,5 +1,7 @@
 # Dynamics 365 (CRM) Toolkit
 
+![Toolkit Screenshot](https://github.com/gotdibbs/Dynamics-365-Toolkit/raw/master/chromeExtension/screenshots/screenshot1.png)
+
 Contains quick, pretty, and easy to use tools and shortcuts to assist with development in a Dynamics 365 environment.
 
 Includes:
