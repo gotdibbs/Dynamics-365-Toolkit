@@ -5,5 +5,6 @@ async function getInfo(appState) {
 export default {
     getInfo,
     isVisible: true,
+    key: 'dynamics-version',
     label: 'Dynamics Version'
 };

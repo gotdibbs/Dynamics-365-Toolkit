@@ -57,5 +57,6 @@ function isVisible(appState) {
 export default {
     navigate: Honeybadger.wrap(navigate),
     isVisible,
+    key: 'open-solution',
     title: 'Open Solution'
 };

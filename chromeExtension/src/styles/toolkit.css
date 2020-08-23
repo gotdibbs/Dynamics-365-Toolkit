@@ -64,7 +64,7 @@
 }
 a.gotdibbs-toolbox-item-link {
     color: #0072C6;
-    font-size: 14px;
+    font-size: 1.1em;
     font-weight: 500;
     text-decoration: none;
 }
@@ -76,6 +76,9 @@ a.gotdibbs-toolbox-item-link {
     font-size: 0.8em;
     font-weight: normal;
 }
+.gotdibbs-toolbox-info-item {
+    position: relative;
+}
 .gotdibbs-toolbox-info label {
     color: #888;
     display: block;
@@ -85,13 +88,32 @@ a.gotdibbs-toolbox-item-link {
 .gotdibbs-toolbox-info span {
     display: block;
     font-size: 1.1em;
+    margin-right: 1.5em;
+    min-height: 1.6em;
+}
+.gotdibbs-toolbox-info .copy {
+    background: url(../images/copy.png)
+        no-repeat
+        center;
+    background-size: 1em 1em;
+    content: "";
+    display: block;
+    filter: invert(29%) sepia(83%) saturate(4716%) hue-rotate(190deg) brightness(94%) contrast(103%);
+    height: 1em;
+    position: absolute;
+    right: 0;
+    top: 1.4em;
+    width: 1em;
+}
+.gotdibbs-toolbox-info .copy:hover {
+    filter: none;
 }
 .gotdibbs-toolbox-info span:not(.gotdibbs-toolbox-breakwrap) {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 100%;
+    width: calc(100% - 1.5em);
 }
 /* Nav */
 .gotdibbs-tabs nav {

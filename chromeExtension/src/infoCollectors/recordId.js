@@ -9,5 +9,6 @@ function isVisible(appState) {
 export default {
     getInfo,
     isVisible,
+    key: 'record-id',
     label: 'Record Id'
 };

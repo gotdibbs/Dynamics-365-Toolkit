@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as Fathom from 'fathom-client';
 
 function copy(e) {
-    let source = e.target,
-        html = source.innerHTML,
+    e.preventDefault();
+
+    let source = e.target;
+
+    if (source.classList.contains('copy')) {
+        source = source.previousSibling;
+    }
+
+    let html = source.innerHTML,
         text = source.textContent;
 
     var input = document.createElement('input');
@@ -19,7 +27,7 @@ function copy(e) {
         source.innerHTML = html;
     }, 1000);
 
-    fathom('trackGoal', 'D0KU4IIK', 0);
+    Fathom.trackGoal('D0KU4IIK', 0);
 }
 
 export default function InfoTabItem({ collector, appState }) {
@@ -36,12 +44,13 @@ export default function InfoTabItem({ collector, appState }) {
     }, [appState]);
 
     return (
-        <div>
+        <div className="gotdibbs-toolbox-info-item">
             <label>{collector.label}</label>
             <span title="Double click to copy"
                 className={collector.className}
-                onDoubleClick={copy} 
+                onDoubleClick={copy}
                 dangerouslySetInnerHTML={{ __html: displayValue }}/>
+            <a href="#" onClick={copy} className="copy" title="Click to Copy"></a>
         </div>
     );
 }

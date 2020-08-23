@@ -24,6 +24,17 @@ function launchRibbonDebug(setIsExpanded, retries = 0) {
     Fathom.trackGoal('ASIUFPXT', 0);
 }
 
+function confirmReload() {
+    if (window.confirm('We were unable to auto-launch the ribbon debugger, so we need to refresh the page then the ribbon debugger should be available. Cool?')) {
+        window.location.href = window.location.href + '&ribbondebug=true';
+        Fathom.trackGoal('T5LLXM4X', 0);
+    }
+    else {
+        // Track cancel
+        Fathom.trackGoal('SZGWWMPT', 0);
+    }
+}
+
 function openRibbonDebugger(appState, setIsExpanded) {
     if (window.location.search.match(/ribbondebug/)) {
         return launchRibbonDebug(setIsExpanded);
@@ -34,7 +45,8 @@ function openRibbonDebugger(appState, setIsExpanded) {
         let storeName = Object.keys(window).find(k => k?.startsWith('__store$'));
 
         if (!storeName) {
-            throw new Error('Failed to find redux store on window');
+            confirmReload();
+            return;
         }
 
         let store = window[storeName];
@@ -73,10 +85,7 @@ function openRibbonDebugger(appState, setIsExpanded) {
             message: 'Error encountered while attempting to open the ribbon debugger'
         });
 
-        if (window.confirm('We were unable to auto-launch the ribbon debugger, so we need to refresh the page then the ribbon debugger should be available. Cool?')) {
-            window.location.href = window.location.href + '&ribbondebug=true';
-            Fathom.trackGoal('T5LLXM4X', 0);
-        }
+        confirmReload();
     }
 }
 

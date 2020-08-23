@@ -1,6 +1,6 @@
 async function getInfo(appState) {
     const xrm = appState.context.Xrm;
-    
+
     if (appState.recordId) {
         return [
             xrm.Page.context.getClientUrl(),
@@ -22,5 +22,6 @@ function isVisible(appState) {
 export default {
     getInfo,
     isVisible,
+    key: 'record-url',
     label: 'Record URL'
 };

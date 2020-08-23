@@ -1,7 +1,7 @@
 {
   "name": "gotdibbs-toolbox",
-  "version": "2.0.0",
-  "description": "- public/background.js: Has access to most chrome APIs, listens for launch requests\r  - public/launcher.js: Has access to the actual tab, some chrome APIs, injects scripts to page (live in a sandbox itself)\r  - dist/toolkit.js: Has access to actual page's variables etc.",
+  "version": "2.1.0",
+  "description": "Admin tools for Dynamics 365/CRM",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --progress -d --env.NODE_ENV=development --config ./webpack/webpack.config.js",
@@ -16,6 +16,7 @@
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
     "classnames": "^2.2.6",
+    "copy-webpack-plugin": "^6.0.3",
     "core-js": "^3.6.5",
     "css-loader": "^4.2.1",
     "dotenv": "^8.2.0",
@@ -28,7 +29,8 @@
     "style-loader": "^1.2.1",
     "url-loader": "^4.1.0",
     "webpack": "^5.0.0-beta.23",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^3.3.12",
+    "zip-webpack-plugin": "^3.0.0"
   },
   "dependencies": {
     "@honeybadger-io/react": "^0.0.7",

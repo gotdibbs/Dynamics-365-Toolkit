@@ -12,7 +12,7 @@ function getGlobalContext(xrm) {
 function parseGlobalSecurityRoles(xrm) {
     const context = getGlobalContext(xrm);
 
-    return context && context.userSettings && context.userSettings.roles && 
+    return context && context.userSettings && context.userSettings.roles &&
         context.userSettings.roles.getAll && context.userSettings.roles.getAll();
 }
 
@@ -27,7 +27,7 @@ async function getInfo(appState) {
 
             if (roles && roles.length) {
                 let result = [];
-                
+
                 roles.forEach(r => {
                     result.push(['<a href="', serverUrl, '/biz/roles/edit.aspx?id=', r.id, '" target="_blank" class="gotdibbs-toolbox-item-link">', r.name, '</a>'].join(''));
                 });
@@ -86,6 +86,7 @@ async function getInfo(appState) {
 export default {
     getInfo,
     isVisible: true,
+    key: 'security-roles',
     label: 'Security Roles',
     className: 'gotdibbs-toolbox-breakwrap'
 };

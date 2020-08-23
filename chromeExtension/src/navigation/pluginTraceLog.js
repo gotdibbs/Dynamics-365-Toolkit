@@ -14,5 +14,6 @@ function navigate(appState) {
 export default {
     navigate: Honeybadger.wrap(navigate),
     isVisible: true,
+    key: 'plugin-trace-logs',
     title: 'Plugin Trace Logs'
 };

@@ -25,5 +25,6 @@ function isVisible(appState) {
 export default {
     getInfo,
     isVisible,
+    key: 'app-name',
     label: 'App Name'
 };

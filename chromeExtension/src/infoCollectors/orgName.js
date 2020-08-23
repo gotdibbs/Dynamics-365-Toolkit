@@ -7,5 +7,6 @@ async function getInfo(appState) {
 export default {
     getInfo,
     isVisible: true,
+    key: 'org-name',
     label: 'Organization Unique Name'
 };
