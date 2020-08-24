@@ -29,7 +29,7 @@ function getDynamicsState() {
         }
         else if (/^[6,7,8]\.\d+$/.test(global.APPLICATION_VERSION)) {
             var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
-            
+
             if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm) {
                 state = {
                     context: $iframe[0].contentWindow,
@@ -81,7 +81,7 @@ function getDynamicsState() {
         else {
             // Notify honeybadger only if it looks like we might be in an actual CRM environment
             if (/(dynamics|crm)/.test(document.location.href) &&
-                !/(operations\.dynamics|retail\.dynamics|ax\.dynamics.com)/.test(document.location.href)) {
+                !/(operations|retail|ax|home)\.dynamics/.test(document.location.href)) {
                 Honeybadger.notify('Failed to detect current CRM version', { context: {
                     xrm: !!global.Xrm,
                     xrmPage: !!(global.Xrm && global.Xrm.Page),
@@ -115,7 +115,7 @@ function getAppState() {
         });
 
         const isForm = (dynamicsState.context && dynamicsState.context.Xrm &&
-            dynamicsState.context.Xrm.Page && 
+            dynamicsState.context.Xrm.Page &&
             dynamicsState.context.Xrm.Page.ui && dynamicsState.context.Xrm.Page.data &&
             dynamicsState.context.Xrm.Page.data.entity);
 
@@ -170,7 +170,7 @@ const AppStateProvider = ({ children }) => {
                 newState.isForm != previousAppState.current.isForm ||
                 newState.recordId != previousAppState.current.recordId ||
                 newState.logicalName != previousAppState.current.logicalName) {
-                
+
                 // Only update the state if a key value has changed
                 setAppState(newState);
                 previousAppState.current = newState;
