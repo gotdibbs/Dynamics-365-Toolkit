@@ -4,6 +4,9 @@
 
 Contains quick, pretty, and easy to use tools and shortcuts to assist with development in a Dynamics 365 environment.
 
+* ### [Chrome Extension](https://chrome.google.com/webstore/devconsole/2a32dd73-ad4f-4679-92a4-e373d1d25970/ajhcbjjgonogiifldoofdeonjclcehkh/edit?hl=en_US)
+* ### [Edge Extension](https://microsoftedge.microsoft.com/addons/detail/gotdibbs-toolbox-for-dyna/ennkdndjfimjjdklpmkacjfnbaebddom)
+
 ## Keyboard Shortcut
 
 Once installed, press `Alt` + `Shift` + `G` to open the toolbox when inside Dynamics.
