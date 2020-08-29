@@ -1,0 +1,27 @@
+{
+  "name": "dynamics-365-toolkit-integration-tests",
+  "version": "1.0.0",
+  "description": "Integration Tests for the Dynamics 365 Toolkit",
+  "main": "index.js",
+  "scripts": {
+    "test": "wdio run wdio.conf.js"
+  },
+  "author": "GotDibbs",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.10.5",
+    "@wdio/browserstack-service": "^6.4.0",
+    "@wdio/cli": "^6.4.4",
+    "@wdio/cucumber-framework": "^6.4.3",
+    "@wdio/local-runner": "^6.4.4",
+    "@wdio/spec-reporter": "^6.4.0",
+    "@wdio/sync": "^6.4.0",
+    "chromedriver": "^85.0.0",
+    "dotenv": "^8.2.0",
+    "wdio-chromedriver-service": "^6.0.3"
+  }
+}
