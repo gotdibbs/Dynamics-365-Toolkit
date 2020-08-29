@@ -1,0 +1,8 @@
+{
+    "include": [
+      "**/*.js",
+      "**/*.json",
+      "node_modules/webdriverio",
+      "node_modules/@wdio/cucumber-framework"
+    ]
+  }

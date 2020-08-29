@@ -28,7 +28,7 @@ Key components of the React app are listed below. Redux is intentionally not use
 3. `cd` to `chromeExtensions`
 4. Run `yarn install`
 5. Run `yarn dev` after making changes
-6. Load the extension, unpacked, into Chrome
+6. Load the extension, unpacked, into Chrome:
  - Open Chrome
  - Navigate to `chrome://extensions/`
  - Toggle on `Developer mode`

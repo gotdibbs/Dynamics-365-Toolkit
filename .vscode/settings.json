@@ -11,9 +11,11 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "git.ignoreLimitWarning": true,
     "[yaml]": {
       "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
     },
 }

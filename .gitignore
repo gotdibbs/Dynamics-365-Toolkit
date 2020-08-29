@@ -120,3 +120,4 @@ Tasks.txt
 .DS_Store
 webpack_cache/
 .env
+**/screenshots/*.png
