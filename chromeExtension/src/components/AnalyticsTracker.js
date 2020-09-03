@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import * as Fathom from 'fathom-client';
 
 export default function AnalyticsTracker({ children }) {

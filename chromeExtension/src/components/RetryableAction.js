@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Honeybadger from 'honeybadger-js';
 
 function handleError(e, action, version) {

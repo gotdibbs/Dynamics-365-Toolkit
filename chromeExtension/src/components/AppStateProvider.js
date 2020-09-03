@@ -106,7 +106,7 @@ function getAppState() {
         const dynamicsState = getDynamicsState();
 
         if (!dynamicsState) {
-            return defaultState;
+            return;
         }
 
         Honeybadger.setContext({

@@ -20,6 +20,11 @@
     width: 26em;
     z-index: 2000000;
 }
+.gotdibbs-toolbox-loading::after {
+    display: block;
+    content: 'Loading...';
+    animation: loading-text 12s infinite;
+}
 .gotdibbs-toolbox-container {
     height: auto;
     overflow: hidden;
@@ -293,4 +298,13 @@ a.gotdibbs-toolbox-item-link {
     background: url(../images/help.png)
         no-repeat
         center;
+}
+
+@keyframes loading-text {
+    0% {
+      content: "Loading...";
+    }
+    100% {
+      content: "Still trying to load, but are you sure you're in a supported Dynamics 365 environment?";
+    }
 }
