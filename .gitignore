@@ -119,5 +119,4 @@ dist
 Tasks.txt
 .DS_Store
 webpack_cache/
-manifest.json
 .env

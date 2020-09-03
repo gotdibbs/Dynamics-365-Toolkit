@@ -13,4 +13,7 @@
     },
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "git.ignoreLimitWarning": true,
+    "[yaml]": {
+      "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
 }

@@ -1,0 +1,35 @@
+name: Main
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./chromeExtension
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+            file_name: ./chromeExtension/.env
+        env:
+            INPUT_ENVKEY_FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+            INPUT_ENVKEY_HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+            node-version: 12
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn prod
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: chromeExtension/dist/extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

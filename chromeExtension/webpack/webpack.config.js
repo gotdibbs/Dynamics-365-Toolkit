@@ -71,7 +71,7 @@ module.exports = {
             ]
         }),
         new ZipPlugin({
-            filename: 'chromeExtension.zip'
+            filename: 'extension.zip'
         })
     ]
 };
