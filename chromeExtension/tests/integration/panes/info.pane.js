@@ -1,9 +1,9 @@
-import Pane from './pane';
+import { Toolbox } from './toolbox';
 
 /**
  * sub page containing specific selectors and methods for a specific page
  */
-class InfoPane extends Pane {
+class InfoPane extends Toolbox {
     /**
      * define selectors using getter methods
      */
@@ -11,14 +11,8 @@ class InfoPane extends Pane {
     get inputPassword () { return $('#password') }
     get btnSubmit () { return $('button[type="submit"]') }
 
-    /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
-     */
     login(username, password) {
-        this.inputUsername.setValue(username);
-        this.inputPassword.setValue(password);
-        this.btnSubmit.click();
+        browser.pause(10000);
     }
 
     /**

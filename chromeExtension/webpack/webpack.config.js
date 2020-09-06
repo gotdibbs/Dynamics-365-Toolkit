@@ -4,7 +4,6 @@ const dotenv = require('dotenv');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const Package = require('../package.json');
 const webpack = require('webpack');
-const WebpackCrx = require('./webpack-crx');
 const ZipPlugin = require('zip-webpack-plugin');
 
 const currentEnv = dotenv.config({ path: path.resolve(__dirname, '..', '.env') }).parsed;
@@ -70,13 +69,6 @@ module.exports = {
                     to: destFolder
                 }
             ]
-        }),
-        new WebpackCrx({
-            key: path.resolve(__dirname, '..', 'key.pem'),
-            src: destFolder,
-            dest: path.resolve(__dirname, '..', 'tests/integration'),
-            name: 'test_extension',
-            version: Package.version
         }),
         new ZipPlugin({
             filename: 'extension.zip'

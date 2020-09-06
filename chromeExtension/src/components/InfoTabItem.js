@@ -44,7 +44,7 @@ export default function InfoTabItem({ collector, appState }) {
     }, [appState]);
 
     return (
-        <div className="gotdibbs-toolbox-info-item">
+        <div className="gotdibbs-toolbox-info-item" data-testid={collector.key}>
             <label>{collector.label}</label>
             <span title="Double click to copy"
                 className={collector.className}
