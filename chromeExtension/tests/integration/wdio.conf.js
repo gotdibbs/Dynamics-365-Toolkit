@@ -1,13 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const AuthenticationManager = require('./utilities/AuthenticationManager');
+const ScenarioHelper = require('./utilities/ScenarioHelper');
 
 // Load `process.env`
 require('dotenv').config();
-
-// Load CRX
-const file_path = path.resolve(__dirname, 'test_extension.crx');
-let buff = new Buffer.from(fs.readFileSync(file_path));
-const base64data = buff.toString('base64');
 
 exports.config = {
     //
@@ -66,30 +63,34 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: [{
-
-        // maxInstances can get overwritten per capability. So if you have an in-house Selenium
-        // grid with only 5 firefox instances available you can make sure that not more than
-        // 5 instances get started at a time.
-        maxInstances: 1,
-        //
-        browserName: 'chrome',
-        acceptInsecureCerts: true,
-        'goog:chromeOptions': {
-            // Install upon starting browser in order to launch it
-            extensions: [base64data]
-        }
-        // If outputDir is provided WebdriverIO can capture driver session logs
-        // it is possible to configure which logTypes to include/exclude.
-        // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
-        // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+    capabilities: [
+        {
+            // maxInstances can get overwritten per capability. So if you have an in-house Selenium
+            // grid with only 5 firefox instances available you can make sure that not more than
+            // 5 instances get started at a time.
+            maxInstances: 1,
+            //
+            browserName: 'chrome',
+            browserVersion: 'beta'
+            // If outputDir is provided WebdriverIO can capture driver session logs
+            // it is possible to configure which logTypes to include/exclude.
+            // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
+            // excludeDriverLogs: ['bugreport', 'server'],
+        },
+        // {
+        //     maxInstances: 1,
+        //     browserName: 'Edge',
+        //     browserVersion: 'latest',
+        //     // Empty options object seems to be needed for some reason
+        //     'bstack:options' : {}
+        // }
+    ],
     //
     // ===================
     // Test Configurations
@@ -97,7 +98,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'warn',
     //
     // Set specific log levels per logger
     // loggers:
@@ -121,10 +122,10 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://localhost',
+    baseUrl: process.env.DYNAMICS_URL,
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 15000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
@@ -138,8 +139,8 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: [
-        ['chromedriver', {}]
-        //['browserstack', {}]
+        //['chromedriver', {}],
+        ['browserstack', {}]
     ],
 
     // Framework you want to run your specs with.
@@ -234,8 +235,9 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    // before: function (capabilities, specs) {
-    // },
+    before: function (capabilities, specs) {
+        new AuthenticationManager().login();
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
@@ -275,19 +277,21 @@ exports.config = {
             .replace('.feature', '');
 
         let fileName = [
-            screenshotPath, '/',
             (new Date()).toLocaleDateString(), ' - ',
-            ['ERROR', browser.requestedCapabilities.browserName, browser.capabilities.version, featureName].join('_'),
+            ['ERROR', browser.requestedCapabilities.browserName, browser.capabilities.browserVersion, featureName].join('_'),
             '.png'
-        ].join('');
-
-        browser.saveScreenshot(fileName);
+        ].join('').replace(/(\/|\\)/g, '-');
+        browser.saveScreenshot(path.join(screenshotPath, '/', fileName));
     },
     /**
      * Runs after a Cucumber scenario
      */
-    // afterScenario: function (uri, feature, scenario, result, sourceLocation, context) {
-    // },
+    afterScenario: function (uri, feature, scenario, result, sourceLocation, context) {
+        const helper = new ScenarioHelper();
+
+        helper.closeToolbox();
+        helper.navigateHome();
+    },
     /**
      * Runs after a Cucumber feature
      */
