@@ -1,8 +1,11 @@
+const fs = require('fs');
 const helpers = require('./utilities/BrowserstackHelper');
 
 // Load `process.env`
 require('dotenv').config();
 
+// Request latest browser versions from browserstack
+// Use these to define our capabilities
 async function parseLatestBrowsers() {
     const latestBrowsers = await helpers.getBrowsers();
 
@@ -13,29 +16,25 @@ async function parseLatestBrowsers() {
     const requestedBrowsers = [
         {
             os: 'Windows',
-            browser: 'chrome',
-            version: 'dev'
+            browserName: 'chrome',
+            browserVersion: 'beta'
         },
         {
-            os: 'Mac',
-            browser: 'chrome',
-            version: 'dev'
+            os: 'OS X',
+            browserName: 'chrome',
+            browserVersion: 'beta'
         },
         {
             os: 'Windows',
-            browser: 'Edge',
-            version: 'dev',
-            extensions: {
-                'bstack:options' : {}
-            }
+            browserName: 'edge',
+            browserVersion: 'beta',
+            'bstack:options' : {}
         },
         {
-            os: 'Mac',
-            browser: 'Edge',
-            version: 'dev',
-            extensions: {
-                'bstack:options' : {}
-            }
+            os: 'OS X',
+            browserName: 'edge',
+            browserVersion: 'beta',
+            'bstack:options' : {}
         }
     ];
 
@@ -51,7 +50,7 @@ async function parseLatestBrowsers() {
         },
         {
             ...defaults,
-            browserName: 'Edge',
+            browserName: 'edge',
             browserVersion: 'latest',
             'bstack:options' : {}
         }
@@ -60,19 +59,22 @@ async function parseLatestBrowsers() {
     requestedBrowsers.forEach(requestedBrowser => {
         const match = latestBrowsers.find(browser => {
             return browser.os === requestedBrowser.os &&
-                browser.browser === requestedBrowser.browser &&
+                browser.browser === requestedBrowser.browserName &&
                 browser.browser_version != null &&
-                browser.browser_version.match(requestedBrowser.version);
+                browser.browser_version.match(requestedBrowser.browserVersion);
         });
 
         if (!match) {
             throw new Error('Could not locate a matching browser for: ' + JSON.stringify(requestedBrowser));
         }
 
-        capabilities.push(match);
+        capabilities.push({
+            ...requestedBrowser,
+            browserVersion: match.browser_version
+        });
     });
 
-    console.log(capabilities);
+    fs.writeFileSync('./capabilities.json', JSON.stringify(capabilities, null, 4));
 }
 
 return parseLatestBrowsers();
