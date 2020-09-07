@@ -121,3 +121,4 @@ Tasks.txt
 webpack_cache/
 .env
 **/screenshots/*.png
+capabilities.json
