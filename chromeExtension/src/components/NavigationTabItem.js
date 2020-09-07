@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-export default function NavigationTabItem({ navigator, appState }) {
+import { StoreContext } from './StoreProvider';
+
+export default function NavigationTabItem({ navigator }) {
+    const { state, actions } = useContext(StoreContext);
 
     function handleClick(e) {
         e.preventDefault();
 
-        navigator.navigate(appState);
+        navigator.navigate(state, actions);
     }
 
     return (
         <li className="gotdibbs-toolbox-item">
-            <a href="#" className="gotdibbs-toolbox-item-link" onClick={handleClick}>
+            <a href="#" className="gotdibbs-toolbox-item-link" onClick={handleClick} data-testid={navigator.key}>
                 {navigator.title}
             </a>
         </li>

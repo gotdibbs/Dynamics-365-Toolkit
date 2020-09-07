@@ -1,9 +1,11 @@
 import * as Fathom from 'fathom-client';
 
-function showDirtyFields({ context: formContext }) {
+function showDirtyFields() {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
+
     var dirtyAttributes = [];
 
-    formContext.Xrm.Page.data.entity.attributes.forEach(function (c, i) {
+    xrm.Page.data.entity.attributes.forEach(function (c, i) {
         if (c && c.getIsDirty && c.getIsDirty()) {
             dirtyAttributes.push(c.getName());
         }

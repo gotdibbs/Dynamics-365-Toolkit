@@ -1,4 +1,4 @@
-Feature: Toolbox App
+Feature: Toolbox
 
   Scenario: Toolbox is able to be closed
     Given I am on the default pane

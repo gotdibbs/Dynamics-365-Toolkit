@@ -16,13 +16,13 @@ function parseGlobalSecurityRoles(xrm) {
         context.userSettings.roles.getAll && context.userSettings.roles.getAll();
 }
 
-async function getInfo(appState) {
+async function getInfo(state) {
     try {
-        const xrm = appState.context.Xrm;
+        const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
         let serverUrl = xrm.Page.context.getClientUrl();
 
-        if (appState.majorVersion > 8) {
+        if (state.majorVersion > 8) {
             let roles = parseGlobalSecurityRoles(xrm);
 
             if (roles && roles.length) {
@@ -38,7 +38,7 @@ async function getInfo(appState) {
 
         let roles = xrm.Page.context.getUserRoles();
 
-        if (appState.majorVersion < 8) {
+        if (state.majorVersion < 8) {
             return roles.join(', ');
         }
 

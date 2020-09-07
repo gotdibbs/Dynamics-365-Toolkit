@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+    useContext,
+    useEffect,
+    useState
+} from 'react';
 import * as Fathom from 'fathom-client';
+
+import { StoreContext } from './StoreProvider';
 
 function copy(e) {
     e.preventDefault();
@@ -22,6 +28,7 @@ function copy(e) {
     input.remove();
 
     source.innerHTML = 'Copied!';
+    source.dataset['value'] = text;
 
     setTimeout(() => {
         source.innerHTML = html;
@@ -30,18 +37,19 @@ function copy(e) {
     Fathom.trackGoal('D0KU4IIK', 0);
 }
 
-export default function InfoTabItem({ collector, appState }) {
+export default function InfoTabItem({ collector }) {
     const [displayValue, setDisplayValue] = useState('');
+    const { state } = useContext(StoreContext);
 
     useEffect(() => {
         async function fetchData() {
-            let info = await collector.getInfo(appState);
+            let info = await collector.getInfo(state);
 
             setDisplayValue(info);
         }
 
         fetchData();
-    }, [appState]);
+    }, [state]);
 
     return (
         <div className="gotdibbs-toolbox-info-item" data-testid={collector.key}>

@@ -1,0 +1,53 @@
+name: Test
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./chromeExtension
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+            file_name: ./chromeExtension/.env
+        env:
+            INPUT_ENVKEY_FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
+            INPUT_ENVKEY_HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
+            INPUT_ENVKEY_SUMO_LOGIC_COLLECTOR: ${{ secrets.SUMO_LOGIC_COLLECTOR }}
+            INPUT_ENVKEY_DISABLE_LOGGING: true
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+            node-version: 12
+      - name: Install App Dependencies
+        run: yarn --frozen-lockfile
+      - name: Build App
+        run: yarn prod
+      - name: Make test envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+            file_name: ./chromeExtension/tests/integration/.env
+        env:
+            INPUT_ENVKEY_BROWSERSTACK_USER: ${{ secrets.BROWSERSTACK_USER }}
+            INPUT_ENVKEY_BROWSERSTACK_ACCESSKEY: ${{ secrets.BROWSERSTACK_ACCESSKEY }}
+            INPUT_ENVKEY_DYNAMICS_URL: ${{ secrets.DYNAMICS_URL }}
+            INPUT_ENVKEY_DYNAMICS_USER: ${{ secrets.DYNAMICS_USER }}
+            INPUT_ENVKEY_DYNAMICS_PASSWORD: ${{ secrets.DYNAMICS_PASSWORD }}
+      - name: Setup Tests
+        run: |
+          cd tests/integration
+          yarn --frozen-lockfile
+      - name: Run Tests
+        run: yarn test:integration
+      - name: Upload any failures
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: ./chromeExtension/tests/integration/screenshots/**/*.*
+        if: ${{ failure() }}
+

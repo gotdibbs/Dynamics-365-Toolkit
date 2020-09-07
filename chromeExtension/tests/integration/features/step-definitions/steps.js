@@ -6,27 +6,54 @@ import Panes from '../../panes';
 // US Dollar - this may fail, but you can point it to another record in your test environment
 const RECORD_LOGICAL_NAME = 'transactioncurrency';
 const RECORD_ID = '0202afa1-a6c3-ea11-a812-000d3a579b7d'.toLowerCase();
+const SOLUTION_NAME = 'default';
 
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function loadPane(pane) {
+function loadRecord() {
+    let isSuccess = browser.execute((logicalName, id) => {
+        try {
+            Xrm.Utility.openEntityForm(logicalName, id);
+            return true;
+        }
+        catch {}
+    }, RECORD_LOGICAL_NAME, RECORD_ID);
+
+    if (!isSuccess) {
+        // Backup, but noisy to the `info` logs as toolkit needs to be re-injected
+        browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}&id=${RECORD_ID}`);
+    }
+
+    Panes.Dynamics.FormHeader.waitForDisplayed();
+}
+
+function loadPane(pane, isViewingRecord) {
     if (pane == 'default') {
         pane = 'toolbox';
     }
 
     Panes[capitalize(pane)].open();
+
+    if (!isViewingRecord) {
+        return;
+    }
+
+    loadRecord();
 }
 
-Given(/i am on the (\w+) pane/i, loadPane);
+Given(/i am on the (\w+) pane( and viewing a record)?/i, loadPane);
 
-Given(/i am viewing a record/i, () => {
-    browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}&id=${RECORD_ID}`);
-    $('[data-id="form-header"]').waitForDisplayed();
+Given(/i am viewing a record/i, loadRecord);
+
+When(/i drag the header/i, () => {
+    Panes.Toolbox.Header.dragAndDrop({ x: 100, y: 100 });
 });
 
-When(/i click on the (\w+) button( again)?/i, (buttonText, again) => {
+When(/i am viewing the (\w+) pane/i, loadPane);
+
+When(/i click on the (.+) (button|link)( again)?/i, (buttonText, type, again) => {
     let button = null;
 
     switch (buttonText) {
@@ -37,9 +64,10 @@ When(/i click on the (\w+) button( again)?/i, (buttonText, again) => {
             button = Panes.Toolbox.CloseButton;
             break;
         case 'copy':
-            button = $(`[data-testid="dynamics-version"] .copy`);
+            button = Panes.Info.CopyButton;
             break;
         default:
+            button = $(`[data-testid="${buttonText}"]`);
             break;
     }
 
@@ -54,11 +82,26 @@ When(/i click on the (\w+) button( again)?/i, (buttonText, again) => {
     }
 });
 
-When(/i drag the header/i, () => {
-    Panes.Toolbox.Header.dragAndDrop({ x: 100, y: 100 });
+When(/i invoke the (.+) action/i, (action) => {
+    if (action === 'open-record-list') {
+        Panes.Navigation.openRecordList(RECORD_LOGICAL_NAME);
+    }
+    else if (action === 'open-record') {
+        Panes.Navigation.openRecord(RECORD_LOGICAL_NAME, RECORD_ID);
+    }
+    else if (action === 'open-solution') {
+        Panes.Navigation.openSolution(SOLUTION_NAME);
+    }
+    else if (action === 'copy-record-id') {
+        Panes.Utilities.copyRecordId();
+    }
+    else if (action === 'copy-record-link') {
+        Panes.Utilities.copyRecordLink();
+    }
+    else {
+        throw new Error('Unsupported action: ' + action);
+    }
 });
-
-When(/i am viewing the (\w+) pane/i, loadPane);
 
 Then(/i should see the correct version number/i, () => {
     expect(Panes.Toolbox.Version).toHaveText('v' + Package.version);
@@ -129,12 +172,9 @@ Then(/i should see (.*) display a link to (.*)$/i, (field, entity) => {
 });
 
 Then(/i should have copied the correct value/i, () => {
-    // Wait for "Copied!" display effect to go away
-    browser.pause(1100);
-
     const valueElement = $(`[data-testid="dynamics-version"] span`);
     expect(valueElement).toExist();
-    const expectedText = valueElement.getText();
+    const expectedText = valueElement.getAttribute('data-value');
 
     browser.execute(() => {
         let elem = document.createElement('input');
@@ -154,4 +194,68 @@ Then(/i should have copied the correct value/i, () => {
     browser.execute(() => {
         document.getElementById('gotdibbs-test-fixture').remove();
     }, []);
+});
+
+Then(/i should have copied the (.+) to my clipboard/i, (valueType) => {
+    browser.execute(() => {
+        let elem = document.createElement('input');
+        elem.type = 'text';
+        elem.id = 'gotdibbs-test-fixture';
+        document.body.appendChild(elem);
+    }, []);
+
+    const inputFixture = $('#gotdibbs-test-fixture');
+    // https://twitter.com/webdriverio/status/812034986341789696?lang=en
+    inputFixture.setValue(['Shift', 'Insert']);
+
+    const actualText = inputFixture.getValue();
+
+    let matcher = null;
+
+    switch (valueType) {
+        case 'record id':
+            matcher = new RegExp(RECORD_ID, 'i');
+            break;
+        case 'record url':
+            matcher = new RegExp(`etn=${RECORD_LOGICAL_NAME}&id=[{]?${RECORD_ID}[}]?`, 'i');
+            break;
+    }
+
+    expect(actualText).toMatch(matcher);
+
+    browser.execute(() => {
+        document.getElementById('gotdibbs-test-fixture').remove();
+    }, []);
+});
+
+Then(/a new window should open to show the (.+) (editor|list|page)$/i, (component, type) => {
+    const currentWindow = browser.getWindowHandle();
+
+    if (component === 'record' && type === 'list') {
+        browser.switchWindow(new RegExp(`etn=${RECORD_LOGICAL_NAME}`));
+    }
+    else if (component === 'record' && type === 'editor') {
+        browser.switchWindow(new RegExp(`id=${RECORD_ID}`));
+    }
+    else {
+        throw new Error(`Couldn't find ${component}/${type}`);
+    }
+
+    browser.execute(() => window.close());
+    browser.switchToWindow(currentWindow);
+});
+
+Then(/a new window should open with "(.+)" in the (title|url)$/i, (title, matchType) => {
+    const currentWindow = browser.getWindowHandle();
+
+    browser.waitUntil(() => browser.getWindowHandles().length > 1);
+
+    // The title will be 'Microsoft Dynamics 365' until the page loads, so it is
+    //  safe to wait for that title to transition, but then we need to wait for the
+    //  the actual title to be present to pass the vibe check
+    browser.switchWindow(new RegExp(`(${title})|(^Microsoft Dynamics 365)`, 'i'));
+    browser.waitUntil(() => new RegExp(title).test(browser.getTitle()));
+
+    browser.execute(() => window.close());
+    browser.switchToWindow(currentWindow);
 });

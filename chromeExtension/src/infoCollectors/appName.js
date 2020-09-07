@@ -1,5 +1,5 @@
-async function getInfo(appState) {
-    const xrm = appState.context.Xrm;
+async function getInfo(state) {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
     let context = null;
 
@@ -18,8 +18,8 @@ async function getInfo(appState) {
     }
 }
 
-function isVisible(appState) {
-    return appState.majorVersion > 8;
+function isVisible(state) {
+    return state.majorVersion > 8;
 }
 
 export default {

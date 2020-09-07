@@ -21,17 +21,6 @@ async function parseLatestBrowsers() {
         },
         {
             os: 'OS X',
-            browserName: 'chrome',
-            browserVersion: 'beta'
-        },
-        {
-            os: 'Windows',
-            browserName: 'edge',
-            browserVersion: 'beta',
-            'bstack:options' : {}
-        },
-        {
-            os: 'OS X',
             browserName: 'edge',
             browserVersion: 'beta',
             'bstack:options' : {}

@@ -1,8 +1,8 @@
 {
     "include": [
-      "**/*.js",
-      "**/*.json",
-      "node_modules/webdriverio",
-      "node_modules/@wdio/cucumber-framework"
+        "**/*.js",
+        "**/*.json",
+        "node_modules/@wdio/sync",
+        "node_modules/@wdio/cucumber-framework"
     ]
-  }
+}

@@ -1,4 +1,4 @@
-Feature: Info Panel Loads
+Feature: Info Pane
 
   Scenario Outline: Info pane displays application data
 

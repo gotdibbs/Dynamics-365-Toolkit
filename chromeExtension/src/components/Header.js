@@ -5,13 +5,13 @@ import Package from '../../package.json';
 
 import Draggable from '../draggable';
 
-export default function Header({ setIsOpen, setIsExpanded, isExpanded }) {
+export default function Header({ setIsOpen, toggleExpanded, isExpanded }) {
     useEffect(() => {
         new Draggable('[data-hook="gotdibbs-toolbox-header"]');
     }, []);
 
     function toggle() {
-        setIsExpanded(expanded => !expanded);
+        toggleExpanded();
 
         Fathom.trackGoal('4DZRNHHM', 0);
     }

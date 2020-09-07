@@ -19,7 +19,7 @@ function trimDate(targetLength) {
     return result.substr(0, targetLength);
 }
 
-function setFieldValue(attribute, formContext) {
+function setFieldValue(attribute, xrm) {
     if (attribute.getRequiredLevel() !== 'required' || attribute.getValue()) {
         return;
     }
@@ -50,14 +50,16 @@ function setFieldValue(attribute, formContext) {
     }
 }
 
-function populateRequiredFields({ context: formContext }) {
-    if (formContext.Xrm.Page.ui.getFormType() !== 1) {
+function populateRequiredFields() {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
+
+    if (xrm.Page.ui.getFormType() !== 1) {
         alert('This action cannot be run against an existing record.');
         return;
     }
 
-    formContext.Xrm.Page.data.entity.attributes
-        .forEach(attribute => setFieldValue(attribute, formContext));
+    xrm.Page.data.entity.attributes
+        .forEach(attribute => setFieldValue(attribute, xrm));
 
     Fathom.trackGoal('KUBOKLQ9', 0);
 }

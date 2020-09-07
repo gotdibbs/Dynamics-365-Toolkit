@@ -1,7 +1,7 @@
 import * as Fathom from 'fathom-client';
 import Honeybadger from 'honeybadger-js';
 
-function launchRibbonDebug(setIsExpanded, retries = 0) {
+function launchRibbonDebug(toggleExpanded, retries = 0) {
     let button = document.getElementById('CommandChecker') ||
         document.querySelector('button[data-id="CommandChecker"]')?.parentNode;
 
@@ -13,13 +13,13 @@ function launchRibbonDebug(setIsExpanded, retries = 0) {
         return alert('Sorry! Could not find the button for you, but it should be on the page somewhere...');
     }
     else if (!button) {
-        return setTimeout(() => launchRibbonDebug(setIsExpanded, ++retries), 1000);
+        return setTimeout(() => launchRibbonDebug(toggleExpanded, ++retries), 1000);
     }
 
     button.click();
     document.body.focus();
     // Get out the way
-    setIsExpanded(false);
+    toggleExpanded();
 
     Fathom.trackGoal('ASIUFPXT', 0);
 }
@@ -35,9 +35,9 @@ function confirmReload() {
     }
 }
 
-function openRibbonDebugger(appState, setIsExpanded) {
+function openRibbonDebugger(state, actions) {
     if (window.location.search.match(/ribbondebug/)) {
-        return launchRibbonDebug(setIsExpanded);
+        return launchRibbonDebug(actions.toggleExpanded);
     }
 
     try {
@@ -77,7 +77,7 @@ function openRibbonDebugger(appState, setIsExpanded) {
                 throw new Error('Dispatch failed to update relevant store key');
             }
 
-            launchRibbonDebug(setIsExpanded);
+            launchRibbonDebug(actions.toggleExpanded);
         }, 1);
     }
     catch (e) {

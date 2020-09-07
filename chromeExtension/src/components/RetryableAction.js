@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Honeybadger from 'honeybadger-js';
+
+import { StoreContext } from './StoreProvider';
 
 function handleError(e, action, version) {
     alert('An error was encountered and unable to be recovered from. Please try again later or report the issue. ' + er.message);
@@ -11,9 +13,9 @@ function handleError(e, action, version) {
 
 const defaultNumberofRetries = 1;
 
-function retry(fn, appState, setIsExpanded, remainingRetries = defaultNumberofRetries) {
+function retry(fn, state, actions, remainingRetries = defaultNumberofRetries) {
     try {
-        fn(appState, setIsExpanded);
+        fn(state, actions);
 
         // No retry needed
         return false;
@@ -34,13 +36,14 @@ function retry(fn, appState, setIsExpanded, remainingRetries = defaultNumberofRe
     }
 }
 
-export default function RetryableAction({ utility, appState, setIsExpanded }) {
+export default function RetryableAction({ utility }) {
     const [isRetrying, setIsRetrying] = useState(false);
+    const { state, actions } = useContext(StoreContext);
 
     function handleClick(e) {
         e.preventDefault();
 
-        if (retry(utility.action, appState, setIsExpanded, utility.retryCount)) {
+        if (retry(utility.action, state, actions, utility.retryCount)) {
             setIsRetrying(true);
 
             setTimeout(() => {
@@ -53,6 +56,7 @@ export default function RetryableAction({ utility, appState, setIsExpanded }) {
         <a href="#"
             className="gotdibbs-toolbox-item-link"
             title={utility.description}
+            data-testid={utility.key}
             onClick={handleClick}>
             {isRetrying ? 'Retrying...' : utility.title}
         </a>

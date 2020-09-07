@@ -1,0 +1,56 @@
+.gotdibbs-toolbox-quickactions {
+    border-top: 1px solid #ccc;
+    display: block;
+    margin-top: 1em;
+    padding: 0;
+    text-align: center;
+}
+
+.gotdibbs-toolbox-quickactions legend {
+    padding: 0 0.5em;
+}
+
+.gotdibbs-toolbox-quickaction {
+    background-size: 1.5rem 1.5rem !important;
+    border: none;
+    height: 2.5em;
+    margin: 0.25em;
+    padding: 1em;
+    transition: all 0.3s ease-in;
+    width: 2.5em;
+}
+
+.gotdibbs-toolbox-quickaction:hover {
+    box-shadow: 1px 1px 2px #ccc;
+}
+
+/* -- Images -- */
+.gotdibbs-toolbox-quickaction[data-action="toggle-schema-names"] {
+    background: url(../images/toggle.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="enable-all-fields"] {
+    background: url(../images/unlock.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="show-all-fields"] {
+    background: url(../images/eye.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="open-ribbon-debugger"] {
+    background: url(../images/magnifying-glass.png)
+        no-repeat
+        center;
+}
+
+.gotdibbs-toolbox-quickaction[data-action="get-support"] {
+    background: url(../images/help.png)
+        no-repeat
+        center;
+}
