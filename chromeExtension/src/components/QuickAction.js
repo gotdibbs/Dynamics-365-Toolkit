@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import * as Fathom from 'fathom-client';
 
-export default function QuickAction({ utility, appState }) {
+import { StoreContext } from './StoreProvider';
+import '../styles/quickactions.css'
+
+export default function QuickAction({ utility }) {
+    const { state, actions } = useContext(StoreContext);
 
     function handleClick() {
-        utility.action(appState);
+        utility.action(state, actions);
 
         Fathom.trackGoal('JLUF5C3S', 0);
     }

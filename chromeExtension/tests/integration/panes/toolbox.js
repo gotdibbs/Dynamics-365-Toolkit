@@ -29,15 +29,27 @@ class Toolbox {
     }
 
     open() {
-        browser.execute(cssString => {
-            const style = document.createElement('style');
-            style.textContent = cssString;
-            document.head.append(style);
-        }, css);
-        browser.execute(script, []);
+        const didReload = browser.execute(() => {
+            try {
+                if (window.__GOTDIBBS_TOOLBOX__ && window.__GOTDIBBS_TOOLBOX__.load) {
+                    window.__GOTDIBBS_TOOLBOX__.load();
+                    return true;
+                }
+            }
+            catch {}
+        });
 
-        if (!this.ToolboxContainer.isDisplayed()) {
-            this.ToolboxContainer.waitForDisplayed();
+        if (!didReload) {
+            browser.execute(cssString => {
+                const style = document.createElement('style');
+                style.textContent = cssString;
+                document.head.append(style);
+            }, css);
+            browser.execute(script, []);
+
+            if (!this.ToolboxContainer.isDisplayed()) {
+                this.ToolboxContainer.waitForDisplayed();
+            }
         }
     }
 

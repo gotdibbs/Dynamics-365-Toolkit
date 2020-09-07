@@ -1,28 +1,33 @@
 import React, {
     createContext,
     useEffect,
-    useState,
+    useReducer,
     useRef
 } from 'react';
 import Honeybadger from 'honeybadger-js';
 
-const AppStateContext = createContext();
-const { Provider } = AppStateContext;
+import { reducer, initialState } from '../store/reducer';
+import { useActions } from '../store/actions';
 
-const defaultState = {
+const StoreContext = createContext(initialState);
+
+const defaultDynamicsState = {
     fullVersion: '0.0.0.0',
     isForm: false,
     recordId: null,
     logicalName: null
 };
 
-function getDynamicsState() {
-    let state = null;
+function getDynamicsContext() {
+    let result = {
+        dynamicsState: null,
+        context: null
+    };
 
     try {
         if (global.APPLICATION_VERSION === '5.0') {
-            state = {
-                context: window.top.frames[0],
+            result.context = window.top.frames[0];
+            result.dynamicsState = {
                 version: global.APPLICATION_VERSION,
                 fullVersion: global.APPLICATION_VERSION
             };
@@ -31,22 +36,22 @@ function getDynamicsState() {
             var $iframe = $('#crmContentPanel iframe:not([style*=\'visibility: hidden\'])');
 
             if ($iframe.length > 0 && $iframe[0].contentWindow.Xrm) {
-                state = {
-                    context: $iframe[0].contentWindow,
+                result.context = $iframe[0].contentWindow;
+                result.dynamicsState = {
                     version: global.APPLICATION_VERSION,
                     fullVersion: global.APPLICATION_VERSION
                 };
             }
             else {
                 console.log('[GotDibbs Toolbox for CRM 2013/2015/2016] Could not locate the entity form.');
-                return;
+                return result;
             }
         }
         else if (global.Xrm && global.Xrm.Utility && global.Xrm.Utility.getGlobalContext &&
             global.Xrm.Utility.getGlobalContext() && global.Xrm.Utility.getGlobalContext().getVersion &&
             /^[9]\./.test(global.Xrm.Utility.getGlobalContext().getVersion())) {
-            state = {
-                context: global,
+            result.context = global;
+            result.dynamicsState = {
                 version: global.Xrm.Utility.getGlobalContext().getVersion().slice(0, 3),
                 fullVersion: global.Xrm.Utility.getGlobalContext().getVersion()
             };
@@ -63,7 +68,7 @@ function getDynamicsState() {
                 ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
                 ' isn\'t working.'
             ].join(''));
-            return;
+            return result;
         }
         /* Fall back to checking older versions quick to report it, but moving this check
            before the D365 check will result in false positives on legacy forms */
@@ -78,7 +83,7 @@ function getDynamicsState() {
                 ' or email webmaster@gotdibbs.net and let us know that this version of CRM',
                 ' isn\'t working.'
             ].join(''));
-            return;
+            return result;
         }
         else {
             // Notify honeybadger only if it looks like we might be in an actual CRM environment
@@ -91,10 +96,10 @@ function getDynamicsState() {
                 } });
             }
             console.log('[GotDibbs Toolbox] Unable to detect current CRM Version.');
-            return;
+            return result;
         }
 
-        return state;
+        return result;
     }
     catch (e) {
         Honeybadger.notify(e, {
@@ -103,12 +108,12 @@ function getDynamicsState() {
     }
 }
 
-function getAppState() {
+function getDynamicsState() {
     try {
-        const dynamicsState = getDynamicsState();
+        const { dynamicsState, context } = getDynamicsContext();
 
         if (!dynamicsState) {
-            return;
+            return { dynamicsState, context };
         }
 
         Honeybadger.setContext({
@@ -116,29 +121,34 @@ function getAppState() {
             version: dynamicsState && dynamicsState.fullVersion
         });
 
-        const isForm = (dynamicsState.context && dynamicsState.context.Xrm &&
-            dynamicsState.context.Xrm.Page &&
-            dynamicsState.context.Xrm.Page.ui && dynamicsState.context.Xrm.Page.data &&
-            dynamicsState.context.Xrm.Page.data.entity);
+        const isForm = (context && context.Xrm &&
+            context.Xrm.Page && context.Xrm.Page.ui &&
+            context.Xrm.Page.data && context.Xrm.Page.data.entity);
 
         let recordId,
             logicalName;
 
         if (isForm) {
-            const xrm = dynamicsState.context.Xrm;
+            const xrm = context.Xrm;
 
-            logicalName = xrm.Page.data.entity.getEntityName && xrm.Page.data.entity.getEntityName();
+            try {
+                logicalName = xrm.Page.data.entity.getEntityName && xrm.Page.data.entity.getEntityName();
+            }
+            catch(e) {
+                // Swallow intermittent errors
+                if (version < 9) { return; }
+
+                Honeybadger.notify(e, 'Failed to retrieve record logical name while updating state');
+            }
 
             try {
                 recordId = xrm.Page.data.entity.getId && xrm.Page.data.entity.getId();
             }
             catch (e) {
-                if (version < 9) {
-                    // Swallow intermittent errors
-                    return defaultState;
-                }
+                // Swallow intermittent errors
+                if (version < 9) { return; }
 
-                Honeybadger.notify(e, 'Failed to retrieve record ID while updating information panel');
+                Honeybadger.notify(e, 'Failed to retrieve record ID while updating state');
             }
         }
 
@@ -146,11 +156,14 @@ function getAppState() {
             parseInt(dynamicsState.version.split('.')[0], 10) : 0;
 
         return {
-            isForm,
-            recordId,
-            logicalName,
-            majorVersion,
-            ...dynamicsState
+            context,
+            dynamicsState: {
+                isForm,
+                recordId,
+                logicalName,
+                majorVersion,
+                ...dynamicsState
+            }
         };
     }
     catch (e) {
@@ -160,22 +173,33 @@ function getAppState() {
     }
 }
 
-const AppStateProvider = ({ children }) => {
-    const [appState, setAppState] = useState();
-    const previousAppState = useRef(defaultState);
+const StoreProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const actions = useActions(state, dispatch);
+
+    const previousDynamicsState = useRef(defaultDynamicsState);
 
     useEffect(() => {
         let interval = setInterval(() => {
-            let newState = getAppState();
+            let { dynamicsState, context } = getDynamicsState();
 
-            if (newState.fullVersion != previousAppState.current.fullVersion ||
-                newState.isForm != previousAppState.current.isForm ||
-                newState.recordId != previousAppState.current.recordId ||
-                newState.logicalName != previousAppState.current.logicalName) {
+            if (!dynamicsState) {
+                return;
+            }
+
+            if (dynamicsState.fullVersion != previousDynamicsState.current.fullVersion ||
+                dynamicsState.isForm != previousDynamicsState.current.isForm ||
+                dynamicsState.recordId != previousDynamicsState.current.recordId ||
+                dynamicsState.logicalName != previousDynamicsState.current.logicalName) {
+
+                // Don't serialize the context (where `Xrm` lives)
+                // But DO cache it somewhere so it is easily accessible for debugging
+                window.__GOTDIBBS_TOOLBOX__.context = context;
 
                 // Only update the state if a key value has changed
-                setAppState(newState);
-                previousAppState.current = newState;
+                actions.setDynamicsState(dynamicsState);
+                previousDynamicsState.current = dynamicsState;
             }
 
         }, 500);
@@ -183,10 +207,14 @@ const AppStateProvider = ({ children }) => {
         return () => clearInterval(interval);
     }, []);
 
-    return <Provider value={ appState }>{children}</Provider>;
-}
+    return (
+        <StoreContext.Provider value={{ state, dispatch, actions }}>
+            {children}
+        </StoreContext.Provider>
+    );
+};
 
 export {
-    AppStateContext,
-    AppStateProvider
+    StoreContext,
+    StoreProvider
 };

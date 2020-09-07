@@ -1,13 +1,15 @@
 import * as Fathom from 'fathom-client';
 
-function enableAllFields({ context: formContext }) {
-    formContext.Xrm.Page.ui.controls.forEach(function(c, i){
+function enableAllFields() {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
+
+    xrm.Page.ui.controls.forEach(function(c, i){
         if (c && c.setDisabled) {
             c.setDisabled(false);
         }
     });
 
-    formContext.Xrm.Page.data.entity.attributes.forEach(function(c, i){
+    xrm.Page.data.entity.attributes.forEach(function(c, i){
         if (c && c.setSubmitMode) {
             c.setSubmitMode('always');
         }

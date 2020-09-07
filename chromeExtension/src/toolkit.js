@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Honeybadger from 'honeybadger-js';
 import Package from '../package.json';
+import { log } from './logger';
 
-import { AppStateProvider } from './components/AppStateProvider';
-import { ToggleProvider } from './components/ToggleProvider';
+import { StoreProvider } from './components/StoreProvider';
 import AnalyticsTracker from './components/AnalyticsTracker';
 import Toolbox from './components/Toolbox';
 
@@ -17,6 +17,8 @@ Honeybadger.configure({
     onerror: false,
     onunhandledrejection: false
 });
+
+log('Loaded');
 
 const Container = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -37,15 +39,44 @@ const Container = () => {
 
     return (
         <AnalyticsTracker>
-            <AppStateProvider>
-                <ToggleProvider>{isOpen ? <Toolbox setIsOpen={setIsOpen} /> : null}</ToggleProvider>
-            </AppStateProvider>
+            <StoreProvider>
+                { isOpen ? <Toolbox setIsOpen={setIsOpen} /> : null }
+            </StoreProvider>
         </AnalyticsTracker>
     );
 };
 
-const root = document.createElement('div');
-root.dataset.hook = 'gotdibbs-toolbox-root';
-document.body.appendChild(root);
+function load() {
+    let root = document.querySelector('[data-hook="gotdibbs-toolbox-root"]');
 
-ReactDOM.render(<Container />, root);
+    if (root) {
+        // Unmount and remount instead of dispatching a message to refresh
+        ReactDOM.unmountComponentAtNode(root);
+    }
+    else {
+        root = document.createElement('div');
+        root.dataset.hook = 'gotdibbs-toolbox-root';
+        document.body.appendChild(root);
+    }
+
+    ReactDOM.render(<Container />, root);
+}
+
+function open() {
+    let message = new CustomEvent('gotdibbs-toolbox', {
+        detail: {
+            type: 'LAUNCH_TOOLBOX'
+        }
+    });
+
+    message.initEvent('gotdibbs-toolbox', false, false);
+
+    document.dispatchEvent(message);
+}
+
+window.__GOTDIBBS_TOOLBOX__ = {
+    load,
+    open
+};
+
+load();

@@ -1,9 +1,9 @@
-async function getInfo(appState) {
-    return appState.logicalName;
+async function getInfo(state) {
+    return state.logicalName;
 }
 
-function isVisible(appState) {
-    return appState.isForm;
+function isVisible(state) {
+    return state.isForm;
 }
 
 export default {

@@ -1,16 +1,20 @@
 import * as Fathom from 'fathom-client';
 
-function copyRecordId({ context: formContext }) {
-    var id = formContext.Xrm.Page.data.entity.getId();
+function copyRecordId() {
+    var id = window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.data.entity.getId();
     if (!id) {
-        return alert('Failed to find id on this form.');
+        return alert('Failed to find id on this form. Is this a create form?');
     }
 
-    if (window.clipboardData && window.clipboardData.setData('Text', id)) {
-        return;
-    } else {
-        window.prompt('Copy to clipboard: Ctrl+C, Enter', id);
-    }
+    var input = document.createElement('input');
+    input.value = id;
+    document.body.appendChild(input);
+
+    input.select();
+    document.execCommand('copy');
+    input.remove();
+
+    alert('Copied! Note: you can perform this action on the Info tab too!');
 
     Fathom.trackGoal('5TP4Q3GP', 0);
 }

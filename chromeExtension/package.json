@@ -1,6 +1,6 @@
 {
   "name": "gotdibbs-toolbox",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Admin tools for Dynamics 365/CRM",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,9 @@
     "eslint-plugin-babel": "^5.3.1",
     "eslint-plugin-react": "^7.20.5",
     "extract-css-chunks-webpack-plugin": "^4.7.5",
+    "react-hook-form": "^6.8.1",
     "style-loader": "^1.2.1",
+    "sumo-logger": "^2.6.1",
     "url-loader": "^4.1.0",
     "webpack": "^5.0.0-beta.23",
     "webpack-cli": "^3.3.12",

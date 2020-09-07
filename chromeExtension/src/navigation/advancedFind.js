@@ -1,8 +1,8 @@
 import Honeybadger from 'honeybadger-js';
 import * as Fathom from 'fathom-client';
 
-function navigate(appState) {
-    let xrm = appState.context.Xrm;
+function navigate(state) {
+    let xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
     window.open([
         xrm.Page.context.getClientUrl(), '/main.aspx?pagetype=advancedfind'

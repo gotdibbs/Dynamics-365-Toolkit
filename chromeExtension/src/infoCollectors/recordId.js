@@ -1,9 +1,9 @@
-async function getInfo(appState) {
-    return appState.recordId;
+async function getInfo(state) {
+    return state.recordId;
 }
 
-function isVisible(appState) {
-    return appState.isForm && appState.recordId;
+function isVisible(state) {
+    return state.isForm && state.recordId;
 }
 
 export default {

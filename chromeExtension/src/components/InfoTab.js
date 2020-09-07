@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 
-import { AppStateContext } from './AppStateProvider';
+import { StoreContext } from './StoreProvider';
 import InfoTabItem from './InfoTabItem';
 import { default as InfoCollectors } from '../infoCollectors';
 import QuickAction from './QuickAction';
 import { default as QuickActions } from '../utilities/quick-actions';
 
 export default function InfoTab() {
-    const appState = useContext(AppStateContext);
+    const { state } = useContext(StoreContext);
 
-    if (!appState) {
+    if (!state || !state.fullVersion) {
         return null;
     }
 
@@ -19,9 +19,9 @@ export default function InfoTab() {
                 {
                     InfoCollectors.filter(collector => {
                         return collector.isVisible === true ||
-                            collector.isVisible(appState);
+                            collector.isVisible(state);
                     }).map(collector => (
-                        <InfoTabItem collector={collector} key={collector.key} appState={appState} />
+                        <InfoTabItem collector={collector} key={collector.key} />
                     ))
                 }
             </div>
@@ -30,13 +30,13 @@ export default function InfoTab() {
                 <legend>Quick Actions</legend>
                 {
                     QuickActions.filter(utility => {
-                        if (utility.requiresForm && !appState.isForm) {
+                        if (utility.requiresForm && !state.isForm) {
                             return false;
                         }
 
                         return true;
                     }).map(utility => (
-                        <QuickAction utility={utility} key={utility.key} appState={appState} />
+                        <QuickAction utility={utility} key={utility.key} />
                     ))
                 }
             </fieldset>

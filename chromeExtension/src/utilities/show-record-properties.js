@@ -1,17 +1,19 @@
 import * as Fathom from 'fathom-client';
 
-function showRecordProperties({ context: formContext }) {
+function showRecordProperties() {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
+
     var id, typeCode;
 
-    if (Mscrm && Mscrm.RibbonActions && Mscrm.RibbonActions.openFormProperties) {
-        id = formContext.Xrm.Page.data.entity.getId();
-        typeCode = formContext.Xrm.Page.context.getQueryStringParameters().etc;
+    if (window.Mscrm && window.Mscrm.RibbonActions && window.Mscrm.RibbonActions.openFormProperties) {
+        id = xrm.Page.data.entity.getId();
+        typeCode = xrm.Page.context.getQueryStringParameters().etc;
 
         if (!typeCode) {
             return alert('Could not locate the current record type.');
         }
 
-        Mscrm.RibbonActions.openFormProperties(id, typeCode);
+        window.Mscrm.RibbonActions.openFormProperties(id, typeCode);
     } else {
         alert('This action is not supported in the current version of Dynamics CRM.');
     }

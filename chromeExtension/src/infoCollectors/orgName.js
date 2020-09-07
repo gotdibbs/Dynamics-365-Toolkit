@@ -1,5 +1,5 @@
-async function getInfo(appState) {
-    const xrm = appState.context.Xrm;
+async function getInfo(state) {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
     return xrm.Page.context.getOrgUniqueName();
 }

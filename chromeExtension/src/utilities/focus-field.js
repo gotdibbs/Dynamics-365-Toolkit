@@ -1,13 +1,13 @@
 import * as Fathom from 'fathom-client';
 
-function focusField({ context: formContext }) {
+function focusField() {
     var schemaName,
         field,
         section,
         tab;
 
     schemaName = window.prompt('Please enter the schema name of the field to copy below. For example: new_name.');
-    field = formContext.Xrm.Page.getControl(schemaName);
+    field = window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(schemaName);
     if (!schemaName || !field) {
         return alert('Failed to find field on this form.');
     }

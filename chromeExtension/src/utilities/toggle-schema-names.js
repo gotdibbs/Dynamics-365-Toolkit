@@ -1,7 +1,9 @@
 import * as Fathom from 'fathom-client';
 
-function toggleSchemaNames({ context: formContext }) {
-    formContext.Xrm.Page.ui.controls.forEach(function (c, i) {
+function toggleSchemaNames() {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
+
+    xrm.Page.ui.controls.forEach(function (c, i) {
         if (!c.__label) {
             c.__label = c.getLabel();
             c.setLabel(c.getName());

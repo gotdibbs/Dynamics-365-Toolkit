@@ -4,7 +4,9 @@
   "description": "Integration Tests for the Dynamics 365 Toolkit",
   "main": "index.js",
   "scripts": {
-    "test": "node ./browserstackUpdater.js && wdio run wdio.conf.js"
+    "test:local": "wdio run ./config/wdio.conf-local.js",
+    "getbrowsers": "node ./browserstackUpdater.js",
+    "test": "node ./browserstackUpdater.js && wdio run ./config/wdio.conf.js"
   },
   "author": "GotDibbs",
   "license": "MIT",

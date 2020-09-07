@@ -9,9 +9,9 @@ function getGlobalContext(xrm) {
     }
 }
 
-async function getInfo(appState) {
+async function getInfo(state) {
     try {
-        const xrm = appState.context.Xrm;
+        const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
         const context = getGlobalContext(xrm);
         const serverUrl = xrm.Page.context.getClientUrl();
 
@@ -40,8 +40,8 @@ async function getInfo(appState) {
     }
 }
 
-function isVisible(appState) {
-    return appState.majorVersion > 8;
+function isVisible(state) {
+    return state.majorVersion > 8;
 }
 
 export default {

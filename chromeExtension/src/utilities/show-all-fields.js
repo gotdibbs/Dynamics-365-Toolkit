@@ -1,11 +1,13 @@
 import * as Fathom from 'fathom-client';
 
-function showAllFields({ context: formContext }) {
-    formContext.Xrm.Page.ui.controls.forEach(function(c, i){
+function showAllFields() {
+    const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
+
+    xrm.Page.ui.controls.forEach(function(c, i){
         c.setVisible(true);
     });
 
-    formContext.Xrm.Page.ui.tabs.forEach(function(c, i){
+    xrm.Page.ui.tabs.forEach(function(c, i){
         // Show the tab
         c.setVisible(true);
 

@@ -1,5 +1,5 @@
-async function getInfo(appState) {
-    return appState.fullVersion;
+async function getInfo(state) {
+    return state?.fullVersion;
 }
 
 export default {

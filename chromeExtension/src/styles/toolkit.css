@@ -5,6 +5,7 @@
     -ms-user-select: none;
     user-select: none;
 }
+
 .gotdibbs-toolbox {
     background: #fff;
     border: 1px solid #fff;
@@ -20,11 +21,13 @@
     width: 26em;
     z-index: 2000000;
 }
+
 .gotdibbs-toolbox-loading::after {
     display: block;
     content: 'Loading...';
     animation: loading-text 12s infinite;
 }
+
 .gotdibbs-toolbox-container {
     height: auto;
     overflow: hidden;
@@ -32,15 +35,18 @@
     transform-origin: top;
     transition: transform 0.3s ease-out;
 }
+
 .gotdibbs-toolbox-container.collapsed {
     transform: scaleY(0);
 }
+
 .gotdibbs-toolbox-header {
     cursor: move;
     font-size: 24px;
     font-weight: 300;
     position: relative;
 }
+
 .gotdibbs-toolbox-action {
     color: #444;
     cursor: pointer;
@@ -49,53 +55,65 @@
     position: absolute;
     top: 0.6em;
 }
+
 .gotdibbs-toolbox-action:hover {
-	color: #0072C6;
+    color: #0072C6;
     text-shadow: 1 1 2px #005198;
 }
+
 .gotdibbs-toolbox-collapse {
     transition: transform 0.2s ease-in;
     right: 1.5em;
 }
+
 .gotdibbs-toolbox-collapse.collapsed {
     transform: rotateX(180deg);
 }
+
 .gotdibbs-toolbox-close {
     right: 0;
 }
+
 .gotdibbs-toolbox-item {
     margin: 0.5em 0;
     padding: 0;
 }
+
 a.gotdibbs-toolbox-item-link {
     color: #0072C6;
     font-size: 1.1em;
     font-weight: 500;
     text-decoration: none;
 }
+
 .gotdibbs-toolbox-item-link:hover {
     border-bottom: 1px solid #ccc;
 }
+
 .gotdibbs-toolbox-info {
     color: #000;
     font-size: 0.8em;
     font-weight: normal;
 }
+
 .gotdibbs-toolbox-info-item {
     position: relative;
 }
+
 .gotdibbs-toolbox-info label {
     color: #888;
     display: block;
     font-size: 0.9em;
     margin-top: 0.5em;
 }
+
 .gotdibbs-toolbox-info span {
     display: block;
     font-size: 1.1em;
     margin-right: 1.5em;
     min-height: 1.6em;
 }
+
 .gotdibbs-toolbox-info .copy {
     background: url(../images/copy.png)
         no-repeat
@@ -110,9 +128,11 @@ a.gotdibbs-toolbox-item-link {
     top: 1.4em;
     width: 1em;
 }
+
 .gotdibbs-toolbox-info .copy:hover {
     filter: none;
 }
+
 .gotdibbs-toolbox-info span:not(.gotdibbs-toolbox-breakwrap) {
     display: block;
     overflow: hidden;
@@ -120,6 +140,7 @@ a.gotdibbs-toolbox-item-link {
     white-space: nowrap;
     width: calc(100% - 1.5em);
 }
+
 /* Nav */
 .gotdibbs-tabs nav {
     text-align: center;
@@ -241,63 +262,6 @@ a.gotdibbs-toolbox-item-link {
     .gotdibbs-tabs nav {
         font-size: 0.6em;
     }
-}
-
-.gotdibbs-toolbox-quickactions {
-    border-top: 1px solid #ccc;
-    display: block;
-    margin-top: 1em;
-    padding: 0;
-    text-align: center;
-}
-
-.gotdibbs-toolbox-quickactions legend {
-    padding: 0 0.5em;
-}
-
-.gotdibbs-toolbox-quickaction {
-    background-size: 1.5rem 1.5rem !important;
-    border: none;
-    height: 2.5em;
-    margin: 0.25em;
-    padding: 1em;
-    transition: all 0.3s ease-in;
-    width: 2.5em;
-}
-
-.gotdibbs-toolbox-quickaction:hover {
-    box-shadow: 1px 1px 2px #ccc;
-}
-
-/* -- Images -- */
-.gotdibbs-toolbox-quickaction[data-action="toggle-schema-names"] {
-    background: url(../images/toggle.png)
-        no-repeat
-        center;
-}
-
-.gotdibbs-toolbox-quickaction[data-action="enable-all-fields"] {
-    background: url(../images/unlock.png)
-        no-repeat
-        center;
-}
-
-.gotdibbs-toolbox-quickaction[data-action="show-all-fields"] {
-    background: url(../images/eye.png)
-        no-repeat
-        center;
-}
-
-.gotdibbs-toolbox-quickaction[data-action="open-ribbon-debugger"] {
-    background: url(../images/magnifying-glass.png)
-        no-repeat
-        center;
-}
-
-.gotdibbs-toolbox-quickaction[data-action="get-support"] {
-    background: url(../images/help.png)
-        no-repeat
-        center;
 }
 
 @keyframes loading-text {

@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const capabilities = require('./capabilities.json');
-const AuthenticationManager = require('./utilities/AuthenticationManager');
-const ScenarioHelper = require('./utilities/ScenarioHelper');
+const capabilities = require('../capabilities.json');
+const AuthenticationManager = require('../utilities/AuthenticationManager');
+const ScenarioHelper = require('../utilities/ScenarioHelper');
 
 // Load `process.env`
 require('dotenv').config();
@@ -119,7 +119,6 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: [
-        //['chromedriver', {}],
         ['browserstack', {}]
     ],
 
@@ -248,7 +247,7 @@ exports.config = {
             return;
         }
 
-        let screenshotPath = path.join(process.cwd(), './screenshots');
+        let screenshotPath = path.join(__dirname, '../screenshots');
 
         let featureName = uri
             .replace('features/', '')

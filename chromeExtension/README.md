@@ -10,10 +10,10 @@ Key components are listed below.
 
 # React Architecture
 
-Key components of the React app are listed below. Redux is intentionally not used to keep this lightweight and reduce complexity.
+Key components of the React app are listed below.
 
  - `toolkit.js`: Boots up the toolkit UI component, initializes Honeybadger and Fathom, manages communication with the chrome extension itself via `launcher.js` (which is sandboxed).
- - `components\AppStateProvider.js`: Creates a context and provider for monitoring the Dynamics App State. This polls for version numbers, form state, record Ids, etc. When one of these key values changes, it triggers a state update/repaint to all subscribers. This can trigger things like the `InfoCollectors` to reevaluate their dependent values.
+ - `components\StoreProvider.js`: Creates a context and provider for monitoring the Dynamics App State, using the reducer pattern. This polls for version numbers, form state, record Ids, etc. When one of these key values changes, it triggers a state update/repaint to all subscribers. This can trigger things like the `InfoCollectors` to reevaluate their dependent values.
 
 # Getting Started
 

@@ -1,6 +1,8 @@
 import * as Fathom from 'fathom-client';
 
-function openPerformanceReport({ context: formContext, version }) {
+function openPerformanceReport({ version }) {
+    let formContext = window.__GOTDIBBS_TOOLBOX__.context;
+
     if (version == '6.0') {
         if (typeof formContext._IsRefreshForm != 'undefined' && formContext._IsRefreshForm == '1') {
             formContext.OpenPerformanceUI(true);
