@@ -1,4 +1,5 @@
 import SumoLogger from 'sumo-logger';
+import Package from '../package.json';
 
 let logger = null;
 
@@ -16,7 +17,8 @@ export function log(message) {
 
     let detailedMessage = {
         ua: navigator.userAgent,
-        url: window.location.hostname
+        url: window.location.hostname,
+        version: Package.version
     };
 
     if (typeof(message) !== 'object') {

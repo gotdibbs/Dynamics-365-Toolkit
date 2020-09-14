@@ -6,12 +6,14 @@ import React, {
 } from 'react';
 import Honeybadger from 'honeybadger-js';
 
+import { log } from '../logger';
 import { reducer, initialState } from '../store/reducer';
 import { useActions } from '../store/actions';
 
 const StoreContext = createContext(initialState);
 
 const defaultDynamicsState = {
+    isLoaded: false,
     fullVersion: '0.0.0.0',
     isForm: false,
     recordId: null,
@@ -86,9 +88,8 @@ function getDynamicsContext() {
             return result;
         }
         else {
-            // Notify honeybadger only if it looks like we might be in an actual CRM environment
-            if (/(dynamics|crm)/.test(document.location.href) &&
-                !/(operations|retail|ax|home)\.dynamics/.test(document.location.href)) {
+            // Notify honeybadger only if its in crm.dynamics.com to reduce HB alerts
+            if (/(crm\.dynamics\.com)/.test(document.location.href)) {
                 Honeybadger.notify('Failed to detect current CRM version', { context: {
                     xrm: !!global.Xrm,
                     xrmPage: !!(global.Xrm && global.Xrm.Page),
@@ -136,7 +137,7 @@ function getDynamicsState() {
             }
             catch(e) {
                 // Swallow intermittent errors
-                if (version < 9) { return; }
+                if (dynamicsState && dynamicsState.version < 9) { return; }
 
                 Honeybadger.notify(e, 'Failed to retrieve record logical name while updating state');
             }
@@ -146,7 +147,7 @@ function getDynamicsState() {
             }
             catch (e) {
                 // Swallow intermittent errors
-                if (version < 9) { return; }
+                if (dynamicsState && dynamicsState.version < 9) { return; }
 
                 Honeybadger.notify(e, 'Failed to retrieve record ID while updating state');
             }
@@ -158,6 +159,7 @@ function getDynamicsState() {
         return {
             context,
             dynamicsState: {
+                isLoaded: true,
                 isForm,
                 recordId,
                 logicalName,
@@ -192,6 +194,11 @@ const StoreProvider = ({ children }) => {
                 dynamicsState.isForm != previousDynamicsState.current.isForm ||
                 dynamicsState.recordId != previousDynamicsState.current.recordId ||
                 dynamicsState.logicalName != previousDynamicsState.current.logicalName) {
+
+                // Log the version
+                if (!previousDynamicsState.current.isLoaded && dynamicsState.fullVersion) {
+                    log(dynamicsState.fullVersion);
+                }
 
                 // Don't serialize the context (where `Xrm` lives)
                 // But DO cache it somewhere so it is easily accessible for debugging

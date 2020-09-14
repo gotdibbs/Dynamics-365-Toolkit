@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { StoreContext } from './StoreProvider';
 import { useForm } from 'react-hook-form';
+import * as Fathom from 'fathom-client';
 
 import '../styles/modal.css';
 
@@ -99,12 +100,37 @@ export default function OpenObjectModal() {
 
             actions.toggleOpenObjectModal();
         }
+        else if (state.openObjectModalData.type === 'field') {
+            let field = window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(data.fieldLogicalName);
+            if (!data.fieldLogicalName || !field) {
+                return alert('Failed to find field on this form.');
+            }
+
+            let section = field.getParent();
+            if (section) {
+                let tab = section.getParent();
+                if (tab) {
+                    tab.setVisible(true);
+                    tab.setDisplayState('expanded');
+                }
+                section.setVisible(true);
+            }
+
+            field.setFocus();
+
+            actions.toggleOpenObjectModal();
+            // Keep out of the way in this case
+            actions.toggleExpanded();
+
+            Fathom.trackGoal('AWYB6DBW', 0);
+        }
     }
 
     const title = state.openObjectModalData.type === 'record' ?
         'Open Record' : state.openObjectModalData.type === 'list' ?
         'Open Record List' : state.openObjectModalData.type === 'solution' ?
-        'Open Solution': 'Unknown error, please file a bug report';
+        'Open Solution': state.openObjectModalData.type === 'field' ?
+        'Focus Field' : 'Unknown error, please file a bug report';
 
     return (
         <div className="gotdibbs-toolbox-modal-container">
@@ -138,6 +164,14 @@ export default function OpenObjectModal() {
                                 <label>Solution Unique Name <span style={{ color: 'red' }}>*</span></label>
                                 <input type="text" name="solutionUniqueName" ref={register({ required: true })} autoFocus data-testid="solutionuniquename" />
                                 {errors.solutionUniqueName && (<small style={{ color: 'red' }}>Solution Unique Name is required</small>)}
+                            </div>
+                        ) : null}
+
+                        {state.openObjectModalData.type === 'field' ? (
+                            <div className="gotdibbs-toolbox-modal-form-field">
+                                <label>Field Logical Name <span style={{ color: 'red' }}>*</span></label>
+                                <input type="text" name="fieldLogicalName" ref={register({ required: true })} autoFocus data-testid="fieldLogicalName" />
+                                {errors.fieldLogicalName && (<small style={{ color: 'red' }}>Field Logical Name is required</small>)}
                             </div>
                         ) : null}
                     </div>

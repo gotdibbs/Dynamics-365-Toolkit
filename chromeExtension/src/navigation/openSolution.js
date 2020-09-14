@@ -1,5 +1,4 @@
 import Honeybadger from 'honeybadger-js';
-import * as Fathom from 'fathom-client';
 
 function navigate(state, actions) {
     actions.toggleOpenObjectModal({
