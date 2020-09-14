@@ -6,6 +6,7 @@ import Panes from '../../panes';
 // US Dollar - this may fail, but you can point it to another record in your test environment
 const RECORD_LOGICAL_NAME = 'transactioncurrency';
 const RECORD_ID = '0202afa1-a6c3-ea11-a812-000d3a579b7d'.toLowerCase();
+const RECORD_ATTRIBUTE = 'currencyname';
 const SOLUTION_NAME = 'default';
 
 function capitalize(str) {
@@ -98,8 +99,38 @@ When(/i invoke the (.+) action/i, (action) => {
     else if (action === 'copy-record-link') {
         Panes.Utilities.copyRecordLink();
     }
+    else if (action === 'focus-field') {
+        Panes.Utilities.focusField(RECORD_ATTRIBUTE);
+    }
+    else if (action === 'toggle-schema-names') {
+        Panes.Utilities.toggleSchemaNames(RECORD_ATTRIBUTE);
+    }
     else {
         throw new Error('Unsupported action: ' + action);
+    }
+});
+
+When(/i (.+), then invoke the (.+) action/i, (prereq, action) => {
+    // -- Prerequisites --
+    if (prereq === 'disable a field') {
+        Panes.Utilities.disableField(RECORD_ATTRIBUTE);
+    }
+    else if (prereq === 'hide a field') {
+        Panes.Utilities.hideField(RECORD_ATTRIBUTE);
+    }
+    else if (prereq === 'change a field value') {
+        Panes.Utilities.changeField(RECORD_ATTRIBUTE);
+    }
+
+    // -- Actions --
+    if (action === 'enable-all-fields') {
+        Panes.Utilities.unlockAllFields();
+    }
+    else if (action === 'show-all-fields') {
+        Panes.Utilities.showAllFields();
+    }
+    else if (action === 'show-dirty-fields') {
+        Panes.Utilities.showDirtyFields();
     }
 });
 
@@ -245,6 +276,39 @@ Then(/a new window should open to show the (.+) (editor|list|page)$/i, (componen
     browser.switchToWindow(currentWindow);
 });
 
+// Copied from webdriver.io source, but modified to handle nulls
+function switchWindow(urlOrTitleToMatch) {
+    if (typeof urlOrTitleToMatch !== 'string' && !(urlOrTitleToMatch instanceof RegExp)) {
+        throw new Error('Unsupported parameter for switchWindow, required is "string" or an RegExp');
+    }
+
+    const tabs = browser.getWindowHandles();
+
+    for (const tab of tabs) {
+        browser.switchToWindow(tab)
+
+        /**
+         * check if url matches
+         */
+        browser.waitUntil(() => browser.getUrl());
+        const url = browser.getUrl();
+        if (url.match(urlOrTitleToMatch)) {
+            return tab;
+        }
+
+        /**
+         * check title
+         */
+        browser.waitUntil(() => browser.getTitle());
+        const title = browser.getTitle();
+        if (title.match(urlOrTitleToMatch)) {
+            return tab;
+        }
+    }
+
+    throw new Error(`No window found with title or url matching "${urlOrTitleToMatch}"`)
+}
+
 Then(/a new window should open with "(.+)" in the (title|url)$/i, (title, matchType) => {
     const currentWindow = browser.getWindowHandle();
 
@@ -253,9 +317,50 @@ Then(/a new window should open with "(.+)" in the (title|url)$/i, (title, matchT
     // The title will be 'Microsoft Dynamics 365' until the page loads, so it is
     //  safe to wait for that title to transition, but then we need to wait for the
     //  the actual title to be present to pass the vibe check
-    browser.switchWindow(new RegExp(`(${title})|(^Microsoft Dynamics 365)`, 'i'));
+    switchWindow(new RegExp(`(${title})|(^Microsoft Dynamics 365)`, 'i'));
     browser.waitUntil(() => new RegExp(title).test(browser.getTitle()));
 
     browser.execute(() => window.close());
     browser.switchToWindow(currentWindow);
+});
+
+Then(/the field i disabled is reenabled/i, () => {
+    const isDisabled = browser.execute(field => {
+        return window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).getDisabled();
+    }, RECORD_ATTRIBUTE);
+
+    expect(isDisabled).toBe(false);
+});
+
+Then(/the field specified should have received focus/i, () => {
+    browser.waitUntil(() => {
+        return browser.execute(field => {
+            return document.querySelector(`[data-id="${field}"] input`) === document.activeElement;
+        }, RECORD_ATTRIBUTE);
+    });
+});
+
+Then(/the field i hid should now be visible/i, () => {
+    browser.waitUntil(() => {
+        return browser.execute(field => {
+            return window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).getVisible();
+        }, RECORD_ATTRIBUTE);
+    });
+});
+
+Then(/i see an alert with the field i changed listed/i, () => {
+    browser.waitUntil(() => browser.getAlertText());
+
+    expect(browser.getAlertText()).toMatch(new RegExp(RECORD_ATTRIBUTE, 'i'));
+
+    browser.acceptAlert();
+
+    // Cleanup
+    Panes.Utilities.changeFieldBack(RECORD_ATTRIBUTE);
+});
+
+Then(/i see the schema names for fields on the form/i, () => {
+    $('label*=' + RECORD_ATTRIBUTE).waitForDisplayed();
+
+    Panes.Utilities.toggleSchemaNames();
 });

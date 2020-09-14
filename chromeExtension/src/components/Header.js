@@ -31,7 +31,7 @@ export default function Header({ setIsOpen, toggleExpanded, isExpanded }) {
     );
 
     return (
-        <header className="gotdibbs-toolbox-header" data-hook="gotdibbs-toolbox-header">
+        <header className="gotdibbs-toolbox-header" data-hook="gotdibbs-toolbox-header" onDoubleClick={toggle}>
             GotDibbs Toolbox <small>v{Package.version}</small>
             <span className={toggleClassName} onClick={toggle}>&#x25BC;</span>
             <span className="gotdibbs-toolbox-action gotdibbs-toolbox-close" onClick={close}>&#10006;</span>
