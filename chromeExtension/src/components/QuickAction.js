@@ -17,6 +17,7 @@ export default function QuickAction({ utility }) {
         <button className="gotdibbs-toolbox-quickaction"
             title={utility.title}
             data-action={utility.key}
+            data-testid={utility.key}
             onClick={handleClick}></button>
     );
 }

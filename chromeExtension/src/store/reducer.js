@@ -7,11 +7,22 @@ const initialState = {
     fullVersion: null,
     isForm: false,
     recordId: null,
-    logicalName: null
+    logicalName: null,
+    alerts: []
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case types.ALERT:
+            return {
+                ...state,
+                alerts: [...state.alerts, action.payload]
+            };
+        case types.REMOVE_ALERT:
+            return {
+                ...state,
+                alerts: state.alerts.filter(a => a.id !== action.payload)
+            };
         case types.SET_DYNAMICS_STATE:
             return {
                 ...state,

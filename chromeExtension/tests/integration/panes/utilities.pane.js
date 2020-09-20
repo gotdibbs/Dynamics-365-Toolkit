@@ -45,6 +45,18 @@ class UtilitiesPane extends Toolbox {
         return $('[data-testid="toggle-schema-names"]');
     }
 
+    get OpenCommandChecker() {
+        return $('[data-testid="open-ribbon-debugger"]');
+    }
+
+    get CommandChecker() {
+        return $('[data-id="CommandChecker"]');
+    }
+
+    get PopulateRequiredFields() {
+        return $('[data-testid="populate-required-fields"]');
+    }
+
     copyRecordId() {
         this.CopyRecordId.click();
 
@@ -110,6 +122,14 @@ class UtilitiesPane extends Toolbox {
 
     toggleSchemaNames() {
         this.ToggleSchemaNames.click();
+    }
+
+    openCommandChecker() {
+        this.OpenCommandChecker.click();
+    }
+
+    populateRequiredFields() {
+        this.PopulateRequiredFields.click();
     }
 
     open () {

@@ -5,18 +5,19 @@ exports.config = {
     logLevel: 'warn',
     specFileRetries: 0,
     services: [
-        ['chromedriver', {}]
-        //['browserstack', {}]
+        //['chromedriver', {}]
+        ['browserstack', {}]
     ],
     capabilities: [
         {
             maxInstances: 1,
             browserName: 'chrome',
             browserVersion: 'latest',
+            'bstack:options': {}
         }
     ],
     // Uncomment the below to specify a specific feature file to run
-    // specs: [
-    //     './features/utilities.feature'
-    // ]
+    specs: [
+        './features/utilities.feature'
+    ]
 };
