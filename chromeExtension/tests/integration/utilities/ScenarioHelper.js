@@ -14,31 +14,16 @@ module.exports = class ToolboxHelper {
     }
 
     navigateHome() {
-        if (/(etn|etc)/i.test(browser.getUrl())) {
-            // First, try to go back to prevent excessive toolbox script injection in `info` logs
-            const isBackSuccess = browser.execute(() => {
-                try {
-                    history.back();
-                    return true;
-                }
-                catch {}
-            });
+        const isOnRecordPage = /(etn|etc)/i;
 
-            if (isBackSuccess) {
+        if (isOnRecordPage.test(browser.getUrl())) {
+            // First, try to go back to prevent excessive toolbox script injection in `info` logs
+            browser.back();
+
+            if (!isOnRecordPage.test(browser.getUrl())) {
                 return;
             }
-
-            const homeButton = $('[data-id="dynamics-button"]');
-
-            const isHomeSuccess = homeButton.isExisting() &&
-                homeButton.isClickable();
-
-            if (isHomeSuccess) {
-                homeButton.click();
-            }
-
-            // ...if that doesn't work then do a full navigation event
-            if (!isHomeSuccess || /(etn|etc)/i.test(browser.getUrl())) {
+            else {
                 browser.url('/main.aspx?app=d365default&forceUCI=1');
             }
         }

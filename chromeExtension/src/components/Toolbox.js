@@ -4,6 +4,7 @@ import { StoreContext } from './StoreProvider';
 import Header from './Header';
 import Tabs from './Tabs';
 import OpenObjectModal from './OpenObjectModal';
+import AlertContainer from './AlertContainer';
 
 export default function Toolbox({ setIsOpen }) {
     const { state, actions } = useContext(StoreContext);
@@ -21,6 +22,7 @@ export default function Toolbox({ setIsOpen }) {
                 ) : state.isExpanded ? <Tabs /> : null}
             </div>
             <OpenObjectModal />
+            <AlertContainer />
         </div>
     );
 }

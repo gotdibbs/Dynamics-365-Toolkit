@@ -1,0 +1,45 @@
+.gotdibbs-toolbox-alert-container {
+    bottom: 0;
+    margin: 1em;
+    position: fixed;
+    right: 0;
+    z-index: 2000001;
+}
+
+.gotdibbs-toolbox-alert {
+    animation-name: fadeInOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-duration: 1s;
+    background: black;
+    border: 1px solid #fff;
+    border-bottom: 1px solid rgb(34, 102, 227);
+    box-shadow: 1px 1px 4px 2px rgba(0,0,0,.15);
+    color: white;
+    font-family: SegoeUI-Light, "Segoe UI Semilight", "Segoe UI Regular", "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 1.25em;
+    font-weight: 600;
+    opacity: 1;
+    padding: 1em;
+    padding-right: 2.25em;
+    position: relative;
+    width: 250px;
+}
+
+.gotdibbs-toolbox-alert .gotdibbs-toolbox-action {
+    cursor: pointer;
+    right: 0.5em;
+}
+
+.gotdibbs-toolbox-alert + .gotdibbs-toolbox-alert {
+    margin-top: 1em;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

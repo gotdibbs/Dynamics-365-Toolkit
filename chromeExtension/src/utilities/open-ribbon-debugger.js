@@ -1,31 +1,8 @@
 import * as Fathom from 'fathom-client';
 import Honeybadger from 'honeybadger-js';
 
-function launchRibbonDebug(toggleExpanded, retries = 0) {
-    let button = document.getElementById('CommandChecker') ||
-        document.querySelector('button[data-id="CommandChecker"]')?.parentNode;
-
-    if (!button && retries >= 5) {
-        Honeybadger.notify({
-            message: 'Could not locate the command checker ribbon button'
-        });
-
-        return alert('Sorry! Could not find the button for you, but it should be on the page somewhere...');
-    }
-    else if (!button) {
-        return setTimeout(() => launchRibbonDebug(toggleExpanded, ++retries), 1000);
-    }
-
-    button.click();
-    document.body.focus();
-    // Get out the way
-    toggleExpanded();
-
-    Fathom.trackGoal('ASIUFPXT', 0);
-}
-
 function confirmReload() {
-    if (window.confirm('We were unable to auto-launch the ribbon debugger, so we need to refresh the page then the ribbon debugger should be available. Cool?')) {
+    if (window.confirm('We were unable to auto-enable the command checker, so we need to refresh the page then the ribbon debugger should be available. Cool?')) {
         window.location.href = window.location.href + '&ribbondebug=true';
         Fathom.trackGoal('T5LLXM4X', 0);
     }
@@ -37,7 +14,10 @@ function confirmReload() {
 
 function openRibbonDebugger(state, actions) {
     if (window.location.search.match(/ribbondebug/)) {
-        return launchRibbonDebug(actions.toggleExpanded);
+        actions.toggleExpanded();
+
+        actions.alert(true, 'The Command Checker is already enabled. Look for it under the ellipsized area of the command bar if you have trouble locating it.');
+        return;
     }
 
     try {
@@ -77,7 +57,8 @@ function openRibbonDebugger(state, actions) {
                 throw new Error('Dispatch failed to update relevant store key');
             }
 
-            launchRibbonDebug(actions.toggleExpanded);
+            actions.toggleExpanded();
+            actions.alert(true, 'Enabled the Command Checker. You should find it in the command bar now.');
         }, 1);
     }
     catch (e) {
@@ -92,8 +73,8 @@ function openRibbonDebugger(state, actions) {
 export default {
     action: openRibbonDebugger,
     key: 'open-ribbon-debugger',
-    title: 'Open Ribbon Debugger',
-    description: 'Opens the Command Checker to Debug Ribbon Buttons for the current entity.',
+    title: 'Enable Command Checker',
+    description: 'Enables the Command Checker to Debug Ribbon Buttons for the current entity.',
     requiresForm: false,
     retryCount: 0,
     minVersion: 9

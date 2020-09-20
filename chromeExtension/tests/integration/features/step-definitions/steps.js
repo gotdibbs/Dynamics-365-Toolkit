@@ -13,6 +13,23 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function loadNewRecord() {
+    let isSuccess = browser.execute(logicalName => {
+        try {
+            Xrm.Utility.openEntityForm(logicalName);
+            return true;
+        }
+        catch {}
+    }, RECORD_LOGICAL_NAME);
+
+    if (!isSuccess) {
+        // Backup, but noisy to the `info` logs as toolkit needs to be re-injected
+        browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}`);
+    }
+
+    Panes.Dynamics.FormHeader.waitForDisplayed();
+}
+
 function loadRecord() {
     let isSuccess = browser.execute((logicalName, id) => {
         try {
@@ -41,10 +58,15 @@ function loadPane(pane, isViewingRecord) {
         return;
     }
 
-    loadRecord();
+    if (/new/i.test(isViewingRecord)) {
+        loadNewRecord();
+    }
+    else {
+        loadRecord();
+    }
 }
 
-Given(/i am on the (\w+) pane( and viewing a record)?/i, loadPane);
+Given(/i am on the (\w+) pane( and viewing a record| and viewing a new record)?/i, loadPane);
 
 Given(/i am viewing a record/i, loadRecord);
 
@@ -104,6 +126,15 @@ When(/i invoke the (.+) action/i, (action) => {
     }
     else if (action === 'toggle-schema-names') {
         Panes.Utilities.toggleSchemaNames(RECORD_ATTRIBUTE);
+    }
+    else if (action === 'open-ribbon-debugger') {
+        Panes.Utilities.openCommandChecker();
+    }
+    else if (action === 'populate-required-fields') {
+        Panes.Utilities.populateRequiredFields();
+    }
+    else if (action === 'get-support') {
+        Panes.Info.getSupport();
     }
     else {
         throw new Error('Unsupported action: ' + action);
@@ -363,4 +394,30 @@ Then(/i see the schema names for fields on the form/i, () => {
     $('label*=' + RECORD_ATTRIBUTE).waitForDisplayed();
 
     Panes.Utilities.toggleSchemaNames();
+});
+
+Then(/i see the command checker/i, () => {
+    Panes.Utilities.CommandChecker.waitForDisplayed();
+});
+
+Then(/all required fields are populated/i, () => {
+    const areAllFieldsPopulated = browser.execute(() => {
+        let result = true;
+
+        window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.data.entity.attributes.forEach(a => {
+            if (a.getRequiredLevel() !== 'required') {
+                return;
+            }
+
+            result = result && a.getValue() != null;
+
+            // cleanup as we go to prevent dealing with super ugly unsaved changes workflow
+            a.setValue(null);
+            a.setSubmitMode('never');
+        });
+
+        return result;
+    });
+
+    expect(areAllFieldsPopulated).toBe(true);
 });
