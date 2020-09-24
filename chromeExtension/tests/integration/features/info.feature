@@ -1,12 +1,12 @@
 Feature: Info Pane
 
-  Scenario Outline: Info pane displays application data
+  Background: Starting from the info pane
 
     Given I am on the info pane
-    Then I should see a value displayed for <field>
 
-    Examples:
-      | field               |
+  Scenario: Info pane displays application data
+
+    Then I should see a value for these fields
       | dynamics-version    |
       | org-name            |
       | app-name            |
@@ -14,25 +14,17 @@ Feature: Info Pane
       | user-id             |
       | security-roles      |
 
-  Scenario Outline: Info pane does not display record data when not viewing a record
+  Scenario: Info pane does not display record data when not viewing a record
 
-    Given I am on the info pane
-    Then I should not see a value displayed for <field>
-
-    Examples:
-      | field               |
+    Then I should NOT see a value for these fields
       | record-id           |
       | record-url          |
       | logical-name        |
 
-  Scenario Outline: Info pane displays record data when viewing a record
+  Scenario: Info pane displays record data when viewing a record
 
-    Given I am viewing a record
-    When I am on the info pane
-    Then I should see a value displayed for <field>
-
-    Examples:
-      | field               |
+    When I am viewing a record
+    Then I should see a value for these fields
       | dynamics-version    |
       | org-name            |
       | app-name            |
@@ -45,27 +37,19 @@ Feature: Info Pane
 
   Scenario Outline: Info Pane displays correct data when viewing a record
 
-    Given I am viewing a record
-    When I am on the info pane
-    Then I should see <field> display the correct value
-
-    Examples:
-      | field               |
+    When I am viewing a record
+    Then I should see each field display the correct value
       | record-id           |
       | logical-name        |
 
   Scenario Outline: Links render and direct to the correct entity
 
-    Given I am on the info pane
-    Then I should see <field> display a link to <entity>
-
-    Examples:
+    Then I should see each field display a link to the correct entity
       | field               | entity        |
       | user-name           | systemuser    |
       | security-roles      | roles         |
 
   Scenario: Copies displayed value
 
-    Given I am on the info pane
     When I click on the copy button
     Then I should have copied the correct value

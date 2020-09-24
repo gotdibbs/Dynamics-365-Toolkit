@@ -3,8 +3,6 @@ import { StoreContext } from './StoreProvider';
 import { useForm } from 'react-hook-form';
 import * as Fathom from 'fathom-client';
 
-import '../styles/modal.css';
-
 const guidRegex = /(^{[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}}$)|(^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$)/i;
 
 async function openSolution(solutionUniqueName) {

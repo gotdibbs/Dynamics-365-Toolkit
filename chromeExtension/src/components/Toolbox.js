@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { StoreContext } from './StoreProvider';
 import Header from './Header';
 import Tabs from './Tabs';
+import EntityDataModal from './EntityDataModal';
 import OpenObjectModal from './OpenObjectModal';
 import AlertContainer from './AlertContainer';
 
@@ -21,6 +22,7 @@ export default function Toolbox({ setIsOpen }) {
                     <div className='gotdibbs-toolbox-loading'></div>
                 ) : state.isExpanded ? <Tabs /> : null}
             </div>
+            <EntityDataModal />
             <OpenObjectModal />
             <AlertContainer />
         </div>

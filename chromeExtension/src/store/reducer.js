@@ -2,6 +2,7 @@ import types from './actionTypes';
 
 const initialState = {
     isExpanded: true,
+    isEntityDataModalOpen: false,
     isOpenObjectModalOpen: false,
     openObjectModalData: null,
     fullVersion: null,
@@ -27,6 +28,13 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.payload
+            };
+        case types.TOGGLE_ENTITY_DATA_MODAL:
+            return {
+                ...state,
+                isEntityDataModalOpen: !state.isEntityDataModalOpen,
+                // Toggle us to expanded based on the opposite of the new open state of the modal
+                isExpanded: !!state.isEntityDataModalOpen
             };
         case types.TOGGLE_OPEN_OBJECT_MODAL:
             return {

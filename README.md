@@ -39,6 +39,7 @@ Depending on what you're viewing in Dynamics and which version you're accessing,
 |Open Record|Requests both a logical name and a GUID for a specific entity record in Dynamics, then opens it|
 |Open Solution|Requests the name of a solution in your Dynamics environment, then opens that solution|
 |Plugin Trace Logs|Opens a list view of all the plugin trace logs generated for your environment|
+|Show Environment Variables|Displays a listing of all the environment variable definitions in the current organization|
 |Solution History|Opens the history view of solutions imported to your environment|
 
 ## Utilities
@@ -47,13 +48,14 @@ Depending on what you're viewing in Dynamics and which version you're accessing,
 |---|---|
 |Copy Record Id|Copies the current record GUID to the clipboard|
 |Copy Record Link|Copies the current record URL to the clipboard|
-|Unlock All Fields|Sets all attributes on the form to be enabled|
+|Enable Command Checker|Enables the Command Checker / Ribbon Debug feature, or refreshes the page such that it is available|
 |Focus Field|Requests a field logical name, then sets the focus to that field|
-|Open Ribbon Debugger|Opens the Command Checker / Ribbon Debug feature, or refreshes the page such that it is available|
 |Populate Required Fields|Finds all required fields and sets a value, except for lookups|
 |Show All Fields|Sets the display state of all fields to visible|
 |Show Dirty Fields|Displays a list of all fields that have unsaved changes|
+|Show Entity Data|Displays a JSON tree representation of the current entity as retrieved from the Web API|
 |Toggle Schema Names|Toggles between showing attribute labels and their logical names|
+|Unlock All Fields|Sets all attributes on the form to be enabled|
 
 # Repository Structure
 
