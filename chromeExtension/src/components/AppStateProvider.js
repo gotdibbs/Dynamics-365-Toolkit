@@ -116,6 +116,9 @@ function getAppState() {
             version: dynamicsState && dynamicsState.fullVersion
         });
 
+        const majorVersion = dynamicsState.version ?
+            parseInt(dynamicsState.version.split('.')[0], 10) : 0;
+
         const isForm = (dynamicsState.context && dynamicsState.context.Xrm &&
             dynamicsState.context.Xrm.Page &&
             dynamicsState.context.Xrm.Page.ui && dynamicsState.context.Xrm.Page.data &&
@@ -133,7 +136,7 @@ function getAppState() {
                 recordId = xrm.Page.data.entity.getId && xrm.Page.data.entity.getId();
             }
             catch (e) {
-                if (version < 9) {
+                if (majorVersion < 9) {
                     // Swallow intermittent errors
                     return defaultState;
                 }
@@ -141,9 +144,6 @@ function getAppState() {
                 Honeybadger.notify(e, 'Failed to retrieve record ID while updating information panel');
             }
         }
-
-        const majorVersion = dynamicsState.version ?
-            parseInt(dynamicsState.version.split('.')[0], 10) : 0;
 
         return {
             isForm,
