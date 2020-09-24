@@ -1,6 +1,6 @@
 import * as Fathom from 'fathom-client';
 
-function enableAllFields() {
+function enableAllFields({ majorVersion }) {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
     xrm.Page.ui.controls.forEach(function(c, i){
@@ -9,11 +9,14 @@ function enableAllFields() {
         }
     });
 
-    xrm.Page.data.entity.attributes.forEach(function(c, i){
-        if (c && c.setSubmitMode) {
-            c.setSubmitMode('always');
-        }
-    });
+    // Version 9+ should rely on an alreay set submit mode of dirty, and works even on disabled fields
+    if (majorVersion < 9) {
+        xrm.Page.data.entity.attributes.forEach(function(c, i){
+            if (c && c.setSubmitMode) {
+                c.setSubmitMode('always');
+            }
+        });
+    }
 
     Fathom.trackGoal('WVP4ETTK', 0);
 }

@@ -1,34 +1,34 @@
 Feature: Utilities Pane
 
-#   Scenario: Copy Record Id
+  Scenario: Copy Record Id
 
-#     Given I am on the utilities pane and viewing a record
-#     When I invoke the copy-record-id action
-#     Then I should have copied the record id to my clipboard
+    Given I am on the utilities pane and viewing a record
+    When I invoke the copy-record-id action
+    Then I should have copied the record id to my clipboard
 
-#   Scenario: Copy Record Link
+  Scenario: Copy Record Link
 
-#     Given I am on the utilities pane and viewing a record
-#     When I invoke the copy-record-link action
-#     Then I should have copied the record url to my clipboard
+    Given I am on the utilities pane and viewing a record
+    When I invoke the copy-record-link action
+    Then I should have copied the record url to my clipboard
 
-#   Scenario: Unlock All Fields
+  Scenario: Unlock All Fields
 
-#     Given I am on the utilities pane and viewing a record
-#     When I disable a field, then invoke the enable-all-fields action
-#     Then The field I disabled is reenabled
+    Given I am on the utilities pane and viewing a record
+    When I disable a field, then invoke the enable-all-fields action
+    Then The field I disabled is reenabled
 
-#   Scenario: Focus Field
+  Scenario: Focus Field
 
-#     Given I am on the utilities pane and viewing a record
-#     When I invoke the focus-field action
-#     Then The field specified should have received focus
+    Given I am on the utilities pane and viewing a record
+    When I invoke the focus-field action
+    Then The field specified should have received focus
 
-#   Scenario: Enable Command Checker
+  Scenario: Enable Command Checker
 
-#     Given I am on the utilities pane and viewing a record
-#     When I invoke the open-ribbon-debugger action
-#     Then I see the command checker
+    Given I am on the utilities pane and viewing a record
+    When I invoke the open-ribbon-debugger action
+    Then I see the command checker
 
   Scenario: Populate Required Fields
 

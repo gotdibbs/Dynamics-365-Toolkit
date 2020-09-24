@@ -4,6 +4,7 @@ import { default as openList } from './openList';
 import { default as openRecord } from './openRecord';
 import { default as openSolution } from './openSolution';
 import { default as pluginTraceLog } from './pluginTraceLog';
+import { default as environmentVariables } from './environmentVariables';
 import { default as solutionHistory } from './solutionHistory';
 
 // Export such that they're ordered
@@ -14,5 +15,6 @@ export default [
     openRecord,
     openSolution,
     pluginTraceLog,
+    environmentVariables,
     solutionHistory
 ];

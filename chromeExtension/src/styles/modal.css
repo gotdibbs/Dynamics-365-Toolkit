@@ -46,6 +46,14 @@
     margin-top: 1em;
 }
 
+.gotdibbs-toolbox-modal-form-field input {
+    border: 1px solid #444;
+    border-radius: 0;
+    font-size: 1.5em;
+    margin: 0.25em 0;
+    padding: 0.25em;
+}
+
 .gotdibbs-toolbox-modal-buttons {
     display: flex;
     justify-content: flex-end;
@@ -70,6 +78,7 @@
     color: rgb(59, 121, 183);
 }
 
+.gotdibbs-toolbox-modal-button:focus,
 .gotdibbs-toolbox-modal-button:hover {
     font-weight: bold;
 }

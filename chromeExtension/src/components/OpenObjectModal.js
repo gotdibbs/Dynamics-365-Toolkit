@@ -147,7 +147,7 @@ export default function OpenObjectModal() {
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Record Logical Name <span style={{ color: 'red' }}>*</span></label>
                                 <input type="text" name="logicalName" ref={register({ required: true })} autoFocus data-testid="recordlogicalname" />
-                                {errors.logicalName && (<small style={{ color: 'red' }}>Record Logical Name is required</small>)}
+                                {errors.logicalName && (<span style={{ color: 'red' }}>Record Logical Name is required</span>)}
                             </div>
                         ) : null}
 
@@ -155,7 +155,7 @@ export default function OpenObjectModal() {
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Record Id</label>
                                 <input type="text" name="id" ref={register({ pattern: guidRegex })} data-testid="recordid" />
-                                {errors.id && (<small style={{ color: 'red' }}>ID must be a valid GUID</small>)}
+                                {errors.id && (<span style={{ color: 'red' }}>ID must be a valid GUID</span>)}
                             </div>
                         ) : null}
 
@@ -163,7 +163,7 @@ export default function OpenObjectModal() {
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Solution Unique Name <span style={{ color: 'red' }}>*</span></label>
                                 <input type="text" name="solutionUniqueName" ref={register({ required: true })} autoFocus data-testid="solutionuniquename" />
-                                {errors.solutionUniqueName && (<small style={{ color: 'red' }}>Solution Unique Name is required</small>)}
+                                {errors.solutionUniqueName && (<span style={{ color: 'red' }}>Solution Unique Name is required</span>)}
                             </div>
                         ) : null}
 
@@ -171,7 +171,7 @@ export default function OpenObjectModal() {
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Field Logical Name <span style={{ color: 'red' }}>*</span></label>
                                 <input type="text" name="fieldLogicalName" ref={register({ required: true })} autoFocus data-testid="fieldLogicalName" />
-                                {errors.fieldLogicalName && (<small style={{ color: 'red' }}>Field Logical Name is required</small>)}
+                                {errors.fieldLogicalName && (<span style={{ color: 'red' }}>Field Logical Name is required</span>)}
                             </div>
                         ) : null}
                     </div>

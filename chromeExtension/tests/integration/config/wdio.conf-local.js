@@ -5,8 +5,8 @@ exports.config = {
     logLevel: 'warn',
     specFileRetries: 0,
     services: [
-        //['chromedriver', {}]
-        ['browserstack', {}]
+        ['chromedriver', {}]
+        //['browserstack', {}]
     ],
     capabilities: [
         {
@@ -18,6 +18,6 @@ exports.config = {
     ],
     // Uncomment the below to specify a specific feature file to run
     specs: [
-        './features/utilities.feature'
+        './features/navigation.feature'
     ]
 };

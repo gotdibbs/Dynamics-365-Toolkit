@@ -13,7 +13,7 @@ export default function UtilitiesTab() {
 
     return (
         <section data-page="utilities">
-            <ul style={{ fontSize: '12px', listSTyleType: 'none' }}>
+            <ul style={{ listSTyleType: 'none' }}>
                 {
                     Utilities.filter(utility => {
                         if (utility.maxVersion && utility.maxVersion < state.majorVersion) {

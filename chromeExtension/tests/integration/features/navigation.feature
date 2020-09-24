@@ -30,6 +30,11 @@ Feature: Navigation Pane
     When I click on the plugin-trace-logs link
     Then A new window should open with "Plug-in Trace Logs" in the title
 
+  Scenario: Plugin Trace Logs
+    Given I am on the navigation pane
+    When I click on the show-environment-variables link
+    Then A new window should open with "Environment Variable Definition" in the title
+
   Scenario: Solution History
     Given I am on the navigation pane
     When I click on the solution-history link
