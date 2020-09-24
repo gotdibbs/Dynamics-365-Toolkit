@@ -15,7 +15,7 @@ assignees: gotdibbs
 
 
 
-## Please tell us about your environment:**
+## Please tell us about your environment:
 
   - Dynamics Version: `9.x`
 

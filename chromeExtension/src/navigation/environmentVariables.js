@@ -13,9 +13,13 @@ function navigate() {
     Fathom.trackGoal('A1HF26K2', 0);
 }
 
+function isVisible(state) {
+    return state.majorVersion > 8;
+}
+
 export default {
     navigate: Honeybadger.wrap(navigate),
-    isVisible: true,
+    isVisible,
     key: 'show-environment-variables',
     title: 'Show Environment Variables'
 };

@@ -70,6 +70,8 @@ Given(/i am on the (\w+) pane( and viewing a record| and viewing a new record)?/
 
 Given(/i am viewing a record/i, loadRecord);
 
+Given(/i am viewing a new record/i, loadNewRecord);
+
 When(/i drag the header/i, () => {
     Panes.Toolbox.Header.dragAndDrop({ x: 100, y: 100 });
 });
@@ -136,25 +138,10 @@ When(/i invoke the (.+) action/i, (action) => {
     else if (action === 'get-support') {
         Panes.Info.getSupport();
     }
-    else {
-        throw new Error('Unsupported action: ' + action);
+    else if (action === 'show-entity-data') {
+        Panes.Utilities.showEntityData();
     }
-});
-
-When(/i (.+), then invoke the (.+) action/i, (prereq, action) => {
-    // -- Prerequisites --
-    if (prereq === 'disable a field') {
-        Panes.Utilities.disableField(RECORD_ATTRIBUTE);
-    }
-    else if (prereq === 'hide a field') {
-        Panes.Utilities.hideField(RECORD_ATTRIBUTE);
-    }
-    else if (prereq === 'change a field value') {
-        Panes.Utilities.changeField(RECORD_ATTRIBUTE);
-    }
-
-    // -- Actions --
-    if (action === 'enable-all-fields') {
+    else if (action === 'enable-all-fields') {
         Panes.Utilities.unlockAllFields();
     }
     else if (action === 'show-all-fields') {
@@ -163,6 +150,21 @@ When(/i (.+), then invoke the (.+) action/i, (prereq, action) => {
     else if (action === 'show-dirty-fields') {
         Panes.Utilities.showDirtyFields();
     }
+    else {
+        throw new Error('Unsupported action: ' + action);
+    }
+});
+
+When(/i disable a field/i, () => {
+    Panes.Utilities.disableField(RECORD_ATTRIBUTE);
+});
+
+When(/i hide a field/i, () => {
+    Panes.Utilities.hideField(RECORD_ATTRIBUTE);
+});
+
+When(/i change a field/i, () => {
+    Panes.Utilities.changeField(RECORD_ATTRIBUTE);
 });
 
 Then(/i should see the correct version number/i, () => {
@@ -187,50 +189,67 @@ Then(/the toolbox should change position/i, () => {
     expect(Panes.Toolbox.ToolboxContainer.getCSSProperty('top').parsed.value).toBeGreaterThanOrEqual(100);
 });
 
-Then(/i should see a value displayed for (.*)$/i, (field) => {
-    const valueElement = $(`[data-testid="${field}"] span`);
-    expect(valueElement).toExist();
+Then(/i should see a value for these fields/i, (table) => {
+    table.rawTable.forEach(fields => {
+        const field = fields[0];
 
-    const text = valueElement.getText();
-    expect(text).not.toBeNull();
-    expect(text.trim()).not.toBe('');
+        const valueElement = $(`[data-testid="${field}"] span`);
+        expect(valueElement).toExist();
+
+        const text = valueElement.getText();
+        expect(text).not.toBeNull();
+        expect(text.trim()).not.toBe('');
+    });
 });
 
-Then(/i should not see a value displayed for (.*)$/i, (field) => {
-    const valueElement = $(`[data-testid="${field}"]`);
-    expect(valueElement).not.toExist();
+Then(/i should not see a value for these fields/i, (table) => {
+    table.rawTable.forEach(fields => {
+        const field = fields[0];
+
+        const valueElement = $(`[data-testid="${field}"] span`);
+        expect(valueElement).not.toExist();
+    });
 });
 
-Then(/i should see (.*) display the correct value/i, (field) => {
-    const valueElement = $(`[data-testid="${field}"] span`);
-    expect(valueElement).toExist();
+Then(/i should see each field display the correct value/i, (table) => {
+    table.rawTable.forEach(fields => {
+        const field = fields[0];
 
-    const text = valueElement.getText()?.toLowerCase();
+        const valueElement = $(`[data-testid="${field}"] span`);
+        expect(valueElement).toExist();
 
-    switch (field) {
-        case 'record-id':
-            expect(text).toMatch(RECORD_ID);
-            break;
-        case 'logical-name':
-            expect(text).toMatch(RECORD_LOGICAL_NAME);
-            break;
-    }
+        const text = valueElement.getText()?.toLowerCase();
+
+        switch (field) {
+            case 'record-id':
+                expect(text).toMatch(RECORD_ID);
+                break;
+            case 'logical-name':
+                expect(text).toMatch(RECORD_LOGICAL_NAME);
+                break;
+        }
+    });
 });
 
-Then(/i should see (.*) display a link to (.*)$/i, (field, entity) => {
-    const linkElement = $(`[data-testid="${field}"] a`);
-    expect(linkElement).toExist();
+Then(/i should see each field display a link to the correct entity/i, (table) => {
+    table.hashes().forEach(({ field, entity }) => {
+        const valueElement = $(`[data-testid="${field}"] span`);
+        expect(valueElement).not.toExist();
 
-    const link = linkElement.getAttribute('href');
+        const linkElement = $(`[data-testid="${field}"] a`);
+        expect(linkElement).toExist();
 
-    switch (field) {
-        case 'user-name':
-            expect(link).toMatch(/etn=systemuser/i);
-            break;
-        case 'security-roles':
-            expect(link).toMatch(/biz\/roles\/edit/);
-            break;
-    }
+        const link = linkElement.getAttribute('href');
+
+        switch (field) {
+            case 'user-name':
+                expect(link).toMatch(/etn=systemuser/i);
+                break;
+            case 'security-roles':
+                expect(link).toMatch(/biz\/roles\/edit/);
+                break;
+        }
+    });
 });
 
 Then(/i should have copied the correct value/i, () => {
@@ -420,4 +439,12 @@ Then(/all required fields are populated/i, () => {
     });
 
     expect(areAllFieldsPopulated).toBe(true);
+});
+
+Then(/i see a modal with the entity data/i, () => {
+    Panes.Utilities.CloseShowEntityDataModal.waitForDisplayed();
+
+    $('span*=statecode').waitForDisplayed();
+
+    Panes.Utilities.CloseShowEntityDataModal.click();
 });

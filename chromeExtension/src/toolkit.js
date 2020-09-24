@@ -9,6 +9,7 @@ import AnalyticsTracker from './components/AnalyticsTracker';
 import Toolbox from './components/Toolbox';
 
 import './styles/toolkit.css';
+import './styles/modal.css';
 
 Honeybadger.configure({
     apiKey: process.env.HONEYBADGER_API_KEY,

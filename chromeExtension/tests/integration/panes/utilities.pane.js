@@ -57,6 +57,14 @@ class UtilitiesPane extends Toolbox {
         return $('[data-testid="populate-required-fields"]');
     }
 
+    get ShowEntityData() {
+        return $('[data-testid="show-entity-data"]');
+    }
+
+    get CloseShowEntityDataModal() {
+        return $('[data-testid="cancel-entity-data-modal"]');
+    }
+
     copyRecordId() {
         this.CopyRecordId.click();
 
@@ -104,6 +112,10 @@ class UtilitiesPane extends Toolbox {
 
     showDirtyFields() {
         this.ShowDirtyFields.click();
+    }
+
+    showEntityData() {
+        this.ShowEntityData.click();
     }
 
     changeField(field) {
