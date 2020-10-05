@@ -133,7 +133,7 @@ When(/i invoke the (.+) action/i, (action) => {
         Panes.Utilities.openCommandChecker();
     }
     else if (action === 'populate-required-fields') {
-        Panes.Utilities.populateRequiredFields();
+        Panes.Utilities.populateRequiredFields(RECORD_ATTRIBUTE);
     }
     else if (action === 'get-support') {
         Panes.Info.getSupport();
