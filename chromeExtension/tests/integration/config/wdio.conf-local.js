@@ -4,14 +4,15 @@ exports.config = {
     ...config,
     logLevel: 'warn',
     specFileRetries: 0,
+    maxInstances: 1,
     services: [
-        ['chromedriver', {}]
-        //['browserstack', {}]
+        //['chromedriver', {}]
+        ['browserstack', {}]
     ],
     capabilities: [
         {
             maxInstances: 1,
-            browserName: 'chrome',
+            browserName: 'edge',
             browserVersion: 'latest',
             'bstack:options': {}
         }

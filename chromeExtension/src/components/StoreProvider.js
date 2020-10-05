@@ -89,7 +89,8 @@ function getDynamicsContext() {
         }
         else {
             // Notify honeybadger only if its in crm.dynamics.com to reduce HB alerts
-            if (/(crm\.dynamics\.com)/.test(document.location.href)) {
+            if (/(crm\.dynamics\.com)/.test(document.location.href) &&
+                !/tools\/diagnostics/.test(document.location.href)) {
                 Honeybadger.notify('Failed to detect current CRM version', { context: {
                     xrm: !!global.Xrm,
                     xrmPage: !!(global.Xrm && global.Xrm.Page),

@@ -140,7 +140,14 @@ class UtilitiesPane extends Toolbox {
         this.OpenCommandChecker.click();
     }
 
-    populateRequiredFields() {
+    populateRequiredFields(field) {
+        // The form has issues with focus in automation scenarios, so specifically set focus, then save
+        //  to ensure we're at a common starting point where the form is invalid
+        browser.keys(['Control', 's']);
+
+        $('span*=Required fields').waitForDisplayed();
+
+        // Now that we're in a expected and consistent state, click da button
         this.PopulateRequiredFields.click();
     }
 
