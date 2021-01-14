@@ -22,9 +22,9 @@
     "@wdio/local-runner": "^6.4.4",
     "@wdio/spec-reporter": "^6.4.0",
     "@wdio/sync": "^6.4.0",
-    "chromedriver": "^85.0.0",
+    "chromedriver": "^87.0.5",
     "dotenv": "^8.2.0",
-    "msedgedriver": "^83.0.0",
+    "msedgedriver": "^87.0.13",
     "node-fetch": "^2.6.1",
     "wdio-chromedriver-service": "^6.0.3",
     "wdio-edgedriver-service": "^1.2.0"
