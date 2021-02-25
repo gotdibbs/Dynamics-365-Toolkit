@@ -82,8 +82,9 @@ function getDynamicsState() {
         }
         else {
             // Notify honeybadger only if it looks like we might be in an actual CRM environment
-            if (/(dynamics|crm)/.test(document.location.href) &&
-                !/(operations|retail|ax|home)\.dynamics/.test(document.location.href)) {
+            if (/(dynamics|crm)/i.test(document.location.href) &&
+                !/(operations|retail|ax|home)\.dynamics/i.test(document.location.href) &&
+                !/pagetype=apps/i.test(document.location.href)) {
                 Honeybadger.notify('Failed to detect current CRM version', { context: {
                     xrm: !!global.Xrm,
                     xrmPage: !!(global.Xrm && global.Xrm.Page),

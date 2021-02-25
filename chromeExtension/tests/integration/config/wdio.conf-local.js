@@ -6,19 +6,19 @@ exports.config = {
     specFileRetries: 0,
     maxInstances: 1,
     services: [
-        //['chromedriver', {}]
-        ['browserstack', {}]
+        ['chromedriver', {}]
+        //['browserstack', {}]
     ],
-    capabilities: [
-        {
-            maxInstances: 1,
-            browserName: 'edge',
-            browserVersion: 'latest',
-            'bstack:options': {}
-        }
-    ],
+    // capabilities: [
+    //     {
+    //         maxInstances: 1,
+    //         browserName: 'edge',
+    //         browserVersion: 'latest',
+    //         'bstack:options': {}
+    //     }
+    // ],
     // Uncomment the below to specify a specific feature file to run
-    specs: [
-        './features/utilities.feature'
-    ]
+    // specs: [
+    //     './features/utilities.feature'
+    // ]
 };
