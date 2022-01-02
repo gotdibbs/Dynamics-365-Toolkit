@@ -47,6 +47,10 @@
     position: relative;
 }
 
+.gotdibbs-toolbox-header small {
+    font-size: 0.5em;
+}
+
 .gotdibbs-toolbox-action {
     color: #444;
     cursor: pointer;

@@ -21,7 +21,7 @@ function injectScript(file, scriptType = 'text/javascript') {
 }
 
 async function injectToolbox() {
-    return await injectScript(chrome.extension.getURL('toolkit.js'), 'module');
+    return await injectScript(chrome.runtime.getURL('toolkit.js'), 'module');
 }
 
 function sendMessage(type, content) {
