@@ -20,6 +20,20 @@ const defaultDynamicsState = {
     logicalName: null
 };
 
+const ignoreErrorPatterns = [
+    /crm4\.dynamics\.com/i,
+    /sfa\/workflow/i,
+    /tools\/diagnostics/i
+];
+
+function isIgnored(url) {
+    for (let i = 0, len = ignoreErrorPatterns.length; i < len; i++) {
+        if (ignoreErrorPatterns[i].test(url)) {
+            return true;
+        }
+    }
+}
+
 function getDynamicsContext() {
     let result = {
         dynamicsState: null,
@@ -90,7 +104,7 @@ function getDynamicsContext() {
         else {
             // Notify honeybadger only if its in crm.dynamics.com to reduce HB alerts
             if (/(crm\.dynamics\.com)/.test(document.location.href) &&
-                !/tools\/diagnostics/.test(document.location.href)) {
+                !isIgnored(document.location.href)) {
                 Honeybadger.notify('Failed to detect current CRM version', { context: {
                     xrm: !!global.Xrm,
                     xrmPage: !!(global.Xrm && global.Xrm.Page),

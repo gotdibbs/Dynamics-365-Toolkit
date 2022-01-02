@@ -1,9 +1,0 @@
-<ul class="nav nav-tabs">
-    {{#each collections.pages }}
-        <li class="nav-item">
-            <a href="{{ this.path }}" class="nav-link{{#equals ../title title}} active{{/equals}} data-toggle="tab">
-                {{ this.short_title }}
-            </a>
-        </li>
-    {{/each}}
-</ul>
