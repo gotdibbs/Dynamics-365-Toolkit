@@ -25,6 +25,7 @@ module.exports = {
         launcher: path.resolve(sourceFolder, 'launcher.js'),
         toolkit: path.resolve(sourceFolder, 'toolkit.js')
     },
+    devtool: 'cheap-module-source-map',
     output: {
         path: destFolder,
         filename: '[name].js'

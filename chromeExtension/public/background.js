@@ -1,22 +1,36 @@
+function getLoaded() {
+    return window.GOTDIBBS_LOADED;
+}
+
 // Called when the user clicks on the browser action.
-chrome.browserAction.onClicked.addListener((tab) => {
-    chrome.tabs.executeScript({ code: 'window.GOTDIBBS_LOADED' }, (result) => {
-        if (result[0]) {
+chrome.action.onClicked.addListener((tab) => {
+    const defaultEventProps = {
+        target: { tabId: tab.id }
+    };
+
+    chrome.scripting.executeScript({
+        ...defaultEventProps,
+        func: getLoaded
+    }, (result) => {
+        if (result[0].result) {
             chrome.tabs.sendMessage(tab.id, {
                 type: 'LAUNCH_TOOLBOX'
             });
         }
         else {
             // Preload CSS
-            chrome.tabs.insertCSS(tab.id, {
-                file: 'toolkit.css'
+            chrome.scripting.insertCSS({
+                ...defaultEventProps,
+                files: ['toolkit.css']
             });
 
-            chrome.tabs.executeScript(tab.id, {
-                file: 'honeybadger.min.js'
+            chrome.scripting.executeScript({
+                ...defaultEventProps,
+                files: ['honeybadger.min.js']
             }, () => {
-                chrome.tabs.executeScript(tab.id, {
-                    file: 'launcher.js'
+                chrome.scripting.executeScript({
+                    ...defaultEventProps,
+                    files: ['launcher.js']
                 });
             });
         }

@@ -3,28 +3,33 @@
     "description": "Admin tools for Dynamics 365/CRM",
     "author": "gotdibbs",
     "version": "2.0.3",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "icons": {
         "128": "toolbox.png"
     },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "scripting"
     ],
     "background": {
-        "scripts": ["background.js"],
-        "persistent": false
+        "service_worker": "background.js"
     },
-    "browser_action": {
+    "action": {
         "default_title": "GotDibbs Toolbox",
         "default_icon": "toolbox.png"
     },
     "web_accessible_resources": [
-        "launcher.js",
-        "honeybadger.min.js",
-        "toolkit.*"
+        {
+            "matches": ["<all_urls>"],
+            "resources": [
+                "launcher.js",
+                "honeybadger.min.js",
+                "toolkit.*"
+            ]
+        }
     ],
     "commands": {
-        "_execute_browser_action": {
+        "_execute_action": {
             "suggested_key": {
                 "default": "Alt+Shift+G",
                 "mac": "Alt+Shift+G"
