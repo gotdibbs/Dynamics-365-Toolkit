@@ -1,4 +1,4 @@
-import { Given, When, Then } from 'cucumber';
+import { Given, When, Then } from '@cucumber/cucumber';
 import Package from '../../../../package.json';
 
 import Panes from '../../panes';
@@ -233,9 +233,6 @@ Then(/i should see each field display the correct value/i, (table) => {
 
 Then(/i should see each field display a link to the correct entity/i, (table) => {
     table.hashes().forEach(({ field, entity }) => {
-        const valueElement = $(`[data-testid="${field}"] span`);
-        expect(valueElement).not.toExist();
-
         const linkElement = $(`[data-testid="${field}"] a`);
         expect(linkElement).toExist();
 
@@ -416,6 +413,15 @@ Then(/i see the schema names for fields on the form/i, () => {
 });
 
 Then(/i see the command checker/i, () => {
+    browser.waitUntil(() =>
+        Panes.Dynamics.OverflowCommandButton.isDisplayed() ||
+            Panes.Utilities.CommandChecker.isDisplayed()
+    );
+
+    if (Panes.Dynamics.OverflowCommandButton.isDisplayed()) {
+        Panes.Dynamics.OverflowCommandButton.click();
+    }
+
     Panes.Utilities.CommandChecker.waitForDisplayed();
 });
 

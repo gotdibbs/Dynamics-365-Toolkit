@@ -242,7 +242,7 @@ exports.config = {
     /**
      * Runs after a Cucumber step
      */
-    afterStep: function ({ uri, feature, step }, context, { error, result, duration, passed, retries }) {
+    afterStep: function (step, { uri }, { error, result, duration, passed, retries }, context) {
         if (passed) {
             return;
         }

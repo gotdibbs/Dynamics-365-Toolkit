@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "Integration Tests for the Dynamics 365 Toolkit",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "test:local": "wdio run ./config/wdio.conf-local.js",
-    "getbrowsers": "node ./browserstackUpdater.js",
-    "test": "node ./browserstackUpdater.js && wdio run ./config/wdio.conf.js"
+    "getbrowsers": "node ./browserstackUpdater.mjs",
+    "test": "node ./browserstackUpdater.mjs && wdio run ./config/wdio.conf.js"
   },
   "author": "GotDibbs",
   "license": "MIT",
@@ -16,17 +17,18 @@
     "@babel/core": "^7.11.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/register": "^7.10.5",
-    "@wdio/browserstack-service": "^6.4.0",
-    "@wdio/cli": "^6.4.4",
-    "@wdio/cucumber-framework": "^6.4.3",
-    "@wdio/local-runner": "^6.4.4",
-    "@wdio/spec-reporter": "^6.4.0",
-    "@wdio/sync": "^6.4.0",
-    "chromedriver": "^87.0.5",
-    "dotenv": "^8.2.0",
-    "msedgedriver": "^87.0.13",
-    "node-fetch": "^2.6.1",
-    "wdio-chromedriver-service": "^6.0.3",
+    "@cucumber/cucumber": "^8.0.0-rc.1",
+    "@wdio/browserstack-service": "^7.16.12",
+    "@wdio/cli": "^7.16.12",
+    "@wdio/cucumber-framework": "^7.16.12",
+    "@wdio/local-runner": "^7.16.12",
+    "@wdio/spec-reporter": "^7.16.11",
+    "@wdio/sync": "^7.16.12",
+    "chromedriver": "^96.0.0",
+    "dotenv": "^10.0.0",
+    "msedgedriver": "^91.0.0",
+    "node-fetch": "^3.1.0",
+    "wdio-chromedriver-service": "^7.2.2",
     "wdio-edgedriver-service": "^1.2.0"
   }
 }

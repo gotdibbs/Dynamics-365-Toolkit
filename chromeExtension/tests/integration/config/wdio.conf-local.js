@@ -9,6 +9,7 @@ exports.config = {
         ['chromedriver', {}]
         //['browserstack', {}]
     ],
+    bail: 1,
     // capabilities: [
     //     {
     //         maxInstances: 1,
