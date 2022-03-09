@@ -82,11 +82,16 @@ function load() {
         source: 'chrome_extension'
     });
 
-    Honeybadger.wrap(function () {
+    try {
         attachListeners();
 
         requestLaunchToolbox();
-    })();
+    }
+    catch (e) {
+        Honeybadger.notify(e);
+
+        throw e;
+    }
 }
 
 // Tag that we've loaded the app for benefit of background.js

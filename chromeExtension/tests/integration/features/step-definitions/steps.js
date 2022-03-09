@@ -13,8 +13,8 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function loadNewRecord() {
-    let isSuccess = browser.execute(logicalName => {
+async function loadNewRecord() {
+    let isSuccess = await browser.execute(logicalName => {
         try {
             Xrm.Utility.openEntityForm(logicalName);
             return true;
@@ -24,14 +24,14 @@ function loadNewRecord() {
 
     if (!isSuccess) {
         // Backup, but noisy to the `info` logs as toolkit needs to be re-injected
-        browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}`);
+        await browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}`);
     }
 
-    Panes.Dynamics.FormHeader.waitForDisplayed();
+    await Panes.Dynamics.FormHeader.waitForDisplayed();
 }
 
-function loadRecord() {
-    let isSuccess = browser.execute((logicalName, id) => {
+async function loadRecord() {
+    let isSuccess = await browser.execute((logicalName, id) => {
         try {
             Xrm.Utility.openEntityForm(logicalName, id);
             return true;
@@ -41,28 +41,28 @@ function loadRecord() {
 
     if (!isSuccess) {
         // Backup, but noisy to the `info` logs as toolkit needs to be re-injected
-        browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}&id=${RECORD_ID}`);
+        await browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}&id=${RECORD_ID}`);
     }
 
-    Panes.Dynamics.FormHeader.waitForDisplayed();
+    await Panes.Dynamics.FormHeader.waitForDisplayed();
 }
 
-function loadPane(pane, isViewingRecord) {
+async function loadPane(pane, isViewingRecord) {
     if (pane == 'default') {
         pane = 'toolbox';
     }
 
-    Panes[capitalize(pane)].open();
+    await Panes[capitalize(pane)].open();
 
     if (!isViewingRecord) {
         return;
     }
 
     if (/new/i.test(isViewingRecord)) {
-        loadNewRecord();
+        await loadNewRecord();
     }
     else {
-        loadRecord();
+        await loadRecord();
     }
 }
 
@@ -72,13 +72,13 @@ Given(/i am viewing a record/i, loadRecord);
 
 Given(/i am viewing a new record/i, loadNewRecord);
 
-When(/i drag the header/i, () => {
-    Panes.Toolbox.Header.dragAndDrop({ x: 100, y: 100 });
+When(/i drag the header/i, async () => {
+    await Panes.Toolbox.Header.dragAndDrop({ x: 100, y: 100 });
 });
 
 When(/i am viewing the (\w+) pane/i, loadPane);
 
-When(/i click on the (.+) (button|link)( again)?/i, (buttonText, type, again) => {
+When(/i click on the (.+) (button|link)( again)?/i, async (buttonText, type, again) => {
     let button = null;
 
     switch (buttonText) {
@@ -101,124 +101,125 @@ When(/i click on the (.+) (button|link)( again)?/i, (buttonText, type, again) =>
         return;
     }
 
-    button.click();
+    await button.click();
     if (again) {
-        button.click();
+        await button.click();
     }
 });
 
-When(/i invoke the (.+) action/i, (action) => {
+When(/i invoke the (.+) action/i, async (action) => {
     if (action === 'open-record-list') {
-        Panes.Navigation.openRecordList(RECORD_LOGICAL_NAME);
+        await Panes.Navigation.openRecordList(RECORD_LOGICAL_NAME);
     }
     else if (action === 'open-record') {
-        Panes.Navigation.openRecord(RECORD_LOGICAL_NAME, RECORD_ID);
+        await Panes.Navigation.openRecord(RECORD_LOGICAL_NAME, RECORD_ID);
     }
     else if (action === 'open-solution') {
-        Panes.Navigation.openSolution(SOLUTION_NAME);
+        await Panes.Navigation.openSolution(SOLUTION_NAME);
     }
     else if (action === 'copy-record-id') {
-        Panes.Utilities.copyRecordId();
+        await Panes.Utilities.copyRecordId();
     }
     else if (action === 'copy-record-link') {
-        Panes.Utilities.copyRecordLink();
+        await Panes.Utilities.copyRecordLink();
     }
     else if (action === 'focus-field') {
-        Panes.Utilities.focusField(RECORD_ATTRIBUTE);
+        await Panes.Utilities.focusField(RECORD_ATTRIBUTE);
     }
     else if (action === 'toggle-schema-names') {
-        Panes.Utilities.toggleSchemaNames(RECORD_ATTRIBUTE);
+        await Panes.Utilities.toggleSchemaNames(RECORD_ATTRIBUTE);
     }
     else if (action === 'open-ribbon-debugger') {
-        Panes.Utilities.openCommandChecker();
+        await Panes.Utilities.openCommandChecker();
     }
     else if (action === 'populate-required-fields') {
-        Panes.Utilities.populateRequiredFields(RECORD_ATTRIBUTE);
+        await Panes.Utilities.populateRequiredFields(RECORD_ATTRIBUTE);
     }
     else if (action === 'get-support') {
-        Panes.Info.getSupport();
+        await Panes.Info.getSupport();
     }
     else if (action === 'show-entity-data') {
-        Panes.Utilities.showEntityData();
+        await Panes.Utilities.showEntityData();
     }
     else if (action === 'enable-all-fields') {
-        Panes.Utilities.unlockAllFields();
+        await Panes.Utilities.unlockAllFields();
     }
     else if (action === 'show-all-fields') {
-        Panes.Utilities.showAllFields();
+        await Panes.Utilities.showAllFields();
     }
     else if (action === 'show-dirty-fields') {
-        Panes.Utilities.showDirtyFields();
+        await Panes.Utilities.showDirtyFields();
     }
     else {
         throw new Error('Unsupported action: ' + action);
     }
 });
 
-When(/i disable a field/i, () => {
-    Panes.Utilities.disableField(RECORD_ATTRIBUTE);
+When(/i disable a field/i, async () => {
+    await Panes.Utilities.disableField(RECORD_ATTRIBUTE);
 });
 
-When(/i hide a field/i, () => {
-    Panes.Utilities.hideField(RECORD_ATTRIBUTE);
+When(/i hide a field/i, async () => {
+    await Panes.Utilities.hideField(RECORD_ATTRIBUTE);
 });
 
-When(/i change a field/i, () => {
-    Panes.Utilities.changeField(RECORD_ATTRIBUTE);
+When(/i change a field/i, async () => {
+    await Panes.Utilities.changeField(RECORD_ATTRIBUTE);
 });
 
-Then(/i should see the correct version number/i, () => {
-    expect(Panes.Toolbox.Version).toHaveText('v' + Package.version);
+Then(/i should see the correct version number/i, async () => {
+    await expect(Panes.Toolbox.Version).toHaveText('v' + Package.version);
 });
 
-Then(/the toolbox display state should be (\w+)/i, state => {
+Then(/the toolbox display state should be (\w+)/i, async (state) => {
     if (state === 'collapsed') {
-        browser.waitUntil(() => Panes.Toolbox.ToolboxContainer.getSize('height') <= 100);
-        expect(Panes.Toolbox.ToggleButton).toHaveElementClass(state);
+        await browser.waitUntil(async () => await Panes.Toolbox.ToolboxContainer.getSize('height') <= 100);
+        await expect(Panes.Toolbox.ToggleButton).toHaveElementClass(state);
     }
     else if (state === 'expanded') {
-        browser.waitUntil(() => Panes.Toolbox.ToolboxContainer.getSize('height') > 100);
-        expect(Panes.Toolbox.ToggleButton).not.toHaveElementClass('collapsed');
+        await browser.waitUntil(async () => await Panes.Toolbox.ToolboxContainer.getSize('height') > 100);
+        await expect(Panes.Toolbox.ToggleButton).not.toHaveElementClass('collapsed');
     }
     else if (state === 'closed') {
-        expect(Panes.Toolbox.ToolboxContainer).not.toExist();
+        await expect(Panes.Toolbox.ToolboxContainer).not.toExist();
     }
 });
 
-Then(/the toolbox should change position/i, () => {
-    expect(Panes.Toolbox.ToolboxContainer.getCSSProperty('top').parsed.value).toBeGreaterThanOrEqual(100);
+Then(/the toolbox should change position/i, async () => {
+    const top = await Panes.Toolbox.ToolboxContainer.getCSSProperty('top');
+    await expect(top.parsed.value).toBeGreaterThanOrEqual(100);
 });
 
-Then(/i should see a value for these fields/i, (table) => {
-    table.rawTable.forEach(fields => {
+Then(/i should see a value for these fields/i, async (table) => {
+    for await (const fields of table.rawTable) {
         const field = fields[0];
 
-        const valueElement = $(`[data-testid="${field}"] span`);
+        const valueElement = await $(`[data-testid="${field}"] span`);
         expect(valueElement).toExist();
 
-        const text = valueElement.getText();
+        const text = await valueElement.getText();
         expect(text).not.toBeNull();
         expect(text.trim()).not.toBe('');
-    });
+    }
 });
 
-Then(/i should not see a value for these fields/i, (table) => {
-    table.rawTable.forEach(fields => {
+Then(/i should not see a value for these fields/i, async (table) => {
+    for await (const fields of table.rawTable) {
         const field = fields[0];
 
-        const valueElement = $(`[data-testid="${field}"] span`);
-        expect(valueElement).not.toExist();
-    });
+        const valueElement = await $(`[data-testid="${field}"] span`);
+        await expect(valueElement).not.toExist();
+    }
 });
 
-Then(/i should see each field display the correct value/i, (table) => {
-    table.rawTable.forEach(fields => {
+Then(/i should see each field display the correct value/i, async (table) => {
+    for await (const fields of table.rawTable) {
         const field = fields[0];
 
-        const valueElement = $(`[data-testid="${field}"] span`);
+        const valueElement = await $(`[data-testid="${field}"] span`);
         expect(valueElement).toExist();
 
-        const text = valueElement.getText()?.toLowerCase();
+        const text = (await valueElement.getText())?.toLowerCase();
 
         switch (field) {
             case 'record-id':
@@ -228,15 +229,15 @@ Then(/i should see each field display the correct value/i, (table) => {
                 expect(text).toMatch(RECORD_LOGICAL_NAME);
                 break;
         }
-    });
+    }
 });
 
-Then(/i should see each field display a link to the correct entity/i, (table) => {
-    table.hashes().forEach(({ field, entity }) => {
-        const linkElement = $(`[data-testid="${field}"] a`);
+Then(/i should see each field display a link to the correct entity/i, async (table) => {
+    for await (const { field, entity } of table.hashes()) {
+        const linkElement = await $(`[data-testid="${field}"] a`);
         expect(linkElement).toExist();
 
-        const link = linkElement.getAttribute('href');
+        const link = await linkElement.getAttribute('href');
 
         switch (field) {
             case 'user-name':
@@ -246,47 +247,47 @@ Then(/i should see each field display a link to the correct entity/i, (table) =>
                 expect(link).toMatch(/biz\/roles\/edit/);
                 break;
         }
-    });
+    }
 });
 
-Then(/i should have copied the correct value/i, () => {
-    const valueElement = $(`[data-testid="dynamics-version"] span`);
+Then(/i should have copied the correct value/i, async () => {
+    const valueElement = await $(`[data-testid="dynamics-version"] span`);
     expect(valueElement).toExist();
-    const expectedText = valueElement.getAttribute('data-value');
+    const expectedText = await valueElement.getAttribute('data-value');
 
-    browser.execute(() => {
+    await browser.execute(() => {
         let elem = document.createElement('input');
         elem.type = 'text';
         elem.id = 'gotdibbs-test-fixture';
         document.body.appendChild(elem);
     }, []);
 
-    const inputFixture = $('#gotdibbs-test-fixture');
+    const inputFixture = await $('#gotdibbs-test-fixture');
     // https://twitter.com/webdriverio/status/812034986341789696?lang=en
-    inputFixture.setValue(['Shift', 'Insert']);
+    await inputFixture.setValue(['Shift', 'Insert']);
 
-    const actualText = inputFixture.getValue();
+    const actualText = await inputFixture.getValue();
 
     expect(actualText).toMatch(expectedText);
 
-    browser.execute(() => {
+    await browser.execute(() => {
         document.getElementById('gotdibbs-test-fixture').remove();
     }, []);
 });
 
-Then(/i should have copied the (.+) to my clipboard/i, (valueType) => {
-    browser.execute(() => {
+Then(/i should have copied the (.+) to my clipboard/i, async (valueType) => {
+    await browser.execute(() => {
         let elem = document.createElement('input');
         elem.type = 'text';
         elem.id = 'gotdibbs-test-fixture';
         document.body.appendChild(elem);
     }, []);
 
-    const inputFixture = $('#gotdibbs-test-fixture');
+    const inputFixture = await $('#gotdibbs-test-fixture');
     // https://twitter.com/webdriverio/status/812034986341789696?lang=en
-    inputFixture.setValue(['Shift', 'Insert']);
+    await inputFixture.setValue(['Shift', 'Insert']);
 
-    const actualText = inputFixture.getValue();
+    const actualText = await inputFixture.getValue();
 
     let matcher = null;
 
@@ -301,44 +302,44 @@ Then(/i should have copied the (.+) to my clipboard/i, (valueType) => {
 
     expect(actualText).toMatch(matcher);
 
-    browser.execute(() => {
+    await browser.execute(() => {
         document.getElementById('gotdibbs-test-fixture').remove();
     }, []);
 });
 
-Then(/a new window should open to show the (.+) (editor|list|page)$/i, (component, type) => {
-    const currentWindow = browser.getWindowHandle();
+Then(/a new window should open to show the (.+) (editor|list|page)$/i, async (component, type) => {
+    const currentWindow = await browser.getWindowHandle();
 
     if (component === 'record' && type === 'list') {
-        browser.switchWindow(new RegExp(`etn=${RECORD_LOGICAL_NAME}`));
+        await browser.switchWindow(new RegExp(`etn=${RECORD_LOGICAL_NAME}`));
     }
     else if (component === 'record' && type === 'editor') {
-        browser.switchWindow(new RegExp(`id=${RECORD_ID}`));
+        await browser.switchWindow(new RegExp(`id=${RECORD_ID}`));
     }
     else {
         throw new Error(`Couldn't find ${component}/${type}`);
     }
 
-    browser.execute(() => window.close());
-    browser.switchToWindow(currentWindow);
+    await browser.execute(() => window.close());
+    await browser.switchToWindow(currentWindow);
 });
 
 // Copied from webdriver.io source, but modified to handle nulls
-function switchWindow(urlOrTitleToMatch) {
+async function switchWindow(urlOrTitleToMatch) {
     if (typeof urlOrTitleToMatch !== 'string' && !(urlOrTitleToMatch instanceof RegExp)) {
         throw new Error('Unsupported parameter for switchWindow, required is "string" or an RegExp');
     }
 
-    const tabs = browser.getWindowHandles();
+    const tabs = await browser.getWindowHandles();
 
     for (const tab of tabs) {
-        browser.switchToWindow(tab)
+        await browser.switchToWindow(tab)
 
         /**
          * check if url matches
          */
-        browser.waitUntil(() => browser.getUrl());
-        const url = browser.getUrl();
+        await browser.waitUntil(() => browser.getUrl());
+        const url = await browser.getUrl();
         if (url.match(urlOrTitleToMatch)) {
             return tab;
         }
@@ -346,8 +347,8 @@ function switchWindow(urlOrTitleToMatch) {
         /**
          * check title
          */
-        browser.waitUntil(() => browser.getTitle());
-        const title = browser.getTitle();
+        await browser.waitUntil(() => browser.getTitle());
+        const title = await browser.getTitle();
         if (title.match(urlOrTitleToMatch)) {
             return tab;
         }
@@ -356,77 +357,86 @@ function switchWindow(urlOrTitleToMatch) {
     throw new Error(`No window found with title or url matching "${urlOrTitleToMatch}"`)
 }
 
-Then(/a new window should open with "(.+)" in the (title|url)$/i, (title, matchType) => {
-    const currentWindow = browser.getWindowHandle();
+Then(/a new window should open with "(.+)" in the (title|url)$/i, async (title, matchType) => {
+    const currentWindow = await browser.getWindowHandle();
 
-    browser.waitUntil(() => browser.getWindowHandles().length > 1);
+    await browser.waitUntil(async () => {
+        const handles = await browser.getWindowHandles();
+
+        return handles.length > 1
+    });
 
     // The title will be 'Microsoft Dynamics 365' until the page loads, so it is
     //  safe to wait for that title to transition, but then we need to wait for the
     //  the actual title to be present to pass the vibe check
-    switchWindow(new RegExp(`(${title})|(^Microsoft Dynamics 365)`, 'i'));
-    browser.waitUntil(() => new RegExp(title).test(browser.getTitle()));
+    await switchWindow(new RegExp(`(${title})|(^Microsoft Dynamics 365)`, 'i'));
+    await browser.waitUntil(async () => {
+        const title = await browser.getTitle();
 
-    browser.execute(() => window.close());
-    browser.switchToWindow(currentWindow);
+        return new RegExp(title).test(title);
+    });
+
+    await browser.execute(() => window.close());
+    await browser.switchToWindow(currentWindow);
 });
 
-Then(/the field i disabled is reenabled/i, () => {
-    const isDisabled = browser.execute(field => {
+Then(/the field i disabled is reenabled/i, async () => {
+    const isDisabled = await browser.execute(field => {
         return window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).getDisabled();
     }, RECORD_ATTRIBUTE);
 
     expect(isDisabled).toBe(false);
 });
 
-Then(/the field specified should have received focus/i, () => {
-    browser.waitUntil(() => {
-        return browser.execute(field => {
+Then(/the field specified should have received focus/i, async () => {
+    await browser.waitUntil(async () => {
+        return await browser.execute(field => {
             return document.querySelector(`[data-id="${field}"] input`) === document.activeElement;
         }, RECORD_ATTRIBUTE);
     });
 });
 
-Then(/the field i hid should now be visible/i, () => {
-    browser.waitUntil(() => {
-        return browser.execute(field => {
+Then(/the field i hid should now be visible/i, async () => {
+    await browser.waitUntil(async () => {
+        return await browser.execute(field => {
             return window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).getVisible();
         }, RECORD_ATTRIBUTE);
     });
 });
 
-Then(/i see an alert with the field i changed listed/i, () => {
-    browser.waitUntil(() => browser.getAlertText());
+Then(/i see an alert with the field i changed listed/i, async () => {
+    await browser.waitUntil(async () => await browser.getAlertText());
 
-    expect(browser.getAlertText()).toMatch(new RegExp(RECORD_ATTRIBUTE, 'i'));
+    const alertText = await browser.getAlertText();
+    expect(alertText).toMatch(new RegExp(RECORD_ATTRIBUTE, 'i'));
 
-    browser.acceptAlert();
+    await browser.acceptAlert();
 
     // Cleanup
-    Panes.Utilities.changeFieldBack(RECORD_ATTRIBUTE);
+    await Panes.Utilities.changeFieldBack(RECORD_ATTRIBUTE);
 });
 
-Then(/i see the schema names for fields on the form/i, () => {
-    $('label*=' + RECORD_ATTRIBUTE).waitForDisplayed();
+Then(/i see the schema names for fields on the form/i, async () => {
+    await $('label*=' + RECORD_ATTRIBUTE).waitForDisplayed();
 
-    Panes.Utilities.toggleSchemaNames();
+    await Panes.Utilities.toggleSchemaNames();
 });
 
-Then(/i see the command checker/i, () => {
-    browser.waitUntil(() =>
-        Panes.Dynamics.OverflowCommandButton.isDisplayed() ||
-            Panes.Utilities.CommandChecker.isDisplayed()
+Then(/i see the command checker/i, async () => {
+    await browser.waitUntil(async () =>
+        (await Panes.Dynamics.OverflowCommandButton.isDisplayed()) ||
+            (await Panes.Utilities.CommandChecker.isDisplayed())
     );
 
-    if (Panes.Dynamics.OverflowCommandButton.isDisplayed()) {
-        Panes.Dynamics.OverflowCommandButton.click();
+    if (await Panes.Dynamics.OverflowCommandButton.isDisplayed()) {
+        await Panes.Dynamics.OverflowCommandButton.click();
     }
 
-    Panes.Utilities.CommandChecker.waitForDisplayed();
+    await Panes.Utilities.CommandChecker.waitForDisplayed();
 });
 
-Then(/all required fields are populated/i, () => {
-    const areAllFieldsPopulated = browser.execute(() => {
+Then(/all required fields are populated/i, async () => {
+    const areAllFieldsPopulated = await browser.execute(() => {
         let result = true;
 
         window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.data.entity.attributes.forEach(a => {
@@ -447,10 +457,10 @@ Then(/all required fields are populated/i, () => {
     expect(areAllFieldsPopulated).toBe(true);
 });
 
-Then(/i see a modal with the entity data/i, () => {
-    Panes.Utilities.CloseShowEntityDataModal.waitForDisplayed();
+Then(/i see a modal with the entity data/i, async () => {
+    await Panes.Utilities.CloseShowEntityDataModal.waitForDisplayed();
 
-    $('span*=statecode').waitForDisplayed();
+    await $('span*=statecode').waitForDisplayed();
 
-    Panes.Utilities.CloseShowEntityDataModal.click();
+    await Panes.Utilities.CloseShowEntityDataModal.click();
 });

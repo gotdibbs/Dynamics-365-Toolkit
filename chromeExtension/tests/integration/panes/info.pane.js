@@ -9,11 +9,11 @@ class InfoPane extends Toolbox {
         return $('[data-testid="get-support"]');
     }
 
-    getSupport() {
-        this.GetSupport.click();
+    async getSupport() {
+        await this.GetSupport.click();
     }
 
-    open () {
+    async open () {
         return super.open();
     }
 }

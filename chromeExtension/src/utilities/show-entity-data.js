@@ -1,4 +1,3 @@
-import Honeybadger from 'honeybadger-js';
 import * as Fathom from 'fathom-client';
 
 function action(state, actions) {
@@ -8,7 +7,7 @@ function action(state, actions) {
 }
 
 export default {
-    action: Honeybadger.wrap(action),
+    action,
     key: 'show-entity-data',
     title: 'Show Entity Data',
     description: 'Shows the JSON data for the current record, as retrieved from the Web API.',

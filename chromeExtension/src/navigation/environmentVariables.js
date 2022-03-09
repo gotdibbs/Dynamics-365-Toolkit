@@ -1,4 +1,3 @@
-import Honeybadger from 'honeybadger-js';
 import * as Fathom from 'fathom-client';
 
 function navigate() {
@@ -18,7 +17,7 @@ function isVisible(state) {
 }
 
 export default {
-    navigate: Honeybadger.wrap(navigate),
+    navigate,
     isVisible,
     key: 'show-environment-variables',
     title: 'Show Environment Variables'

@@ -65,96 +65,96 @@ class UtilitiesPane extends Toolbox {
         return $('[data-testid="cancel-entity-data-modal"]');
     }
 
-    copyRecordId() {
-        this.CopyRecordId.click();
+    async copyRecordId() {
+        await this.CopyRecordId.click();
 
-        browser.waitUntil(() => browser.getAlertText());
+        await browser.waitUntil(async () => await browser.getAlertText());
 
-        browser.acceptAlert();
+        await browser.acceptAlert();
     }
 
-    copyRecordLink() {
-        this.CopyRecordLink.click();
+    async copyRecordLink() {
+        await this.CopyRecordLink.click();
 
-        browser.waitUntil(() => browser.getAlertText());
+        await browser.waitUntil(async () => await browser.getAlertText());
 
-        browser.acceptAlert();
+        await browser.acceptAlert();
     }
 
-    disableField(field) {
-        browser.execute(field => {
+    async disableField(field) {
+        await browser.execute((field) => {
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).setDisabled(true);
         }, field);
     }
 
-    unlockAllFields() {
-        this.UnlockAllFields.click();
+    async unlockAllFields() {
+        await this.UnlockAllFields.click();
     }
 
-    focusField(logicalName) {
-        this.FocusFieldLink.click();
+    async focusField(logicalName) {
+        await this.FocusFieldLink.click();
 
-        this.FocusFieldInput.waitForDisplayed();
-        this.FocusFieldInput.setValue(logicalName);
+        await this.FocusFieldInput.waitForDisplayed();
+        await this.FocusFieldInput.setValue(logicalName);
 
-        this.OpenObject.click();
+        await this.OpenObject.click();
     }
 
-    hideField(field) {
-        browser.execute(field => {
+    async hideField(field) {
+        await browser.execute((field) => {
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).setVisible(false);
         }, field);
     }
 
-    showAllFields() {
-        this.ShowAllFields.click();
+    async showAllFields() {
+        await this.ShowAllFields.click();
     }
 
-    showDirtyFields() {
-        this.ShowDirtyFields.click();
+    async showDirtyFields() {
+        await this.ShowDirtyFields.click();
     }
 
-    showEntityData() {
-        this.ShowEntityData.click();
+    async showEntityData() {
+        await this.ShowEntityData.click();
     }
 
-    changeField(field) {
-        this.currentFieldValue = browser.execute(field => {
+    async changeField(field) {
+        this.currentFieldValue = await browser.execute((field) => {
             let value = window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getAttribute(field).getValue();
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getAttribute(field).setValue(new Date().toISOString());
             return value;
         }, field);
     }
 
-    changeFieldBack(field) {
-        browser.execute((field, value) => {
+    async changeFieldBack(field) {
+        await browser.execute((field, value) => {
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getAttribute(field).setValue(value);
         }, field, this.currentFieldValue);
     }
 
-    toggleSchemaNames() {
-        this.ToggleSchemaNames.click();
+    async toggleSchemaNames() {
+        await this.ToggleSchemaNames.click();
     }
 
-    openCommandChecker() {
-        this.OpenCommandChecker.click();
+    async openCommandChecker() {
+        await this.OpenCommandChecker.click();
     }
 
-    populateRequiredFields(field) {
+    async populateRequiredFields(field) {
         // The form has issues with focus in automation scenarios, so specifically set focus, then save
         //  to ensure we're at a common starting point where the form is invalid
-        browser.keys(['Control', 's']);
+        await browser.keys(['Control', 's']);
 
-        $('span*=Required fields').waitForDisplayed();
+        await $('span*=Required fields').waitForDisplayed();
 
         // Now that we're in a expected and consistent state, click da button
-        this.PopulateRequiredFields.click();
+        await this.PopulateRequiredFields.click();
     }
 
-    open () {
-        super.open();
+    async open() {
+        await super.open();
 
-        this.UtilitiesTabItem.click();
+        await this.UtilitiesTabItem.click();
     }
 }
 

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Honeybadger from '@honeybadger-io/js';
 
 import { StoreContext } from './StoreProvider';
 
@@ -8,7 +9,12 @@ export default function NavigationTabItem({ navigator }) {
     function handleClick(e) {
         e.preventDefault();
 
-        navigator.navigate(state, actions);
+        try {
+            navigator.navigate(state, actions);
+        }
+        catch (e) {
+            Honeybadger.notify(e, `Error encountered during navigation to '${navigator.title}'`);
+        }
     }
 
     return (
