@@ -1,4 +1,3 @@
-import Honeybadger from 'honeybadger-js';
 import * as Fathom from 'fathom-client';
 
 function navigate(state) {
@@ -12,7 +11,7 @@ function navigate(state) {
 }
 
 export default {
-    navigate: Honeybadger.wrap(navigate),
+    navigate,
     isVisible: true,
     key: 'solution-history',
     title: 'Solution History'

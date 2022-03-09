@@ -7,24 +7,24 @@ module.exports = class ToolboxHelper {
         return $('.gotdibbs-toolbox-close');
     }
 
-    closeToolbox() {
-        if (this.ToolboxContainer.isDisplayed()) {
-            this.CloseToolboxButton.click();
+    async closeToolbox() {
+        if (await this.ToolboxContainer.isDisplayed()) {
+            await this.CloseToolboxButton.click();
         }
     }
 
-    navigateHome() {
+    async navigateHome() {
         const isOnRecordPage = /(etn|etc)/i;
 
-        if (isOnRecordPage.test(browser.getUrl())) {
+        if (isOnRecordPage.test(await browser.getUrl())) {
             // First, try to go back to prevent excessive toolbox script injection in `info` logs
-            browser.back();
+            await browser.back();
 
-            if (!isOnRecordPage.test(browser.getUrl())) {
+            if (!isOnRecordPage.test(await browser.getUrl())) {
                 return;
             }
             else {
-                browser.url('/main.aspx?app=d365default&forceUCI=1');
+                await browser.url('/main.aspx?app=d365default&forceUCI=1');
             }
         }
     }

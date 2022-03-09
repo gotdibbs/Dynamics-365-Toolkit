@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import Honeybadger from 'honeybadger-js';
+import Honeybadger from '@honeybadger-io/js';
 
 import { StoreContext } from './StoreProvider';
 

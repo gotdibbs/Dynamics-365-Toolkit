@@ -28,8 +28,8 @@ class Toolbox {
         return $('.gotdibbs-toolbox-close');
     }
 
-    open() {
-        const didReload = browser.execute(() => {
+    async open() {
+        const didReload = await browser.execute(() => {
             try {
                 if (window.__GOTDIBBS_TOOLBOX__ && window.__GOTDIBBS_TOOLBOX__.load) {
                     window.__GOTDIBBS_TOOLBOX__.load();
@@ -40,21 +40,21 @@ class Toolbox {
         });
 
         if (!didReload) {
-            browser.execute(cssString => {
+            await browser.execute((cssString) => {
                 const style = document.createElement('style');
                 style.textContent = cssString;
                 document.head.append(style);
             }, css);
-            browser.execute(script, []);
+            await browser.execute(script, []);
 
-            if (!this.ToolboxContainer.isDisplayed()) {
-                this.ToolboxContainer.waitForDisplayed();
+            if (!(await this.ToolboxContainer.isDisplayed())) {
+                await this.ToolboxContainer.waitForDisplayed();
             }
         }
     }
 
-    close() {
-        new ScenarioHelper().close();
+    async close() {
+        await (new ScenarioHelper().close());
     }
 }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import Honeybadger from 'honeybadger-js';
+import Honeybadger from '@honeybadger-io/js';
 import Package from '../package.json';
 import { log } from './logger';
 
@@ -15,8 +15,8 @@ Honeybadger.configure({
     apiKey: process.env.HONEYBADGER_API_KEY,
     environment: process.env.NODE_ENV,
     revision: Package.version,
-    onerror: false,
-    onunhandledrejection: false
+    enableUncaught: false,
+    enableUnhandledRejection: false
 });
 
 log('Loaded');

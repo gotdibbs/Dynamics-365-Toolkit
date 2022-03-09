@@ -1,6 +1,6 @@
 {
   "name": "gotdibbs-toolbox",
-  "version": "2022.1.1",
+  "version": "2022.3",
   "description": "Admin tools for Dynamics 365/CRM",
   "main": "index.js",
   "scripts": {
@@ -12,16 +12,16 @@
   "license": "MIT",
   "private": "true",
   "devDependencies": {
-    "@babel/core": "^7.11.0",
-    "@babel/preset-env": "^7.11.0",
-    "@babel/preset-react": "^7.10.4",
-    "babel-loader": "^8.1.0",
-    "classnames": "^2.2.6",
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "classnames": "^2.3.1",
     "copy-webpack-plugin": "^7.0.0",
-    "core-js": "^3.8.2",
+    "core-js": "^3.21.1",
     "crx": "^5.0.1",
     "css-loader": "^5.0.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^7.17.0",
     "eslint-config-defaults": "^9.0.0",
     "eslint-loader": "^4.0.2",
@@ -33,12 +33,12 @@
     "style-loader": "^2.0.0",
     "sumo-logger": "^2.6.1",
     "url-loader": "^4.1.0",
-    "webpack": "^5.14.0",
-    "webpack-cli": "^4.3.1",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2",
     "zip-webpack-plugin": "^4.0.1"
   },
   "dependencies": {
-    "@honeybadger-io/react": "^0.0.8",
+    "@honeybadger-io/react": "^2.0.0",
     "fathom-client": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"

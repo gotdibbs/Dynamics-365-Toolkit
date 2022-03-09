@@ -1,5 +1,3 @@
-import Honeybadger from 'honeybadger-js';
-
 function navigate(state, actions) {
     actions.toggleOpenObjectModal({
         type: 'solution'
@@ -11,7 +9,7 @@ function isVisible(state) {
 }
 
 export default {
-    navigate: Honeybadger.wrap(navigate),
+    navigate,
     isVisible,
     key: 'open-solution',
     title: 'Open Solution'

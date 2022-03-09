@@ -214,8 +214,8 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    before: function (capabilities, specs) {
-        new AuthenticationManager().login();
+    before: async function (capabilities, specs) {
+        await (new AuthenticationManager().login());
     },
     /**
      * Runs before a WebdriverIO command gets executed.
@@ -242,7 +242,7 @@ exports.config = {
     /**
      * Runs after a Cucumber step
      */
-    afterStep: function (step, { uri }, { error, result, duration, passed, retries }, context) {
+    afterStep: async function (step, { uri }, { error, result, duration, passed, retries }, context) {
         if (passed) {
             return;
         }
@@ -260,16 +260,16 @@ exports.config = {
             ['ERROR', browser.requestedCapabilities.browserName, browser.capabilities.browserVersion, featureName].join('_'),
             '.png'
         ].join('').replace(/(\/|\\)/g, '-');
-        browser.saveScreenshot(path.join(screenshotPath, '/', fileName));
+        await browser.saveScreenshot(path.join(screenshotPath, '/', fileName));
     },
     /**
      * Runs after a Cucumber scenario
      */
-    afterScenario: function (uri, feature, scenario, result, sourceLocation, context) {
+    afterScenario: async function (uri, feature, scenario, result, sourceLocation, context) {
         const helper = new ScenarioHelper();
 
-        helper.closeToolbox();
-        helper.navigateHome();
+        await helper.closeToolbox();
+        await helper.navigateHome();
     },
     /**
      * Runs after a Cucumber feature

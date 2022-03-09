@@ -37,40 +37,40 @@ class NavigationPane extends Toolbox {
         return $('[data-testid="openobjectcancel"]');
     }
 
-    openRecordList(logicalName) {
-        this.OpenRecordListLink.click();
+    async openRecordList(logicalName) {
+        await this.OpenRecordListLink.click();
 
-        this.RecordLogicalNameInput.waitForDisplayed();
+        await this.RecordLogicalNameInput.waitForDisplayed();
 
-        this.RecordLogicalNameInput.setValue(logicalName)
+        await this.RecordLogicalNameInput.setValue(logicalName)
 
-        this.OpenObject.click();
+        await this.OpenObject.click();
     }
 
-    openRecord(logicalName, id) {
-        this.OpenRecordLink.click();
+    async openRecord(logicalName, id) {
+        await this.OpenRecordLink.click();
 
-        this.RecordLogicalNameInput.waitForDisplayed();
-        this.RecordLogicalNameInput.setValue(logicalName)
+        await this.RecordLogicalNameInput.waitForDisplayed();
+        await this.RecordLogicalNameInput.setValue(logicalName)
 
-        this.RecordId.setValue(id);
+        await this.RecordId.setValue(id);
 
-        this.OpenObject.click();
+        await this.OpenObject.click();
     }
 
-    openSolution(solutionUniqueName) {
-        this.OpenSolutionLink.click();
+    async openSolution(solutionUniqueName) {
+        await this.OpenSolutionLink.click();
 
-        this.SolutionUniqueName.waitForDisplayed();
-        this.SolutionUniqueName.setValue(solutionUniqueName)
+        await this.SolutionUniqueName.waitForDisplayed();
+        await this.SolutionUniqueName.setValue(solutionUniqueName)
 
-        this.OpenObject.click();
+        await this.OpenObject.click();
     }
 
-    open () {
-        super.open();
+    async open() {
+        await super.open();
 
-        this.NavigationTabItem.click();
+        await this.NavigationTabItem.click();
     }
 }
 

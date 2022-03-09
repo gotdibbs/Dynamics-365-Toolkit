@@ -1,5 +1,3 @@
-import Honeybadger from 'honeybadger-js';
-
 function navigate(state, actions) {
     actions.toggleOpenObjectModal({
         type: 'list'
@@ -7,7 +5,7 @@ function navigate(state, actions) {
 }
 
 export default {
-    navigate: Honeybadger.wrap(navigate),
+    navigate,
     isVisible: true,
     key: 'open-record-list',
     title: 'Open Record List'

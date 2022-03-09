@@ -4,7 +4,7 @@ import React, {
     useReducer,
     useRef
 } from 'react';
-import Honeybadger from 'honeybadger-js';
+import Honeybadger from '@honeybadger-io/js';
 
 import { log } from '../logger';
 import { reducer, initialState } from '../store/reducer';
@@ -23,7 +23,9 @@ const defaultDynamicsState = {
 const ignoreErrorPatterns = [
     /crm4\.dynamics\.com/i,
     /sfa\/workflow/i,
-    /tools\/diagnostics/i
+    /tools\/diagnostics/i,
+    /appportal\/sg\/notification.aspx/i,
+    /login\.microsoftonline\.com/i,
 ];
 
 function isIgnored(url) {
@@ -118,6 +120,11 @@ function getDynamicsContext() {
         return result;
     }
     catch (e) {
+        // Ignore on-premise cross-origin issues
+        if (e && e.message && /cross-origin/i.test(e.message)) {
+            return;
+        }
+
         Honeybadger.notify(e, {
             message: 'Error encountered while attempting to detect environment state'
         });
@@ -184,6 +191,9 @@ function getDynamicsState() {
         };
     }
     catch (e) {
+        // Swallow errors from 8.2 which is very noisy
+        if (dynamicsState && dynamicsState.version < 9) { return; }
+
         Honeybadger.notify(e, {
             message: 'Error encountered while determining isForm'
         });

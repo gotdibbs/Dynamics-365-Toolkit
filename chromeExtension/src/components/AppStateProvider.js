@@ -4,7 +4,7 @@ import React, {
     useState,
     useRef
 } from 'react';
-import Honeybadger from 'honeybadger-js';
+import Honeybadger from '@honeybadger-io/js';
 
 const AppStateContext = createContext();
 const { Provider } = AppStateContext;
