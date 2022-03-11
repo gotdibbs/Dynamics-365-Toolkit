@@ -74,8 +74,8 @@ function load() {
         apiKey: '3783205f',
         environment: 'production',
         revision: Package.version,
-        onerror: false,
-        onunhandledrejection: false
+        enableUncaught: false,
+        enableUnhandledRejection: false
     });
 
     Honeybadger.setContext({
