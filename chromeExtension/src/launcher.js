@@ -82,6 +82,11 @@ function load() {
         source: 'chrome_extension'
     });
 
+    Honeybadger.beforeNotify((notice) => {
+        // Silence all errors from 8.x
+        if (/^8\./.test(notice?.context?.version)) { return false; }
+    });
+
     try {
         attachListeners();
 
