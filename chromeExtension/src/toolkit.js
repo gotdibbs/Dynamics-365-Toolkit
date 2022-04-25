@@ -19,6 +19,11 @@ Honeybadger.configure({
     enableUnhandledRejection: false
 });
 
+Honeybadger.beforeNotify((notice) => {
+    // Silence all errors from 8.x
+    if (/^8\./.test(notice?.context?.version)) { return false; }
+});
+
 log('Loaded');
 
 const Container = () => {

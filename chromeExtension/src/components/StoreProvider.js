@@ -122,7 +122,7 @@ function getDynamicsContext() {
     catch (e) {
         // Ignore on-premise cross-origin issues
         if (e && e.message && /cross-origin/i.test(e.message)) {
-            return;
+            return result;
         }
 
         Honeybadger.notify(e, {
