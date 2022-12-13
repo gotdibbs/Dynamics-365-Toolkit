@@ -256,7 +256,8 @@ exports.config = {
             .replace('.feature', '');
 
         let fileName = [
-            (new Date()).toLocaleDateString(), ' - ',
+            (new Date()).toLocaleDateString(),
+            ' - ',
             ['ERROR', browser.requestedCapabilities.browserName, browser.capabilities.browserVersion, featureName].join('_'),
             '.png'
         ].join('').replace(/(\/|\\)/g, '-');

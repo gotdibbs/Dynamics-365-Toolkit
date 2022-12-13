@@ -23,11 +23,12 @@
     "@wdio/cucumber-framework": "^7.16.14",
     "@wdio/local-runner": "^7.16.16",
     "@wdio/spec-reporter": "^7.16.14",
-    "chromedriver": "^99.0.0",
-    "dotenv": "^16.0.0",
+    "chromedriver": "^108.0.0",
+    "dotenv": "^16.0.3",
     "msedgedriver": "^91.0.0",
-    "node-fetch": "^3.1.0",
-    "wdio-chromedriver-service": "^7.2.8",
-    "wdio-edgedriver-service": "^1.2.0"
-  }
+    "node-fetch": "^3.3.0",
+    "wdio-chromedriver-service": "^8.0.1",
+    "wdio-edgedriver-service": "^2.1.1"
+  },
+  "dependencies": {}
 }

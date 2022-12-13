@@ -82,6 +82,8 @@ class UtilitiesPane extends Toolbox {
     }
 
     async disableField(field) {
+        await super.waitForToolboxLoad();
+
         await browser.execute((field) => {
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).setDisabled(true);
         }, field);
@@ -101,6 +103,8 @@ class UtilitiesPane extends Toolbox {
     }
 
     async hideField(field) {
+        await super.waitForToolboxLoad();
+
         await browser.execute((field) => {
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getControl(field).setVisible(false);
         }, field);
@@ -119,6 +123,8 @@ class UtilitiesPane extends Toolbox {
     }
 
     async changeField(field) {
+        await super.waitForToolboxLoad();
+
         this.currentFieldValue = await browser.execute((field) => {
             let value = window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getAttribute(field).getValue();
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getAttribute(field).setValue(new Date().toISOString());
@@ -127,6 +133,8 @@ class UtilitiesPane extends Toolbox {
     }
 
     async changeFieldBack(field) {
+        await super.waitForToolboxLoad();
+
         await browser.execute((field, value) => {
             window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.getAttribute(field).setValue(value);
         }, field, this.currentFieldValue);

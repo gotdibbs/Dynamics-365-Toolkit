@@ -26,9 +26,10 @@ Key components of the React app are listed below.
 1. Clone this repository
 2. Open the repository in Visual Studio Code
 3. `cd` to `chromeExtensions`
-4. Run `yarn install`
-5. Run `yarn dev` after making changes
-6. Load the extension, unpacked, into Chrome:
+4. Copy `.env.example` to `.env`
+5. Run `yarn install`
+6. Run `yarn dev` after making changes
+7. Load the extension, unpacked, into Chrome:
  - Open Chrome
  - Navigate to `chrome://extensions/`
  - Toggle on `Developer mode`

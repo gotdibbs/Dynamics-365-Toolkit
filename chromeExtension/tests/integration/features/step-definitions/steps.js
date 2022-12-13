@@ -14,34 +14,36 @@ function capitalize(str) {
 }
 
 async function loadNewRecord() {
-    let isSuccess = await browser.execute(logicalName => {
+    let errorMessage = await browser.execute(logicalName => {
         try {
             Xrm.Utility.openEntityForm(logicalName);
-            return true;
+            return;
         }
-        catch {}
+        catch (e) {
+            return e?.message;
+        }
     }, RECORD_LOGICAL_NAME);
 
-    if (!isSuccess) {
-        // Backup, but noisy to the `info` logs as toolkit needs to be re-injected
-        await browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}`);
+    if (errorMessage) {
+        throw new Error(`Could not load record via Xrm APIs: "${errorMessage}"`);
     }
 
     await Panes.Dynamics.FormHeader.waitForDisplayed();
 }
 
 async function loadRecord() {
-    let isSuccess = await browser.execute((logicalName, id) => {
+    let errorMessage = await browser.execute((logicalName, id) => {
         try {
             Xrm.Utility.openEntityForm(logicalName, id);
-            return true;
+            return;
         }
-        catch {}
+        catch (e) {
+            return e?.message;
+        }
     }, RECORD_LOGICAL_NAME, RECORD_ID);
 
-    if (!isSuccess) {
-        // Backup, but noisy to the `info` logs as toolkit needs to be re-injected
-        await browser.url(`/main.aspx?pagetype=entityrecord&etn=${RECORD_LOGICAL_NAME}&id=${RECORD_ID}`);
+    if (errorMessage) {
+        throw new Error(`Could not load record via Xrm APIs: "${errorMessage}"`);
     }
 
     await Panes.Dynamics.FormHeader.waitForDisplayed();
@@ -53,17 +55,6 @@ async function loadPane(pane, isViewingRecord) {
     }
 
     await Panes[capitalize(pane)].open();
-
-    if (!isViewingRecord) {
-        return;
-    }
-
-    if (/new/i.test(isViewingRecord)) {
-        await loadNewRecord();
-    }
-    else {
-        await loadRecord();
-    }
 }
 
 Given(/i am on the (\w+) pane( and viewing a record| and viewing a new record)?/i, loadPane);
@@ -325,20 +316,20 @@ Then(/a new window should open to show the (.+) (editor|list|page)$/i, async (co
 });
 
 // Copied from webdriver.io source, but modified to handle nulls
-async function switchWindow(urlOrTitleToMatch) {
+async function switchWindow(urlOrTitleToMatch, currentWindowId) {
     if (typeof urlOrTitleToMatch !== 'string' && !(urlOrTitleToMatch instanceof RegExp)) {
         throw new Error('Unsupported parameter for switchWindow, required is "string" or an RegExp');
     }
 
     const tabs = await browser.getWindowHandles();
 
-    for (const tab of tabs) {
-        await browser.switchToWindow(tab)
+    for (const tab of tabs.filter(t => t !== currentWindowId)) {
+        await browser.switchToWindow(tab);
 
         /**
          * check if url matches
          */
-        await browser.waitUntil(() => browser.getUrl());
+        await browser.waitUntil(async () => await browser.getUrl());
         const url = await browser.getUrl();
         if (url.match(urlOrTitleToMatch)) {
             return tab;
@@ -347,7 +338,7 @@ async function switchWindow(urlOrTitleToMatch) {
         /**
          * check title
          */
-        await browser.waitUntil(() => browser.getTitle());
+        await browser.waitUntil(async () => await browser.getTitle());
         const title = await browser.getTitle();
         if (title.match(urlOrTitleToMatch)) {
             return tab;
@@ -369,7 +360,7 @@ Then(/a new window should open with "(.+)" in the (title|url)$/i, async (title, 
     // The title will be 'Microsoft Dynamics 365' until the page loads, so it is
     //  safe to wait for that title to transition, but then we need to wait for the
     //  the actual title to be present to pass the vibe check
-    await switchWindow(new RegExp(`(${title})|(^Microsoft Dynamics 365)`, 'i'));
+    await switchWindow(new RegExp(`(${title})|(Microsoft Dynamics 365)`, 'i'), currentWindow);
     await browser.waitUntil(async () => {
         const title = await browser.getTitle();
 

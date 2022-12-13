@@ -21,6 +21,6 @@ exports.config = {
     ],
     // Uncomment the below to specify a specific feature file to run
     // specs: [
-    //     './features/toolbox.feature'
+    //     './features/navigation.feature'
     // ]
 };
