@@ -53,6 +53,12 @@ class Toolbox {
         }
     }
 
+    async waitForToolboxLoad() {
+        await browser.waitUntil(async () => 
+            await browser.execute(() => !!window?.__GOTDIBBS_TOOLBOX__?.context?.Xrm)
+        );
+    }
+
     async close() {
         await (new ScenarioHelper().close());
     }

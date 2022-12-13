@@ -2,8 +2,8 @@ Feature: Quick Actions
 
   Background: Starting from the info pane on a record
 
-    Given I am on the info pane
-    And I am viewing a record
+    Given I am viewing a record
+    And I am on the info pane
 
   Scenario: Toggle Schema Names
 

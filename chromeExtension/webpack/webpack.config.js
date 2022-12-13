@@ -28,7 +28,9 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     output: {
         path: destFolder,
-        filename: '[name].js'
+        filename: '[name].js',
+        // Needed for extract-css-chunks-plugin
+        publicPath: ''
     },
     module: {
         rules: [
