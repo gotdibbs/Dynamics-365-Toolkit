@@ -1,6 +1,6 @@
 {
   "name": "gotdibbs-toolbox",
-  "version": "2022.12.1",
+  "version": "2022.12.2",
   "description": "Admin tools for Dynamics 365/CRM",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,8 @@
     "zip-webpack-plugin": "^4.0.1"
   },
   "dependencies": {
-    "@honeybadger-io/react": "^2.0.0",
+    "@honeybadger-io/js": "^4.8.0",
+    "@honeybadger-io/react": "^4.8.0",
     "fathom-client": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
