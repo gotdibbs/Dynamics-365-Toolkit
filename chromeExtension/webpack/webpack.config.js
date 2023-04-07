@@ -30,7 +30,8 @@ module.exports = {
         path: destFolder,
         filename: '[name].js',
         // Needed for extract-css-chunks-plugin
-        publicPath: ''
+        publicPath: '',
+        assetModuleFilename: '[hash][ext][query]'
     },
     module: {
         rules: [
@@ -41,15 +42,24 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: [ExtractCssChunks.loader,
-                    'css-loader']
+                use: [
+                    {
+                        loader: ExtractCssChunks.loader
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            esModule: false
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(png|jpg|gif)$/i,
-                loader: 'url-loader',
-                options: {
-                    limit: 100000
-                }
+                use: [
+                    'url-loader'
+                ],
+                type: 'javascript/auto'
             }
         ]
     },
