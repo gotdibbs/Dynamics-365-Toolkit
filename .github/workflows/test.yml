@@ -14,18 +14,17 @@ jobs:
         working-directory: ./chromeExtension
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
             file_name: ./chromeExtension/.env
         env:
-            INPUT_ENVKEY_FATHOM_SITE_ID: ${{ secrets.FATHOM_SITE_ID }}
             INPUT_ENVKEY_HONEYBADGER_API_KEY: ${{ secrets.HONEYBADGER_API_KEY }}
             INPUT_ENVKEY_SUMO_LOGIC_COLLECTOR: ${{ secrets.SUMO_LOGIC_COLLECTOR }}
             INPUT_ENVKEY_DISABLE_LOGGING: true
       - name: Use Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
             node-version: 18
       - name: Install App Dependencies
@@ -49,7 +48,7 @@ jobs:
       - name: Run Tests
         run: yarn test:integration
       - name: Upload any failures
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: ./chromeExtension/tests/integration/screenshots/**/*.*
