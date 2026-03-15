@@ -1,14 +1,8 @@
-import * as Fathom from 'fathom-client';
 import Honeybadger from '@honeybadger-io/js';
 
 function confirmReload() {
     if (window.confirm('We were unable to auto-enable the command checker, so we need to refresh the page then the ribbon debugger should be available. Cool?')) {
         window.location.href = window.location.href + '&ribbondebug=true';
-        Fathom.trackGoal('T5LLXM4X', 0);
-    }
-    else {
-        // Track cancel
-        Fathom.trackGoal('SZGWWMPT', 0);
     }
 }
 

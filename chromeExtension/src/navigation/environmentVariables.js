@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function navigate() {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
@@ -7,9 +5,6 @@ function navigate() {
         xrm.Page.context.getClientUrl(),
         '/main.aspx?pagetype=entitylist&etn=environmentvariabledefinition'
     ].join(''), '_blank');
-
-
-    Fathom.trackGoal('A1HF26K2', 0);
 }
 
 function isVisible(state) {

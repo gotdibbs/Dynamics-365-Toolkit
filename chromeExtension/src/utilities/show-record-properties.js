@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function showRecordProperties() {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
@@ -17,8 +15,6 @@ function showRecordProperties() {
     } else {
         alert('This action is not supported in the current version of Dynamics CRM.');
     }
-
-    Fathom.trackGoal('8EHBNIHL', 0);
 }
 
 export default {

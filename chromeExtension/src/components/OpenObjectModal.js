@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { StoreContext } from './StoreProvider';
 import { useForm } from 'react-hook-form';
-import * as Fathom from 'fathom-client';
 
 const guidRegex = /(^{[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}}$)|(^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$)/i;
 
@@ -40,8 +39,6 @@ async function openSolution(solutionUniqueName) {
     window.open([
         xrm.Page.context.getClientUrl(), '/tools/solution/edit.aspx?id=', json.value[0].solutionid
     ].join(''), '_blank');
-
-    Fathom.trackGoal('G8YW7GJJ', 0);
 }
 
 export default function OpenObjectModal() {
@@ -80,8 +77,6 @@ export default function OpenObjectModal() {
             ].join(''), '_blank');
 
             actions.toggleOpenObjectModal();
-
-            Fathom.trackGoal('7YHT3JKI', 0);
         }
         else if (state.openObjectModalData.type === 'list') {
             window.open([
@@ -90,8 +85,6 @@ export default function OpenObjectModal() {
             ].join(''), '_blank');
 
             actions.toggleOpenObjectModal();
-
-            Fathom.trackGoal('IJGSMM1T', 0);
         }
         else if (state.openObjectModalData.type === 'solution') {
             openSolution(data.solutionUniqueName);
@@ -119,8 +112,6 @@ export default function OpenObjectModal() {
             actions.toggleOpenObjectModal();
             // Keep out of the way in this case
             actions.toggleExpanded();
-
-            Fathom.trackGoal('AWYB6DBW', 0);
         }
     }
 

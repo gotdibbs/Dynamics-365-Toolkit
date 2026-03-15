@@ -1,7 +1,7 @@
 {
   "name": "gotdibbs-toolbox",
-  "version": "2023.4.1",
-  "description": "Admin tools for Dynamics 365/CRM",
+  "version": "2026.3.0",
+  "description": "Admin tools for Dynamics 365/Power Apps",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --progress --mode development --env NODE_ENV='development' --config ./webpack/webpack.config.js",
@@ -38,7 +38,6 @@
   "dependencies": {
     "@honeybadger-io/js": "^4.8.0",
     "@honeybadger-io/react": "^4.8.0",
-    "fathom-client": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

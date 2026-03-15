@@ -5,6 +5,7 @@ import Panes from '../../panes';
 
 // US Dollar - this may fail, but you can point it to another record in your test environment
 const RECORD_LOGICAL_NAME = 'transactioncurrency';
+const CREATE_RECORD_LOGICAL_NAME = 'contact';
 const RECORD_ID = '0202afa1-a6c3-ea11-a812-000d3a579b7d'.toLowerCase();
 const RECORD_ATTRIBUTE = 'currencyname';
 const SOLUTION_NAME = 'default';
@@ -22,7 +23,7 @@ async function loadNewRecord() {
         catch (e) {
             return e?.message;
         }
-    }, RECORD_LOGICAL_NAME);
+    }, CREATE_RECORD_LOGICAL_NAME);
 
     if (errorMessage) {
         throw new Error(`Could not load record via Xrm APIs: "${errorMessage}"`);

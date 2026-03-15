@@ -1,9 +1,5 @@
-import * as Fathom from 'fathom-client';
-
 function getSupport() {
     window.open('https://github.com/gotdibbs/Dynamics-365-Toolkit/issues/', '_new');
-
-    Fathom.trackGoal('GFT1EFPR', 0);
 }
 
 export default {

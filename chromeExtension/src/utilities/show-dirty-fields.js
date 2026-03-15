@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function showDirtyFields() {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
@@ -16,8 +14,6 @@ function showDirtyFields() {
     } else {
         alert(['The following attributes are currently dirty: \n', dirtyAttributes.join(', ')].join(''));
     }
-
-    Fathom.trackGoal('VQYHGAGB', 0);
 }
 
 export default {

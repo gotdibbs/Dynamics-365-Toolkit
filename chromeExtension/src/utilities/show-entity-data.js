@@ -1,9 +1,5 @@
-import * as Fathom from 'fathom-client';
-
 function action(state, actions) {
     actions.toggleEntityDataModal();
-
-    Fathom.trackGoal('69VJHGEK', 0);
 }
 
 export default {

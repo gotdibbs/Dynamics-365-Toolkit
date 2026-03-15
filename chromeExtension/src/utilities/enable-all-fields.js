@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function enableAllFields({ majorVersion }) {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
@@ -17,8 +15,6 @@ function enableAllFields({ majorVersion }) {
             }
         });
     }
-
-    Fathom.trackGoal('WVP4ETTK', 0);
 }
 
 export default {

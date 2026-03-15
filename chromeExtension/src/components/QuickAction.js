@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import Honeybadger from '@honeybadger-io/js';
-import * as Fathom from 'fathom-client';
 
 import { StoreContext } from './StoreProvider';
 import '../styles/quickactions.css'
@@ -11,8 +10,6 @@ export default function QuickAction({ utility }) {
     function handleClick() {
         try {
             utility.action(state, actions);
-
-            Fathom.trackGoal('JLUF5C3S', 0);
         }
         catch(e) {
             Honeybadger.notify(e, `Error while executing action '${action.title}'`);
