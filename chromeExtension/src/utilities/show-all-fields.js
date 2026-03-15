@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function showAllFields() {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
@@ -19,8 +17,6 @@ function showAllFields() {
             sc.setVisible(true);
         });
     });
-
-    Fathom.trackGoal('UEAPFM1M', 0);
 }
 
 export default {

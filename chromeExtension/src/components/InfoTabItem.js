@@ -3,8 +3,6 @@ import React, {
     useEffect,
     useState
 } from 'react';
-import * as Fathom from 'fathom-client';
-
 import { StoreContext } from './StoreProvider';
 
 function copy(e) {
@@ -34,7 +32,6 @@ function copy(e) {
         source.innerHTML = html;
     }, 1000);
 
-    Fathom.trackGoal('D0KU4IIK', 0);
 }
 
 export default function InfoTabItem({ collector }) {

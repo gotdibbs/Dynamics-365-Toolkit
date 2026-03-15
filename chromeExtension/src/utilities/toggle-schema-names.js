@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function toggleSchemaNames() {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
 
@@ -12,8 +10,6 @@ function toggleSchemaNames() {
             c.__label = null;
         }
     });
-
-    Fathom.trackGoal('EUBF1CHP', 0);
 }
 
 export default {

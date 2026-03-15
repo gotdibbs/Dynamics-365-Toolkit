@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function openPerformanceReport({ version }) {
     let formContext = window.__GOTDIBBS_TOOLBOX__.context;
 
@@ -18,8 +16,6 @@ function openPerformanceReport({ version }) {
     else {
         alert('This feature is not supported on this version of Dynamics CRM.');
     }
-
-    Fathom.trackGoal('RMX7M5IX', 0);
 }
 
 export default {

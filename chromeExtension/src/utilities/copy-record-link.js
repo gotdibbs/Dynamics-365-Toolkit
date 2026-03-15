@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function copyRecordLink() {
     const xrm = window.__GOTDIBBS_TOOLBOX__.context.Xrm;
     var id = xrm.Page.data.entity.getId(),
@@ -20,8 +18,6 @@ function copyRecordLink() {
     input.remove();
 
     alert('Copied! Note: you can perform this action on the Info tab too!');
-
-    Fathom.trackGoal('6AOAXPCL', 0);
 }
 
 export default {

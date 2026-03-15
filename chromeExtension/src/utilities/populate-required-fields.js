@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 const charactersLength = characters.length;
 
@@ -60,8 +58,6 @@ function populateRequiredFields() {
 
     xrm.Page.data.entity.attributes
         .forEach(attribute => setFieldValue(attribute, xrm));
-
-    Fathom.trackGoal('KUBOKLQ9', 0);
 }
 
 export default {

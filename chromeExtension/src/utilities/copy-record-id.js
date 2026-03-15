@@ -1,5 +1,3 @@
-import * as Fathom from 'fathom-client';
-
 function copyRecordId() {
     var id = window.__GOTDIBBS_TOOLBOX__.context.Xrm.Page.data.entity.getId();
     if (!id) {
@@ -15,8 +13,6 @@ function copyRecordId() {
     input.remove();
 
     alert('Copied! Note: you can perform this action on the Info tab too!');
-
-    Fathom.trackGoal('5TP4Q3GP', 0);
 }
 
 export default {

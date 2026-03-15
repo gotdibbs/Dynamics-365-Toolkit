@@ -5,7 +5,6 @@ import Package from '../package.json';
 import { log } from './logger';
 
 import { StoreProvider } from './components/StoreProvider';
-import AnalyticsTracker from './components/AnalyticsTracker';
 import Toolbox from './components/Toolbox';
 
 import './styles/toolkit.css';
@@ -44,11 +43,9 @@ const Container = () => {
     }, []);
 
     return (
-        <AnalyticsTracker>
-            <StoreProvider>
-                { isOpen ? <Toolbox setIsOpen={setIsOpen} /> : null }
-            </StoreProvider>
-        </AnalyticsTracker>
+        <StoreProvider>
+            { isOpen ? <Toolbox setIsOpen={setIsOpen} /> : null }
+        </StoreProvider>
     );
 };
 

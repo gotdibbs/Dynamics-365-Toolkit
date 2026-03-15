@@ -1,6 +1,6 @@
 {
-    "name": "GotDibbs Toolbox for Dynamics 365/CRM",
-    "description": "Admin tools for Dynamics 365/CRM",
+    "name": "GotDibbs Toolbox for Dynamics 365/Power Apps",
+    "description": "Admin tools for Dynamics 365/Power Apps",
     "author": "gotdibbs",
     "version": "2.0.3",
     "manifest_version": 3,

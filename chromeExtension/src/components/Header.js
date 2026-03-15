@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import * as Fathom from 'fathom-client';
 import Package from '../../package.json';
 
 import Draggable from '../draggable';
@@ -12,14 +11,10 @@ export default function Header({ setIsOpen, toggleExpanded, isExpanded }) {
 
     function toggle() {
         toggleExpanded();
-
-        Fathom.trackGoal('4DZRNHHM', 0);
     }
 
     function close() {
         setIsOpen(false);
-
-        Fathom.trackGoal('IQRHDINK', 0);
     }
 
     const toggleClassName = classNames(
