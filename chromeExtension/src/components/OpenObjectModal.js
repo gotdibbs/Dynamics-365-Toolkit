@@ -43,11 +43,11 @@ async function openSolution(solutionUniqueName) {
 
 export default function OpenObjectModal() {
     const { state, actions } = useContext(StoreContext);
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
     useEffect(() => {
         const handler = (e) => {
-            if (event.key === 'Escape') {
+            if (e.key === 'Escape') {
                 actions.toggleOpenObjectModal();
             }
         };
@@ -135,7 +135,7 @@ export default function OpenObjectModal() {
                         {state.openObjectModalData.type === 'record' || state.openObjectModalData.type === 'list' ? (
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Record Logical Name <span style={{ color: 'red' }}>*</span></label>
-                                <input type="text" name="logicalName" ref={register({ required: true })} autoFocus data-testid="recordlogicalname" />
+                                <input type="text" {...register('logicalName', { required: true })} autoFocus data-testid="recordlogicalname" />
                                 {errors.logicalName && (<span style={{ color: 'red' }}>Record Logical Name is required</span>)}
                             </div>
                         ) : null}
@@ -143,7 +143,7 @@ export default function OpenObjectModal() {
                         {state.openObjectModalData.type === 'record' ? (
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Record Id</label>
-                                <input type="text" name="id" ref={register({ pattern: guidRegex })} data-testid="recordid" />
+                                <input type="text" {...register('id', { pattern: guidRegex })} data-testid="recordid" />
                                 {errors.id && (<span style={{ color: 'red' }}>ID must be a valid GUID</span>)}
                             </div>
                         ) : null}
@@ -151,7 +151,7 @@ export default function OpenObjectModal() {
                         {state.openObjectModalData.type === 'solution' ? (
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Solution Unique Name <span style={{ color: 'red' }}>*</span></label>
-                                <input type="text" name="solutionUniqueName" ref={register({ required: true })} autoFocus data-testid="solutionuniquename" />
+                                <input type="text" {...register('solutionUniqueName', { required: true })} autoFocus data-testid="solutionuniquename" />
                                 {errors.solutionUniqueName && (<span style={{ color: 'red' }}>Solution Unique Name is required</span>)}
                             </div>
                         ) : null}
@@ -159,7 +159,7 @@ export default function OpenObjectModal() {
                         {state.openObjectModalData.type === 'field' ? (
                             <div className="gotdibbs-toolbox-modal-form-field">
                                 <label>Field Logical Name <span style={{ color: 'red' }}>*</span></label>
-                                <input type="text" name="fieldLogicalName" ref={register({ required: true })} autoFocus data-testid="fieldLogicalName" />
+                                <input type="text" {...register('fieldLogicalName', { required: true })} autoFocus data-testid="fieldLogicalName" />
                                 {errors.fieldLogicalName && (<span style={{ color: 'red' }}>Field Logical Name is required</span>)}
                             </div>
                         ) : null}

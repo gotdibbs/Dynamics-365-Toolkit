@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import Honeybadger from '@honeybadger-io/js';
 import Package from '../package.json';
 import { log } from './logger';
@@ -49,20 +49,25 @@ const Container = () => {
     );
 };
 
+let reactRoot = null;
+
 function load() {
     let root = document.querySelector('[data-hook="gotdibbs-toolbox-root"]');
 
-    if (root) {
+    if (root && reactRoot) {
         // Unmount and remount instead of dispatching a message to refresh
-        ReactDOM.unmountComponentAtNode(root);
+        reactRoot.unmount();
+        reactRoot = null;
     }
-    else {
+
+    if (!root) {
         root = document.createElement('div');
         root.dataset.hook = 'gotdibbs-toolbox-root';
         document.body.appendChild(root);
     }
 
-    ReactDOM.render(<Container />, root);
+    reactRoot = ReactDOM.createRoot(root);
+    reactRoot.render(<Container />);
 }
 
 function open() {

@@ -1,7 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const dotenv = require('dotenv');
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Package = require('../package.json');
 const webpack = require('webpack');
 const ZipPlugin = require('zip-webpack-plugin');
@@ -29,7 +29,6 @@ module.exports = {
     output: {
         path: destFolder,
         filename: '[name].js',
-        // Needed for extract-css-chunks-plugin
         publicPath: '',
         assetModuleFilename: '[hash][ext][query]'
     },
@@ -44,7 +43,7 @@ module.exports = {
                 test: /\.css$/i,
                 use: [
                     {
-                        loader: ExtractCssChunks.loader
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
                         loader: 'css-loader',
@@ -65,7 +64,7 @@ module.exports = {
     },
     plugins: [
         new webpack.EnvironmentPlugin(Object.keys(currentEnv)),
-        new ExtractCssChunks({
+        new MiniCssExtractPlugin({
             filename: '[name].css'
         }),
         new CopyPlugin({

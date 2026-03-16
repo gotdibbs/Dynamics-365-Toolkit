@@ -1,13 +1,12 @@
-name: Test
+name: Integration Tests (Scheduled)
 
 on:
-  pull_request:
-  push:
-    tags:
-      - "*"
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9 AM UTC
+  workflow_dispatch:
 
 jobs:
-  test:
+  integration-tests:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -53,4 +52,16 @@ jobs:
           name: screenshots
           path: ./chromeExtension/tests/integration/screenshots/**/*.*
         if: ${{ failure() }}
-
+      - name: Create GitHub Issue on failure
+        if: ${{ failure() }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Automated] Weekly integration tests failed (${new Date().toISOString().slice(0, 10)})`,
+              body: `The scheduled weekly integration test run failed.\n\n**Run:** ${runUrl}\n\nPlease investigate and resolve any failures.`,
+              labels: ['bug', 'automated']
+            });

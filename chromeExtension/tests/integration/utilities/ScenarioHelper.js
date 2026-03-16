@@ -1,5 +1,3 @@
-const { GherkinDocumentParser } = require("@cucumber/cucumber/lib/formatter/helpers");
-
 module.exports = class ToolboxHelper {
     get ToolboxContainer() {
         return $('.gotdibbs-toolbox');

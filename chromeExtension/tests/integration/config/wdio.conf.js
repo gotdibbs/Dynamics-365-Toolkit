@@ -7,6 +7,9 @@ const ScenarioHelper = require('../utilities/ScenarioHelper');
 // Load `process.env`
 require('dotenv').config();
 
+// Babel transpilation for step definitions and helpers
+require('@babel/register');
+
 exports.config = {
     //
     // ====================
@@ -42,7 +45,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './features/**/*.feature'
+        path.join(__dirname, '../features/**/*.feature')
     ],
     // Patterns to exclude.
     exclude: [
@@ -149,14 +152,12 @@ exports.config = {
         require: ['./features/step-definitions/steps.js'],
         // <boolean> show full backtrace for errors
         backtrace: false,
-        // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-        requireModule: ['@babel/register'],
         // <boolean> invoke formatters without executing steps
         dryRun: false,
         // <boolean> abort the run on first failure
         failFast: true,
         // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-        format: ['pretty'],
+        formats: ['pretty'],
         // <boolean> hide step definition snippets for pending steps
         snippets: true,
         // <boolean> hide source uris
@@ -242,14 +243,14 @@ exports.config = {
     /**
      * Runs after a Cucumber step
      */
-    afterStep: async function (step, { uri }, { error, result, duration, passed, retries }, context) {
-        if (passed) {
+    afterStep: async function (step, scenario, result, context) {
+        if (result.passed) {
             return;
         }
 
         let screenshotPath = path.join(__dirname, '../screenshots');
 
-        let featureName = uri
+        let featureName = scenario.uri
             .replace('features/', '')
             .split('/')
             .join('_')
@@ -266,7 +267,7 @@ exports.config = {
     /**
      * Runs after a Cucumber scenario
      */
-    afterScenario: async function (uri, feature, scenario, result, sourceLocation, context) {
+    afterScenario: async function (world, result, context) {
         const helper = new ScenarioHelper();
 
         await helper.closeToolbox();

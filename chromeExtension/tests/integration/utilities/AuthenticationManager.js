@@ -19,11 +19,11 @@ module.exports = class AuthenticationManager {
         await browser.url(process.env.DYNAMICS_URL);
         await this.EmailInput.waitForDisplayed();
         await this.EmailInput.setValue(process.env.DYNAMICS_USER);
-        await this.EmailInput.keys('Enter');
+        await browser.keys(['Enter']);
 
         await this.PasswordInput.waitForDisplayed();
         await this.PasswordInput.setValue(process.env.DYNAMICS_PASSWORD);
-        await this.PasswordInput.keys('Enter');
+        await browser.keys(['Enter']);
 
         await this.DoNotRememberMe.waitForDisplayed();
         await this.DoNotRememberMe.click();
