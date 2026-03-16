@@ -42,7 +42,7 @@ export default function EntityDataModal() {
 
     useEffect(() => {
         const handler = (e) => {
-            if (event.key === 'Escape') {
+            if (e.key === 'Escape') {
                 actions.toggleEntityDataModal();
             }
         };

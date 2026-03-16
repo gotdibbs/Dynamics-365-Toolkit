@@ -255,8 +255,9 @@ Then(/i should have copied the correct value/i, async () => {
     }, []);
 
     const inputFixture = await $('#gotdibbs-test-fixture');
-    // https://twitter.com/webdriverio/status/812034986341789696?lang=en
-    await inputFixture.setValue(['Shift', 'Insert']);
+    // Focus via JS to avoid click interception from overlapping Dynamics UI elements
+    await browser.execute(() => document.getElementById('gotdibbs-test-fixture').focus());
+    await browser.keys(['Shift', 'Insert']);
 
     const actualText = await inputFixture.getValue();
 
@@ -276,8 +277,9 @@ Then(/i should have copied the (.+) to my clipboard/i, async (valueType) => {
     }, []);
 
     const inputFixture = await $('#gotdibbs-test-fixture');
-    // https://twitter.com/webdriverio/status/812034986341789696?lang=en
-    await inputFixture.setValue(['Shift', 'Insert']);
+    // Focus via JS to avoid click interception from overlapping Dynamics UI elements
+    await browser.execute(() => document.getElementById('gotdibbs-test-fixture').focus());
+    await browser.keys(['Shift', 'Insert']);
 
     const actualText = await inputFixture.getValue();
 

@@ -6,10 +6,7 @@ exports.config = {
     specFileRetries: 0,
     maxInstances: 1,
     maxInstancesPerCapability: 1,
-    services: [
-        ['chromedriver', {}]
-        //['browserstack', {}]
-    ],
+    services: [],
     bail: 1,
     capabilities: [
         {
