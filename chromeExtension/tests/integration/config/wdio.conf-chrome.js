@@ -4,7 +4,6 @@ exports.config = {
     ...config,
     capabilities: [
         {
-            maxInstances: 1,
             browserName: 'chrome',
             browserVersion: 'latest'
         }
