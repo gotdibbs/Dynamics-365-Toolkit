@@ -35,7 +35,7 @@ async function parseLatestBrowsers() {
     ];
 
     const defaults = {
-        maxInstances: 1
+        'wdio:maxInstances': 1
     };
 
     let capabilities = [
@@ -43,6 +43,7 @@ async function parseLatestBrowsers() {
             ...defaults,
             browserName: 'chrome',
             browserVersion: 'latest',
+            'bstack:options': {}
         },
         {
             ...defaults,
@@ -65,8 +66,10 @@ async function parseLatestBrowsers() {
         }
 
         capabilities.push({
+            ...defaults,
             ...requestedBrowser,
-            browserVersion: match.browser_version
+            browserVersion: match.browser_version,
+            'bstack:options': requestedBrowser['bstack:options'] || {}
         });
 
         capabilities.map(c => {

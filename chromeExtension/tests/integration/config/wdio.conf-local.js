@@ -10,7 +10,6 @@ exports.config = {
     bail: 1,
     capabilities: [
         {
-            maxInstances: 1,
             browserName: 'chrome',
             browserVersion: 'latest',
             'bstack:options': {}
